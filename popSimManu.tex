@@ -39,15 +39,242 @@ resource contains XXX...}
 
 
 \section*{Introduction}
+While population genetics has always used statistical methods to make inferences from data,
+the degree of sophistication of the questions, models, data, and computational approaches
+used have all increased over the past decade. Currently there exist myriad computational methods
+that can infer the histories of populations, the distribution of fitness effects,
+recombination rates, mutational biases, the extent of positive selection from single genomes,
+genotype data, or full genome sequence data (XX some generous citations XX).
+While en masse these methods have increased our understanding of the
+impacts of genetic and evolutionary processes, very little has been done to systematically
+benchmark the quality of inferences gleaned from computational population genetics. Here we
+describe the popSim consortium project, an effort aimed at creating systematic simulation
+standards across a variety of common study organisms that will empower rigorous comparison
+of methods to usher in the next era of genetics data analysis.
 
+Many population genetic inference methods often make different assumptions as
+well as use different summaries of the genetic variation data, even when
+attempting to address the same biological question. For example, there are at
+least X methods to infer population size changes. The MSMC method allows for the
+population to continuously change in size over time. Other popular methods, like
+Dadi, typically allow for a smaller number of size changes to occur at certain
+points throughout the population's history. Further, the types of data that the
+methods use also differs. MSMC uses 1-4 whole genome sequences and leverages the
+spatial patterns of genetic variation along the sequence. Dadi instead uses the
+site frequency spectrum (SFS), which summarizes the frequencies of SNPs in the
+sample, ignoring any information about the correlation structure (linkage
+disequilibrium) among SNPs.
 
-\section*{Methods and Model}
+The degree to which modeling assumptions and using different summaries of the
+data can affect the ultimate results has been challenging to assess. Yet, there
+have been several clear examples of different methods yielding fundamentally
+different conclusions. For example, MSMC methods applied to human genomes have
+suggested large ancient (>100 years ago) ancestral population sizes and
+bottlenecks that have not been detected by SFS-based methods (see Beichman et
+al. 2017). These distinct models differ in how they fit various summaries of the
+genetic variation data, suggesting that modeling choices can greatly affect the
+performance of the inference.
 
+Presumably, specific methods will perform better under certain scenarios.
+However, because these conditions are typically unknown, empirical researchers
+lack principled guidelines for deciding which statistical method is best suited
+for to accurately answer their particular question. The need for empirical
+guidance will only increase as researchers continue to generate more genomic
+variation data from non-model taxa and wish to make inferences regarding
+demography and selection.
+
+One way to benchmark different methods for statistical inference in population
+genetics is to apply the methods to simulated datasets where the true model
+parameters are known. Methods that perform well will accurately infer these
+parameters and will also provide reasonable estimates of uncertainty of the
+estimated parameters. Indeed simulations studies are a standard ingredient in
+most papers proposing new methods in population genetics. However, these
+simulation studies typically do not completely compare the performance of
+different statistical methods. As such, they fall short of being able to provide
+practical guidelines to empirical researchers. Standard simulations usually fall
+short because they often focus on a part of the parameter space where the new
+method is likely to perform well. For example, XXXX. Secondly, the degree to
+which different methods are compared can be quite variable.
+
+One reason why simulation studies do not compare the performance of many methods
+is that these simulation studies are challenging to carry out. There are several
+practical impediments to carrying out the ideal benchmarking simulation studies.
+First, while there are many published population genetic models available, their
+parameters are often not easily accessible, often presented in supplemental
+tables. Implementing these parameters into usable commands for simulations can
+be a time-consuming and error prone process. Further, often papers present many
+different models, and different authors may choose to select distinct models,
+making comparison difficult. While improvements in simulation software and ever
+faster computers have partially emialoritated this concern, generating the
+simulated datasets stil can still be a time and computing resource bottleneck.
+
+For these reasons, we have generated a standard resource of simulated datasets
+under a variety of population genetic models models to enable benchmarking of
+new population genetic methods. We term this new resource, the PopSim project.
+It includes…… Can be accessed at XXXX>
 
 \section*{Results}
+\paragraph{The PopSim Resource}
+To address these problems, we developed the stdpopsim package, a community
+maintained library of empirical genome data and population genetics simulation
+models, providing easy access to realistic simulations.  The package organised
+by species, initially consisting of humans, drosophila and arabadopsis. A
+species definition consists of two key elements.  Firstly, the library defines
+some basic information about its genome, with information about chromosome
+lengths, average mutation rates and so on. We also provide access to detailed
+empirical information such as recombination maps, which model empirically
+observed heterogeneity along chromosomes. As such maps are often large and hard
+to find, we provide a mechanism to automatically download (and cache locally) a
+set of known maps. For example, in humans we support the HapMapII (XX cite XX) and
+Decode (XX cite XX) genetic maps. The second key element of a species description
+within stdpopsim is a set of carefully curated population genetic model
+descriptions from the literature, which are the basis for accurate simulations
+of specific historical scenarios.
+
+\paragraph{Figure 1 about here}
+
+Given the genome data and simulation model descriptions defined within the
+library, it is then straightforward to run accurate, standardised simulations
+across a range of organisms. Stdpopsim has a Python API and a user-friendly
+command line interface, allowing users with minimal experience direct access to
+state-of-the-art simulations. Simulations are output in the “tree sequence”
+format (Kelleher, Etheridge, and McVean 2016; Kelleher et al. 2018, 2019), which
+contains complete genealogical information about the simulated samples, is
+extremely compact, and can be processed very efficiently using the tskit library
+(Kelleher, Etheridge, and McVean 2016; Kelleher et al. 2018). Currently,
+stdpopsim uses the  msprime coalescent simulator (Kelleher, Etheridge, and
+McVean 2016) as the simulation engine. We plan to include other simulation
+engines such as SLiM (Haller et al. 2019);(Haller and Messer 2019) to support
+scenarios that cannot be modelled under the coalescent framework.
+
+The stdpopsim command line interface, by default, outputs citation information
+for the models, genetic maps and simulation engines used in any particular run.
+We hope that this will encourage users to appropriately acknowledge the
+resources used in published work, and authors
+of simulation models to contribute to our ongoing community-driven development process.
+
+\subsection*{Single Population demographic models}
+We begin by simulating data under previously published demographic models for
+humans, Drosophila, and Arabidopsis. These models consider the history of only a
+single population at a time,and  were inferred using a variety of different
+methods.
+
+For humans, we implemented a simplified version of the Tennessen et al. (2012)
+model with only the African population modeled (expansion from the ancestral
+population and recent growth).
+
+For Drosophila melanogaster we implemented the model inferred in Sheehan & Song
+(2016) which covered three epochs: ancestral, bottleneck, and re-expansion, each
+with constant within-epoch population size.
+
+For Arabidopsis thaliana, we implemented the model from in Durvasula et al.
+(2017) inferred using MSMC-8. This model includes a continuous change in
+population size over time, rather than pre-sepceciified epochs of different
+population sizes.
+
+\subsection*{Performance of methods to infer demographic history for single
+populations}
+To evaluate and compare the performance of inference analyze methods for single
+population size history, we use Snakemake (cite) to create a pipeline to run the
+comparing inference methods. Concretely, we compared msmc, smc++, and
+stairwayplot (cite all) on simulated genomes sampled from a single population,
+in each of the stdpopsim models described above. The pipeline was generalized to
+run R replicates with C chromosomes for N samples, for a total of R x C
+simulations for each demographic model. After simulation, the pipeline preparess
+input files for each of the respective inference methods by grouping all
+chromosomes, for each sample, into a single file. This step results in three
+input files, for each simulation replicate R, pertaining to each of the
+respective inference methods and derived from the same simulated tree sequences.
+Each of the inference programs are then run in parallel, followed by plotting of
+Ne estimates from each program.
+
+(Conclusion putting everything together for single population models--Kirk will
+fill in after the other parts are here)
+
+
+\subsection*{Multi Population demographic models}
+Stdpopsim implements three human multi-population demographic models: Gutenkunst
+et al. (2009), Tennesen et al. (2012) , and Browning et al. (2018). Gutenkunst
+et al. modeled the out of Africa event as well as the subsequent divergence of
+the European and Asian populations based on data from the Environmental Genome
+Project (citation needed). Tennessen et al. fit a two population variant of the
+Gutenkunst model which did not include Asian populations, where they focused on
+modeling recent human population growth in European and African populations to
+explain the presence of rare variants in exome sequencing data. Browning et al.
+modeled an admixed American population jointly with its ancestral African,
+European, and Asian populations based on data from the Hispanic Community Health
+Study/Study of Latinos and the African-American and European-American
+populations from Memphis and Pittsburgh (citation needed). Together these models
+contain features found in real data (e.g. bottlenecks, population growth,
+admixture) which are pertinent in the context of method development.
+
+For Drosophila we implemented the model from Li & Stephan (2006) which included
+an ancestral population in Africa, then a population expansion with a population
+split and bottleneck into a European population.
+
+\subsection*{Performance of methods to infer demographic history for multiple
+populations}
+
+Outlining for now since this is not entirely finalized yet Compared performance
+of multi-population inference methods by running simulations under
+multi-population models for humans and Drosophila and inferring simulated
+parameters using dadi and fastsimcoal (and smc++???) For simplicity, conducted
+inference in dadi and FSC using an IM model with constant population sizes and
+bi-directional migration For humans, this meant that, although we simulated
+under the three-population Gutenkunst model, samples were taken only from the
+African and European populations Since inferred model did not match model used
+for simulations, compared inferred parameters to parameters expected based on
+mean coalescence time in simulated models (Fig 3) In general, used default
+settings and did not attempt to optimize dadi or fsc runs Used Snakemake to
+manage pipeline for two population analysis Results from two population pipeline
+demonstrate that the different methods tested were generally able to recover the
+simulated parameters Although we present comparison of results from several
+competing methods, our aim at this stage is not to provide an exhaustive
+evaluation of these methods Our hope is that future work with this pipeline will
+enable more detailed exploration of the strengths and weaknesses of the numerous
+multi-population inference methods that are available to the population genetics
+community
 
 
 \section*{Discussion}
 
+
+\section*{Methods}
+\subsection*{Generating the PopSim resource}
+
+\subsection*{Model QC procedures}
+Each demographic model was implemented independently by two people working from
+the relevant primary sources. Disagreements between complete implementations
+were resolved between the implementers in consultation with the authors of the
+source papers when necessary. A comparison of the two implementations is then
+added as a unit test.Technical details of the QC process can be found in the
+GitHub repository in the developer documentation.
+
+\subsection*{Workflow for analysis of simulated data}
+Snakemake pipeline for 1 pop models
+Snakemake pipeline for 2 pop models
+
+
+\section*{Extra text}
+[This section describes the stdpopsim Python library. What it’s for, how it’s used and what it can do]
+[First para: running accurate simulations is hard]
+Running realistic population genetic simulations is a complex task today. It is
+straightforward to run simple simulations of population models such as the
+coalescent or Wright-Fisher using (e.g.) msprime or SLiM, but the process of
+instantiating these models to accurately reflect the properties of natural
+populations that are important for a particular study is fraught with
+difficulties. There are typically three important inputs that must be decided:
+the demographic model, recombination and mutation rates. Demographic models for
+a particular species are typically chosen by examining the literature for
+published model specifications, which can consist of dozens of parameters. These
+parameters must be transcribed from the original publication and translated into
+the input format required for the simulator in question. This is a difficult and
+error prone task, and mistakes are common. Recombination and mutation rates are
+simpler to describe and often a single genome-wide estimate is appropriate.
+However, such estimates are updated frequently and there is wide variation in
+the values used for the simulations of the same species. When more fine-grained
+simulations of the local chromosome structure is required, empirical
+recombination and mutation rate maps are used. However, there is no standard
+format for such maps, and finding the maps can be challenging.
 
 \end{document}
