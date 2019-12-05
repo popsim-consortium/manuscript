@@ -474,13 +474,80 @@ GitHub repository in the developer documentation.
 
 \subsection*{Workflow for analysis of simulated data}
 Snakemake pipeline for 1 pop models
-Snakemake pipeline for 2 pop models
 
- In general, used default
-settings and did not attempt to optimize \dadi or \fastsimcoal runs Used Snakemake to
-manage pipeline for two population analysis Results from two population pipeline
-demonstrate that the different methods tested were generally able to recover the
-simulated parameters
+
+
+\subsection*{Workflow for two population analysis}
+Our goal for the two population inference pipeline was to explore two population inference
+on some of the multi-population demographic models implemented in \stdpopsim.
+The models we examined include the human Gutenkunst model (\cite{gutenkunst2009inferring}) as
+well as the \emph{Drosophila} Li & Stephan model (\cite{li2006inferring}). We implemented three
+commonly-used multi-population inference approaches: \dadi (\cite{gutenkunst2009inferring}),
+\fastsimcoal2 (\cite{excoffier2013robust}), and \smcpp (\cite{terhorst2017robust}). Our aim was not
+to exhaustively test the performance of these methods, but rather to explore their behavior
+in two different inference scenarios and demonstrate the potential for this resource to
+eventually be used for more in-depth benchmarking. As a result, these methods were used
+generally with default settings and we did not attempt to optimize their performance or fit
+parameter-rich demographic models. As with the single population inference pipeline,
+we developed a \texttt{snakemake} (\cite{koster2012snakemake}) workflow to manage
+our inference pipeline and maintain reproducibility.
+
+For both \dadi and \fastsimcoal2, our general approach was to fit a two population
+isolation with migration (IM) model with constant population sizes to the simulated
+data from the human and \emph{Drosophila} models. This IM model contains six parameters:
+the ancestral population size, the size of population 1 after split, the size of
+population 2 after split, the divergence time, and two migration rate parameters. Importantly,
+this meant that for both the human and \emph{Drosophila} inference, the fitted model
+did not match the simulated model (Figure \ref{fig:IM_popn_human}C), which, for humans,
+includes three populations with various population size changes as well as exponential
+growth. In the human case, we therefore performed inference solely on the Africa (YRI)
+and Europe (CEU) populations, meaning that the Asia (CHB) population functioned as a ghost
+population that was ignored by our inference. Our motivation for this simple
+approach was to mimic the typical approach of two population inference on empirical
+data, where the user is not aware of the 'true' underlying demography and the inference
+model is often misspecified. To ground-truth our inference approach, we also conducted
+inference on a generic IM model that was identical to the model used for inference.
+% CK: I have a figure of the generic IM results in the works that we can include in the supplement
+
+To perform inference, we began by running simulations under each model, performing
+three replicates to inspect for inter-replicate variability. For humans, we ran
+whole genome simulations (chromosomes 1-22) under the Gutenkunst model (\cite{gutenkunst2009inferring}),
+using the HapMap II recombination map (\cite{international2007second}) and taking 20
+samples each from the CEU and YRI populations. For \emph{Drosophila},
+we simulated 3 Mb of chromosome 2R under the Li & Stephan model (\cite{li2006inferring}),
+using the map inferred by \cite{comeron2012many} and taking 50 samples from each of
+the Africa and Europe populations. Due to computational limitations, we were unable
+to run whole genome simulations for \emph{Drosophila}. For the generic IM simulations,
+we used the human genome (chromosomes 1-22) and HapMap II recombination map (\cite{international2007second})
+and took 20 samples per population.
+% CK: should we say more about the drosophila simulations here?
+
+Following simulation, we outputted tree sequences and masked low recombination
+regions using the same approach described for the single population pipeline above. We
+converted tree sequences into a two dimensional site frequency spectrum for all
+chromosomes in the appropriate format for \dadi and \fastsimcoal2.
+For each simulation replicate, we performed 10 runs of \dadi and \fastsimcoal2 and
+checked for convergence. The parameter estimates from the top run from each simulation
+replicate are shown in Figures \ref{fig:IM_popn_human}C and Sx.
+% CK: how much detail should i go into here? should i include things such as initial
+% parameter values, grid size, priors, etc?
+
+For \smcpp , we converted the tree sequences into vcf format and performed inference
+with default settings. Importantly, \smcpp assumes no migration post-divergence, so
+here again the inference model does not exactly match the simulated model for the
+human Gutenkunst model that does include migration. However, because \smcpp allows
+for continuous population size changes, it is better equipped to capture many of the
+more complex aspect of the simulated demographic models (e.g., exponential growth).
+% CK: would be good to have someone with more smcpp experience to weigh in on
+% these methods (Andy or Deigo?). Are there any settings that need to be mentioned?
+
+To visualize our results, we plotted the inferred population size trajectories
+for each simulation replicate along side the true (census) population sizes
+(Figures \ref{fig:IM_popn_human}C Sx). Here, unlike the single population pipeline,
+ we focus on census size rather than the inverse coalescence rate as the 'true' population size.
+
+
+
 
 
 % \subsection*{Extra text}
