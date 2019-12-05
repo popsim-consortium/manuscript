@@ -348,8 +348,8 @@ genome architecture and genetic map to see how well methods might to at recoveri
 the population history of a constant sized population. We show results of such an
 experiment in Figure \ref{fig:n_t_HomSap_constant}. Again we see that all methods
 are recovering a modern population size within a factor of two of the truth, however
-SMC-based methods, perhaps due to their regularization, tend to learn sinusoidal 
-patterns of population size even though no change is present. 
+SMC-based methods, perhaps due to their regularization, tend to learn sinusoidal
+patterns of population size even though no change is present.
 
 
 \begin{figure}
@@ -474,7 +474,7 @@ demographic inference methods in population genetics,
 but the nature and scale of uncertainty may be not clear to people new to the field.
 The ability for \stdpopsim to generate data with and without significant features, such
 as the genetic map or population size change (e.g., Figure \ref{fig:n_t_HomSap_constant}), allows
-us to ask directly about the various failure modes of popular methods. 
+us to ask directly about the various failure modes of popular methods.
 Moreover the comparison of methods across the various genome organizations, genetic maps,
 and demographic histories of different organisms provides valuable information
 about how methods might perform on non-human systems.
@@ -547,18 +547,18 @@ to this point. Further details of our QC process can be found in our
 \subsection*{Workflow for analysis of simulated data}
 To demonstrate the utility of \stdpopsim we created \texttt{Snakemake}
 workflows \citep{koster2012snakemake} that perform demographic inference on
-tree sequence output from our package using a few common software packages. 
-Our choice of \texttt{Snakemake} allows complete reproducibility of the 
+tree sequence output from our package using a few common software packages.
+Our choice of \texttt{Snakemake} allows complete reproducibility of the
 analyses shown and the entire Analysis repository is available from
-\url{https://github.com/popgensims/analysis}. 
+\url{https://github.com/popgensims/analysis}.
 
 We performed demographic analysis for one and two population tasks.
 Our one population task was to infer historical population size over
 time ($N(t)$). This was done using three software packages \stairwayplot
 which uses site frequency spectrum information only \citep{liu2015exploring},
 the SMC based \MSMC~\citep{schiffels2014inferring} which we ran with two different
-sample sizes $n\in (2 , 8)$, and \smcpp~\citep{terhorst2017robust} 
-which combines information from the site frequency spectrum with 
+sample sizes $n\in (2 , 8)$, and \smcpp~\citep{terhorst2017robust}
+which combines information from the site frequency spectrum with
 recombination information as in SMC-based methods. No attempt
 was made at trying to optimize the analysis from
 any particular software package in present case,
@@ -574,22 +574,22 @@ option and used the default number of iterations.
 For the single population task we ran human, HomSap, simulations
 using a variety of models: OutOfAfricaArchaicAdmixture\_5R19, OutOfAfrica\_3G09,
 a constant sized generic model, and a two epoch generic model where the
-population size instantaneously decreases from $N=10^4$ to $N=10^3$ 500 
+population size instantaneously decreases from $N=10^4$ to $N=10^3$ 500
 generations before the present. Each HomSap simulation was run
 using the HapmapII\_GRCh37 genetic maps. For \emph{D. melanogaster}
-we estimated $N(t)$ from an African sample simulated under the DroMel, 
+we estimated $N(t)$ from an African sample simulated under the DroMel,
 African3Epoch\_1S16 model using the Comeron2012\_dm6 map. Finally we ran
 simulations of \emph{A. thaliana} genomes using the AraTha African2Epoch\_1H18
 model under the Salome2012\_TAIR7. For each model, 3 replicate whole genomes were
 simulated and the population size estimated from those data. In all cases we
-set the sample size of the focal population to $N=50$ chromosomes. 
+set the sample size of the focal population to $N=50$ chromosomes.
 
 Following simulation, low recombination portions of chromosomes were masked
 from the analysis in a manner that reflects the ``accessible" subset of sites
 used in empirical population genomic studies \citep[e.g.,][]{danecek20111000,langley2012genomic}.
 Specifically we masked regions of 1cM or greater in the lowest 5th percentile of the empirical
 distribution of recombination, regions which are nearly uniformly absent for
-empirical analysis.  
+empirical analysis.
 
 Our goal for the two population analysis pipeline was to explore two population inference
 on some of the multi-population demographic models implemented in \stdpopsim.
@@ -624,12 +624,12 @@ model is often misspecified. To ground-truth our inference approach, we also con
 inference on a generic IM model that was identical to the model used for inference.
 
 From HomSap we ran replicate whole genome simulations under the model
-and specified taking 20 samples each from the Europe and Africa populations. 
+and specified taking 20 samples each from the Europe and Africa populations.
 For DroMel, runtimes under OutOfAfrica\_2L06 were prohibitively slow when simulating whole genomes.
-For example, both chromosomes 3R and X failed to coalesce within 30 days of starting using $n = 50$. 
-Runtimes using the identical sample size were 19, 21, and 12 days for chromosomes 2L, 2R, and 3L, 
+For example, both chromosomes 3R and X failed to coalesce within 30 days of starting using $n = 50$.
+Runtimes using the identical sample size were 19, 21, and 12 days for chromosomes 2L, 2R, and 3L,
 respectively. For this reason, we chose to present only data from chromosome 2R for simulations
-under OutOfAfrica\_2L06. For the generic IM simulations, we used the HomSap genome along with the 
+under OutOfAfrica\_2L06. For the generic IM simulations, we used the HomSap genome along with the
 HapmapII\_GRCh37 genetic map, and sampled 20 individuals from each population.
 
 Following simulation, we outputted tree sequences and masked low recombination
