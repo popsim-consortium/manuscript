@@ -44,20 +44,25 @@
 \address{}
 \email{}}
 
+% JK: didn't bother with the \texttt stuff for stdpopsim in the abstract as it's nearly
+% always dropped in production anyway.
 
-\abstract{The explosion in population genomic data demands ever increasingly complex modes of analysis.
-More and more these analyses depend on sophisticated, often computationally expensive simulation.
-To date, computational genetics researchers have been often forced to re-implement such simulations
-independently, leading to both wasted time in the duplication of effort and reductions in reproducibility.
-Population genetics, as a field, specifically lacks rigorous standard benchmarks by which new tools for inference might
-be measured. Here we describe a new resource, the PopSim library, that attempts to rectify this situation.
-PopSim is a community-driven, open source project, aimed at revolutionizing the ease and reproducibility
-of population genetic simulation for a catalog of published demographic models from both humans and non-model organisms.
-PopSim assures correctness in our implementations through a mature quality control pipeline that is
-community-based. Here we describe the PopSim resource as a step towards inviting an even broader
-community of developers to participate and demonstrate some rather simple examples of how one
-might use PopSim for comparison of methods of demographic inference.}
-
+\abstract{The explosion in population genomic data demands ever more complex
+modes of analysis, and increasingly these analyses depend on sophisticated simulations.
+Recent advances in population genetic simulation have made it possible to
+simulate large and complex models, but describing such models for a particular
+simulation engine remains a difficult and error-prone task.
+Computational genetics researchers currently re-implement simulation models
+independently, leading to duplication of effort and reductions in reproducibility.
+Population genetics, as a field, also lacks rigorous standard benchmarks by which new tools for inference might
+be measured. Here we describe a new resource, stdpopsim, that attempts to rectify this situation.
+Stdpopsim is a community-driven, open source project, which provides a standard
+catalog of published simulation models from a wide range of organisms,
+and supports multiple simulation engine backends.
+% PopSim assures correctness in our implementations through a mature quality control pipeline that is community-based.
+Here we describe the stdpopsim resource to encourange an even broader
+community of developers to participate and to demonstrate some examples of how
+it can be used to systematically compare demographic inference methods.}
 \date{\today}
 
 \keywords{Population genetics, Simulation, Inference}
