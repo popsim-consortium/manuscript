@@ -25,7 +25,7 @@
 % method names
 
 \newcommand{\stdpopsim}{\texttt{stdpopsim} }
-\newcommand{\dadi}{\texttt{dadi} }
+\newcommand{\dadi}{$\partial a \partial i$ }
 \newcommand{\MSMC}{\texttt{MSMC} }
 \newcommand{\smcpp}{\texttt{smcpp} }
 \newcommand{\stairwayplot}{\texttt{stairwayplot} }
@@ -83,18 +83,18 @@ constitute community standards or best practices. The general modus operandi to 
 introduce methods which are validated by a set of bespoke simulations produced by individual
 groups. Beyond a lack of efficiency from duplicated effort, such a situation leads
 to decreases in reproducibility and transparency across the entire field.
-Here we describe the PopSim consortium project, a community-driven catalog
+Here we describe \texttt{stdpopsim}, a community-driven catalog
 of standardized simulations across a variety of common study organisms
 that will empower the field and usher in the next era of genetics data analysis.
 
-Benchmarking method performance population genetics is not straightforward.
-Many population genetic inference methods often make different assumptions as
+Benchmarking the performance of inference methods in population genetics is not straightforward.
+Inference methods often make different assumptions as
 well as use different summaries of the genetic variation data, even when
 attempting to address the same biological question. For example, there are
 numerous methods to infer population size changes.
 The \MSMC method (\cite{schiffels2014inferring}) allows for the
-population to continuously change in size over time. Other popular methods, like
-\dadi (\cite{gutenkunst2009inferring}), typically allow for a smaller number of size changes to occur at certain
+population to continuously change in size over time. Other methods, such as
+\dadi (\cite{gutenkunst2009inferring}), allow for a smaller number of size changes to occur at certain
 points throughout the population's history. Further, the types of data that the
 methods use also differs. While \MSMC uses one to four whole genome sequences and leverages the
 spatial patterns of genetic variation along the sequence, \dadi  instead uses the
@@ -109,15 +109,16 @@ The degree to which modeling assumptions and using different summaries of the
 data can affect the ultimate results has been challenging to assess. Yet, there
 have been several clear examples of different methods yielding fundamentally
 different conclusions. For example, \MSMC methods applied to human genomes have
-suggested large ancient (>100 years ago) ancestral population sizes and
+% JK is this right? > 100 years doesn't sound very ancient to me.
+suggested large ancient ($>100$ years ago) ancestral population sizes and
 bottlenecks that have not been detected by SFS-based methods (see
 \cite{beichman2017comparison}). These distinct models differ in how they fit various summaries of the
 genetic variation data, suggesting that modeling choices can greatly affect the
-performance of the inference. Further it is reasonable
+performance of the inference. Furthermore, it is reasonable
 to assume generally that specific methods will perform better than others under certain scenarios.
 However, because these conditions are typically unknown, empirical researchers
 lack principled guidelines for deciding which statistical method is best suited
-for to accurately answer their particular question. The need for empirical
+to accurately answer their particular question. The need for empirical
 guidance will only increase as researchers continue to generate more genomic
 variation data from non-model taxa and wish to make inferences regarding
 demography and selection.
@@ -126,10 +127,10 @@ One way to benchmark different methods for statistical inference in population
 genetics is to apply the methods to simulated datasets where the true model
 parameters are known. Methods that perform well will accurately infer these
 parameters and will also provide reasonable estimates of uncertainty of the
-estimated parameters. Indeed simulations studies are a standard ingredient in
+estimated parameters. Indeed, simulations studies are a standard ingredient in
 most papers proposing new methods in population genetics. However, these
 simulation studies are often specifically devised to showcase the performance
-of the novel method and may not adquately compare performance to competing
+of the novel method and may not adequately compare performance to competing
 methods. Moreover researchers are generally forced to ``reinvent the wheel''
 with respect to simulations, and are forced to reimplement previously
 inferred scenarios independently. This can lead to errors being incorporated
@@ -140,31 +141,31 @@ One reason why simulation studies do not compare the performance of many methods
 is that these simulation studies are challenging to carry out. There are several
 practical impediments to carrying out the ideal benchmarking simulation studies.
 First, while there are many published population genetic models available, their
-parameters are often not easily accessible, often presented in supplemental
-tables. Implementing these parameters into usable commands for simulations can
-be a time-consuming and error prone process. Further, often papers present many
+parameters are often not easily accessible, usually presented in supplemental
+tables. Translating these parameters into input for a given simulation engine can
+be a time-consuming and error prone process. In addition, papers often present many
 different models, and different authors may choose to select distinct models,
 making comparison difficult. While improvements in simulation software and ever
 faster computers have partially ameliorating this concern, generating the
-simulated datasets stil can still be a time and computing resource bottleneck.
+simulated datasets can still be a time and computing resource bottleneck.
 
 For these reasons, we have generated a standardized, community-driven resource
-for simulation of published demographic models from a number of popular study systems.
-This resource, which we call PopSim, significantly eases the development
-burden of implementing realistic simulations for population genetic analysis.
-Briefly, PopSim currently is comprised of a catalog of four organism genomes: humans,
-\emph{Drosophila}, \emph{Arabidopsis}, and \emph{E. coli}. Each of these
-genomes is associated with a physical organization (e.g., a chromosome structure),
-one or more genetic maps, default population-level parameters (mutation rate,
+for simulating  published demographic models from a number of popular study systems.
+This resource, which we call \texttt{stdpopsim}, makes running
+realistic simulations for population genetic analysis a simple matter of
+choosing pre-implemented models from a community maintained catalog.
+The \stdpopsim catalog currently contains four organisms: humans,
+\emph{D.\ melanogaster}, \emph{A. thaliana}, and \emph{E. coli}. For each
+organism the catalog contains details on the physical organization (e.g., chromosome structure)
+of their genomes, one or more genetic maps, default population-level parameters (mutation rate,
 generation time) and one or more published demographic histories. Through
-either a command line interface or a mature Python API, the user can specify what
-organism, map, chromosome(s), and history they are interested in simulating, and are returned
-simulation output from their chosen model. PopSim has been developed using an
-completely distributed open source model, with strong procedures in place
-to continue its growth and accuracy. Below we describe PopSim and give an
-example of how benchmarking of methods for demographic inference might proceed.
-
-
+either a command line interface or a simple Python API, the user can specify what
+organism, map, chromosome, and demographic history they are interested in simulating, and are returned
+simulation output from their chosen model.
+The software has been developed by the PopSim Consortium using a
+distributed open source model, with strong procedures in place
+to continue its growth and accuracy. Below we describe the resource and give an
+example of how it can be used to benchmark demographic inference methods.
 
 \begin{figure}[t]
 \begin{center}
