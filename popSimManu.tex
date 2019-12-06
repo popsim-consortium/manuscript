@@ -33,7 +33,7 @@
 
 \newcommand{\adk}[1]{\textcolor{red}{ADK: #1}}
 
-\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[hidelinks]{hyperref}
 
 \begin{document}
 
@@ -106,9 +106,7 @@ spatial patterns of genetic variation along the sequence, \dadi  instead uses th
 site frequency spectrum (SFS), which summarizes the frequencies of SNPs in the
 sample, ignoring any information about the correlation structure (linkage
 disequilibrium) among SNPs. Thus from the start these methods may not be
-expected to perform equally well in all scenarios. \adk{I think we are focussed
-a bit too much on benchmarking currently in the intro. Could be good to add more on efficiency
-and reproducibility}
+expected to perform equally well in all scenarios. 
 
 The degree to which modeling assumptions and using different summaries of the
 data can affect the ultimate results has been challenging to assess. Yet, there
@@ -240,7 +238,7 @@ simpler, single population histories (e.g., in \emph{D. melanogaster} \cite{shee
 and much more complex models which include population splitting, migration, and archaic
 admixture (e.g., in humans \cite{ragsdale2019models}).
 
-\begin{table}
+\begin{table}[t]
 \begin{footnotesize}
 \input{model_table.tex}
 \end{footnotesize}
@@ -367,7 +365,6 @@ an empirically derived genetic map, and then try to infer back the parameters of
 Accuracy is mixed among methods in this setting, and generally worse than what we
 observe under simulations of the human genome.
 
-\adk{do we want to include Arabidopsis results too?}
 
 
 \begin{figure}
@@ -458,19 +455,34 @@ the PopSim Consortium and population genetics more broadly. The analysis workflo
 we have released as part of \stdpopsim should provide a cookbook for the community to
 dive in to more rigorous benchmarking than we have done thus far.
 
-\adk{should we mention benchmarking of tree sequence inference here? what else?}
+%\adk{should we mention benchmarking of tree sequence inference here? what else?}
 
 
 \section*{Methods}
 \subsection*{Generating the PopSim resource}
 
 \subsection*{Model QC procedures}
-Each demographic model was implemented independently by two people working from
-the relevant primary sources. Disagreements between complete implementations
-were resolved between the implementers in consultation with the authors of the
-source papers when necessary. A comparison of the two implementations is then
-added as a unit test.Technical details of the QC process can be found in the
-GitHub repository in the developer documentation.
+As a consortium we have agreed to a standardized proceedure for model inclusion
+into \stdpopsim that allows for rigorous quality control. Imagine Developer A
+wants to introduce a new model into \stdpopsim. Developer A implements the
+demographic model for the relevant organism along with a series of required
+unit tests and documentation. This model is submitted as a Pull Request,
+where it is evaluated by a reviewer and then included as `preliminary', 
+B
+but is not linked to the online documentation nor the command line interface.
+Inclusion of a preliminary model triggers a QC issue, and a second developer, 
+Developer B, then independently reimplements the model from the relevant
+primary sources and adds an automatic unit test for equality between the
+QC implementation and the preliminary production model. If the two
+implementations are equal the original model is included in \stdpopsim.
+If not, we move to an arbitration process whereby the A and B first try
+to work out the details of what went wrong. If that fails, the original
+authors of the published model A is trying to implement must be contacted
+to resolve ambiguities. This process can lead to cycles of revision of 
+the implementation from Developers A and B but allows the project to assure
+quality. Indeed we have already had a number of interesting cases of arbitration
+to this point. Further details of our QC process can be found in our
+\href{https://stdpopsim.readthedocs.io/en/latest/development.html#}{developer documentation}.
 
 \subsection*{Workflow for analysis of simulated data}
 Snakemake pipeline for 1 pop models
