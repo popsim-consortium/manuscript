@@ -1,11 +1,9 @@
 \documentclass[12pt,halfline,a4paper]{ouparticle}
-% *
-%
-% ^.
 \usepackage{amsmath,amssymb}
 \usepackage{natbib}
 \usepackage{graphicx,rotating}
 \usepackage{dsfont}
+\usepackage{xspace}
 
 \newcommand{\Est}[1]{\hat{#1}}
 
@@ -24,12 +22,12 @@
 
 % method names
 
-\newcommand{\stdpopsim}{\texttt{stdpopsim} }
-\newcommand{\dadi}{$\partial a \partial i$ }
-\newcommand{\MSMC}{\texttt{MSMC} }
-\newcommand{\smcpp}{\texttt{smcpp} }
-\newcommand{\stairwayplot}{\texttt{stairwayplot} }
-\newcommand{\fastsimcoal}{\texttt{fastsimcoal} }
+\newcommand{\stdpopsim}{\texttt{stdpopsim}\xspace}
+\newcommand{\dadi}{$\partial a \partial i$\xspace}
+\newcommand{\MSMC}{\texttt{MSMC}\xspace}
+\newcommand{\smcpp}{\texttt{smcpp}\xspace}
+\newcommand{\stairwayplot}{\texttt{stairwayplot}\xspace}
+\newcommand{\fastsimcoal}{\texttt{fastsimcoal}\xspace}
 
 \newcommand{\adk}[1]{\textcolor{red}{ADK: #1}}
 
@@ -53,14 +51,14 @@ Recent advances in population genetic simulation have made it possible to
 simulate large and complex models, but describing such models for a particular
 simulation engine remains a difficult and error-prone task.
 Computational genetics researchers currently re-implement simulation models
-independently, leading to duplication of effort and reductions in reproducibility.
-Population genetics, as a field, also lacks rigorous standard benchmarks by which new tools for inference might
+independently, leading to duplication of effort and the possibility for error.
+Population genetics, as a field, also lacks standard benchmarks by which new tools for inference might
 be measured. Here we describe a new resource, stdpopsim, that attempts to rectify this situation.
 Stdpopsim is a community-driven, open source project, which provides a standard
 catalog of published simulation models from a wide range of organisms,
 and supports multiple simulation engine backends.
-% PopSim assures correctness in our implementations through a mature quality control pipeline that is community-based.
-Here we describe the stdpopsim resource to encourange an even broader
+% PopSim assures correctness in our implementations through a mature, community-based quality control pipeline.
+Here, we encourange an even broader
 community of developers to participate and to demonstrate some examples of how
 it can be used to systematically compare demographic inference methods.}
 \date{\today}
@@ -82,6 +80,8 @@ kern2018diplos,sugden2018localization}).
 While en masse these methods have increased our understanding of the
 impacts of genetic and evolutionary processes, very little has been done to systematically
 benchmark the quality of inferences gleaned from computational population genetics.
+As large databases of population genetic variation begin to be used to inform public health procedures,
+the accuracy and quality of these inferences is becoming even more important.
 This is in large part because ``ground-truth'' in population genetics comes from simulation,
 not from empirical observations, and as a field there has been no agreement as to what should
 constitute community standards or best practices. The general modus operandi to date has been to
@@ -93,14 +93,14 @@ of standardized simulations across a variety of common study organisms
 that will empower the field and usher in the next era of genetics data analysis.
 
 Benchmarking the performance of inference methods in population genetics is not straightforward.
-Inference methods often make different assumptions as
-well as use different summaries of the genetic variation data, even when
+Different methods often fit different types of model
+or use different summaries of the genetic variation data, even when
 attempting to address the same biological question. For example, there are
 numerous methods to infer population size changes.
 The \MSMC method (\cite{schiffels2014inferring}) allows for the
 population to continuously change in size over time. Other methods, such as
 \dadi (\cite{gutenkunst2009inferring}), allow for a smaller number of size changes to occur at certain
-points throughout the population's history. Further, the types of data that the
+points throughout the population's history. The types of data that the
 methods use also differs. While \MSMC uses one to four whole genome sequences and leverages the
 spatial patterns of genetic variation along the sequence, \dadi  instead uses the
 site frequency spectrum (SFS), which summarizes the frequencies of SNPs in the
@@ -108,7 +108,7 @@ sample, ignoring any information about the correlation structure (linkage
 disequilibrium) among SNPs. Thus from the start these methods may not be
 expected to perform equally well in all scenarios. 
 
-The degree to which modeling assumptions and using different summaries of the
+The degree to which modeling assumptions and different summaries of the
 data can affect the ultimate results has been challenging to assess. Yet, there
 have been several clear examples of different methods yielding fundamentally
 different conclusions. For example, \MSMC methods applied to human genomes have
@@ -132,24 +132,25 @@ parameters are known. Methods that perform well will accurately infer these
 parameters and will also provide reasonable estimates of uncertainty of the
 estimated parameters. Indeed, simulations studies are a standard ingredient in
 most papers proposing new methods in population genetics. However, these
-simulation studies are often specifically devised to showcase the performance
-of the novel method and may not adequately compare performance to competing
-methods. Moreover researchers are generally forced to ``reinvent the wheel''
-with respect to simulations, and are forced to reimplement previously
-inferred scenarios independently. This can lead to errors being incorporated
-during the implementation of the simulations. Lastly, the degree to
-which different methods are compared can be quite variable.
+simulation studies often use simulations of the particular models for which the method was designed,
+which showcases the novel method rather than rigorously comparing performance to competing methods.
+Of course, testing a new method in the situation for which it was designed is an important step,
+but more rigorous testing is necessary for tools that are to be widely used in the field.
+% Moreover researchers are generally forced to reimplement previously
+% inferred scenarios independently, which makes good benchmarking
+% a major additional time investment, and can lead to errors.
+% Lastly, the degree to which different methods are compared can be quite variable.
 
 One reason why simulation studies do not compare the performance of many methods
-is that these simulation studies are challenging to carry out. There are several
-practical impediments to carrying out the ideal benchmarking simulation studies.
+across a wide range of situations
+is that simulation studies are challenging to carry out, for several reasons.
 First, while there are many published population genetic models available, their
 parameters are often not easily accessible, usually presented in supplemental
 tables. Translating these parameters into input for a given simulation engine can
 be a time-consuming and error prone process. In addition, papers often present many
 different models, and different authors may choose to select distinct models,
 making comparison difficult. While improvements in simulation software and ever
-faster computers have partially ameliorating this concern, generating the
+faster computers have partially ameliorated this concern, generating the
 simulated datasets can still be a time and computing resource bottleneck.
 
 For these reasons, we have generated a standardized, community-driven resource
@@ -158,13 +159,14 @@ This resource, which we call \texttt{stdpopsim}, makes running
 realistic simulations for population genetic analysis a simple matter of
 choosing pre-implemented models from a community maintained catalog.
 The \stdpopsim catalog currently contains four organisms: humans,
-\emph{D.\ melanogaster}, \emph{A. thaliana}, and \emph{E. coli}. For each
+\emph{D.~melanogaster}, \emph{A.~thaliana}, and \emph{E.~coli}. For each
 organism the catalog contains details on the physical organization (e.g., chromosome structure)
 of their genomes, one or more genetic maps, default population-level parameters (mutation rate,
 generation time) and one or more published demographic histories. Through
 either a command line interface or a simple Python API, the user can specify what
-organism, map, chromosome, and demographic history they are interested in simulating, and are returned
+organism, genetic map, chromosome, and demographic history they are interested in simulating, and are returned
 simulation output from their chosen model.
+
 The software has been developed by the PopSim Consortium using a
 distributed open source model, with strong procedures in place
 to continue its growth and accuracy. Below we describe the resource and give an
