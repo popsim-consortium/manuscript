@@ -207,7 +207,7 @@ observed heterogeneity along chromosomes. As such maps are often large and hard
 to find, we provide a mechanism to automatically download (and cache locally) a
 set of known maps (Fig. \ref{fig:cartoon}B). For example, in humans we support the HapMapII 
 \cite{international2007second}) and
-Decode (\cite{kong2010fine}) genetic maps. The second key element of a species description
+deCODE (\cite{kong2010fine}) genetic maps. The second key element of a species description
 within \stdpopsim is a set of carefully curated population genetic model
 descriptions from the literature, which are the basis for accurate simulations
 of specific historical scenarios.
@@ -423,7 +423,9 @@ Again the goal of these analyses are not to perform thorough benchmarking of
 the methods at hand under a wide range of simulations, but instead to show how
 the tools that we have built could be used to do so.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Discussion}
+
 Here we have described what we view as the first product from the PopSim Consortium:
 the \stdpopsim library. We have founded the Consortium with a number of specific aims
 in mind: standardization of simulation within the computational genetics community,
@@ -457,6 +459,25 @@ effort at benchmarking methods yet, we believe that this would be an important e
 the PopSim Consortium and population genetics more broadly. The analysis workflows that
 we have released as part of \stdpopsim should provide a cookbook for the community to
 dive in to more rigorous benchmarking than we have done thus far.
+
+Although we did not produce an exhaustive comparison of different demographic inference methods,
+our results are informative,
+and highlight the utility of easy comparison of methods on the same footing.
+The tests here were under best-case scenarios --
+simulations of discrete, randomly mating populations that fit the assumptions of the methods nearly exactly --
+and yet different methods, as well as applications of the same method
+to different simulations of the same model,
+produced somewhat different results.
+We found that the methods tested \emph{do} generally perform well,
+up to, for instance, the usual factor-of-two differences in bottleneck population sizes.
+This will not be surprising to people familiar with the landscape of 
+demographic inference methods in population genetics,
+but the nature and scale of uncertainty may be not clear to people new to the field.
+Comparison of results across methods or simulation runs
+gives a strong estimate of inference uncertainty, analogously to parametric bootstrapping --
+although different methods have different strengths and weaknesses,
+strong conclusions should probably not rest entirely on features inferred by only one method.
+
 
 %\adk{should we mention benchmarking of tree sequence inference here? what else?}
 
