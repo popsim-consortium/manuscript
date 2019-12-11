@@ -106,7 +106,7 @@ spatial patterns of genetic variation along the sequence, \dadi  instead uses th
 site frequency spectrum (SFS), which summarizes the frequencies of SNPs in the
 sample, ignoring any information about the correlation structure (linkage
 disequilibrium) among SNPs. Thus from the start these methods may not be
-expected to perform equally well in all scenarios. 
+expected to perform equally well in all scenarios.
 
 The degree to which modeling assumptions and different summaries of the
 data can affect the ultimate results has been challenging to assess. Yet, there
@@ -205,7 +205,7 @@ lengths, average mutation rates and so on. We also provide access to detailed
 empirical information such as recombination maps, which model empirically
 observed heterogeneity along chromosomes. As such maps are often large and hard
 to find, we provide a mechanism to automatically download (and cache locally) a
-set of known maps (Fig. \ref{fig:cartoon}B). For example, in humans we support the HapMapII 
+set of known maps (Fig. \ref{fig:cartoon}B). For example, in humans we support the HapMapII
 \cite{international2007second}) and
 deCODE (\cite{kong2010fine}) genetic maps. The second key element of a species description
 within \stdpopsim is a set of carefully curated population genetic model
@@ -470,7 +470,7 @@ to different simulations of the same model,
 produced somewhat different results.
 We found that the methods tested \emph{do} generally perform well,
 up to, for instance, the usual factor-of-two differences in bottleneck population sizes.
-This will not be surprising to people familiar with the landscape of 
+This will not be surprising to people familiar with the landscape of
 demographic inference methods in population genetics,
 but the nature and scale of uncertainty may be not clear to people new to the field.
 Comparison of results across methods or simulation runs
@@ -491,9 +491,9 @@ into \stdpopsim that allows for rigorous quality control. Imagine Developer A
 wants to introduce a new model into \stdpopsim. Developer A implements the
 demographic model for the relevant organism along with a series of required
 unit tests and documentation. This model is submitted as a Pull Request,
-where it is evaluated by a reviewer and then included as `preliminary', 
+where it is evaluated by a reviewer and then included as `preliminary',
 but is not linked to the online documentation nor the command line interface.
-Inclusion of a preliminary model triggers a QC issue, and a second developer, 
+Inclusion of a preliminary model triggers a QC issue, and a second developer,
 Developer B, then independently reimplements the model from the relevant
 primary sources and adds an automatic unit test for equality between the
 QC implementation and the preliminary production model. If the two
@@ -501,7 +501,7 @@ implementations are equal the original model is included in \stdpopsim.
 If not, we move to an arbitration process whereby the A and B first try
 to work out the details of what went wrong. If that fails, the original
 authors of the published model A is trying to implement must be contacted
-to resolve ambiguities. This process can lead to cycles of revision of 
+to resolve ambiguities. This process can lead to cycles of revision of
 the implementation from Developers A and B but allows the project to assure
 quality. Indeed we have already had a number of interesting cases of arbitration
 to this point. Further details of our QC process can be found in our
