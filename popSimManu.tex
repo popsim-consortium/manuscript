@@ -35,7 +35,7 @@
 
 \begin{document}
 
-\title{\stdpopsim: a community toolkit for population genetic simulation}
+\title{\stdpopsim: a community-maintained standard library of population genetic simulations}
 
 \author{%
 \name{The PopSim Consortium}
@@ -528,39 +528,77 @@ to this point. Further details of our QC process can be found in our
 \href{https://stdpopsim.readthedocs.io/en/latest/development.html#}{developer documentation}.
 
 \subsection*{Workflow for analysis of simulated data}
-Snakemake pipeline for 1 pop models
+To demonstrate the utility of \stdpopsim we created \texttt{Snakemake}
+workflows \citep{koster2012snakemake} that perform demographic inference on
+tree sequence output from our package using a few common software packages. 
+Our choice of \texttt{Snakemake} allows complete reproducibility of the 
+analyses shown and the entire Analysis repository is available from
+\url{https://github.com/popgensims/analysis}. 
 
+We performed demographic analysis for one and two population tasks.
+Our one population task was to infer historical population size over
+time ($N(t)$). This was done using three software packages \stairwayplot
+which uses site frequency spectrum information only \citep{liu2015exploring},
+the SMC based \MSMC~\citep{schiffels2014inferring} which we ran with two different
+sample sizes $n\in (2 , 8)$, and \smcpp~\citep{terhorst2017robust} 
+which combines information from the site frequency spectrum with 
+recombination information as in SMC-based methods. No attempt
+was made at trying to optimize the analysis from
+any particular software package in present case,
+as our goal was not to benchmark performance of methods but
+instead show how such benchmarking could be easily done using
+the \stdpopsim resource. In this spirit we ran each software package as near
+to default parameters as possibile in each case. For \stairwayplot we
+set the parameters numRuns=1 and dimFactor=5000. For \smcpp we used the
+``estimate" run mode to infer $N(t)$ with all other parameters set
+to their default values. For \MSMC we used the ``--fixedRecombination"
+option and used the default number of iterations.
 
+For the single population task we ran human, HomSap, simulations
+using a variety of models: OutOfAfricaArchaicAdmixture\_5R19, OutOfAfrica\_3G09,
+a constant sized generic model, and a two epoch generic model where the
+population size instantaneously decreases from $N=10^4$ to $N=10^3$ 500 
+generations before the present. Each HomSap simulation was run
+using the HapmapII\_GRCh37 genetic maps. For \emph{D. melanogaster}
+we estimated $N(t)$ from an African sample simulated under the DroMel, 
+African3Epoch\_1S16 model using the Comeron2012\_dm6 map. Finally we ran
+simulations of \emph{A. thaliana} genomes using the AraTha African2Epoch\_1H18
+model under the Salome2012\_TAIR7. For each model, 3 replicate whole genomes were
+simulated and the population size estimated from those data. In all cases we
+set the sample size of the focal population to $N=50$ chromosomes. 
 
-\subsection*{Workflow for two population analysis}
+Following simulation, low recombination portions of chromosomes were masked
+from the analysis in a manner that reflects the ``accessible" subset of sites
+used in empirical population genomic studies \citep[e.g.,][]{danecek20111000,langley2012genomic}.
+Specifically we masked regions of 1cM or greater in the lowest 5th percentile of the empirical
+distribution of recombination, regions which are nearly uniformly absent for
+empirical analysis.  
+
 Our goal for the two population analysis pipeline was to explore two population inference
 on some of the multi-population demographic models implemented in \stdpopsim.
-The models we examined include the human Gutenkunst model \citep{gutenkunst2009inferring} as
-well as the \emph{Drosophila} Li and Stephan model \citep{li2006inferring}. The human
-model is a three population model (Africa, Europe, and Asia) including post-divergence
+For HomSap we examined the OutOfAfrica_3G09 model with the HapmapII\_GRCh37 genetic map,
+and for DroMel we simulated under the OutOfAfrica_2L06 model with the Comeron2012\_dm6.
+The HomSap model is a three population model (Africa, Europe, and Asia) including post-divergence
 migration and exponential growth (Figure \ref{fig:IM_popn_human}C), whereas the
-\emph{Drosophila} model is a two population model (Africa and Europe) with no post-divergence
+DroMel model is a two population model (Africa and Europe) with no post-divergence
 migration and constant population sizes (Figure \ref{fig:two_popn_fly}).
 
-To conduct inference on these models, we implemented three commonly-used approaches:
+To conduct inference on these models, we used three commonly used methods:
 \dadi~\citep{gutenkunst2009inferring}, \fastsimcoal2~\citep{excoffier2013robust},
-and \smcpp~\citep{terhorst2017robust}. Our aim was not to exhaustively
-test the performance of these methods, but rather to explore their behavior
-in two different inference scenarios and demonstrate the potential for this resource to
-eventually be used for more in-depth benchmarking. As a result, these methods were used
+and \smcpp~\citep{terhorst2017robust}. As above, these methods were used
 generally with default settings and we did not attempt to optimize their performance or fit
 parameter-rich demographic models. As with the single population inference pipeline,
 we developed a \texttt{snakemake}~\citep{koster2012snakemake} workflow to manage
 our inference pipeline and maintain reproducibility.
 
-For both \dadi and \fastsimcoal2, our general approach was to fit a two population
+For both \dadi and \fastsimcoal2, we fit a two population
 isolation with migration (IM) model with constant population sizes to the simulated
-data from the human and \emph{Drosophila} models. This IM model contains six parameters:
+data from the HomSap and DroMel models. This IM model contains six parameters:
 the ancestral population size, the size of population 1 after the split, the size of
 population 2 after the split, the divergence time, and two migration rate parameters.
-Importantly, this meant that for both the human and \emph{Drosophila} inference, the
+Importantly, this meant that for both species, the
 fitted model did not match the simulated model (Figure \ref{fig:IM_popn_human}C and Sx).
-In the human case, we therefore performed inference solely on the Africa
+In the HomSap case, we therefore performed inference solely on the Africa
 and Europe populations, meaning that the Asia population functioned as a ghost
 population that was ignored by our inference. Our motivation for fitting this simple
 IM model was to mimic the typical approach of two population inference on empirical
@@ -568,17 +606,15 @@ data, where the user is not aware of the `true' underlying demography and the in
 model is often misspecified. To ground-truth our inference approach, we also conducted
 inference on a generic IM model that was identical to the model used for inference.
 
-To perform inference, we began by running simulations under each model, running
-three replicates to inspect for inter-replicate variability. For humans, we ran
-whole genome simulations (chromosomes 1-22) under the Gutenkunst model \citep{gutenkunst2009inferring},
-using the HapMap II recombination map \citep{international2007second} and taking 20
-samples each from the Europe and Africa populations. For \emph{Drosophila},
-we simulated 3 Mb of chromosome 2R under the Li and Stephan model \citep{li2006inferring},
-using the map inferred by \cite{comeron2012many} and taking 50 samples from each of
+From HomSap we ran replicate whole genome simulations under the model
+and specified taking 20 samples each from the Europe and Africa populations. 
+For DroMel, runtimes under OutOfAfrica_2L06 were prohibitively slow for
+running whole genome simulations. Instead we simulated 3 Mb of chromosome 2R.
+and take 50 samples from each of
 the Africa and Europe populations. We tried to run whole genome simulations under
 this model but after XXXX amount of time... (JRA fill in details here). For the generic
-IM simulations, we used the human genome (chromosomes 1-22) and HapMap II recombination
-map \citep{international2007second} and took 20 samples per population.
+IM simulations, we used the HomSap genome along with the HapmapII\_GRCh37 genetic map,
+and sampled 20 individuals from each population.
 
 Following simulation, we outputted tree sequences and masked low recombination
 regions using the same approach described for the single population pipeline above. We
