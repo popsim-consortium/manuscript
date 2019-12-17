@@ -35,7 +35,7 @@
 
 \begin{document}
 
-\title{\stdpopsim: a community-maintained standard library of population genetic simulations}
+\title{A community-maintained standard library of population genetic simulations}
 
 \author{%
 \name{The PopSim Consortium}
@@ -343,6 +343,14 @@ models it is interesting to note that $N(t)$ estimates for the CHB and CEU
 simulated populations are generally better across methods than estimates from the YRI
 sample.
 
+We can even do away with the demographic model entirely, and simulate under a human
+genome architecture and genetic map to see how well methods might to at recovering
+the population history of a constant sized population. We show results of such an
+experiment in Figure \ref{fig:n_t_HomSap_constant}. Again we see that all methods
+are recovering a modern population size within a factor of two of the truth, however
+SMC-based methods, perhaps due to their regularization, tend to learn sinusoidal 
+patterns of population size even though no change is present. 
+
 
 \begin{figure}
 \begin{center}
@@ -453,60 +461,66 @@ and in turn, what are the models that the community is most interested in.
 
 We have shown in the results above how \stdpopsim can be used for direct comparisons
 of inferential methods on a common set of simulations. While we have not made a concerted
-effort at benchmarking methods yet, we believe that this would be an important effort for
+effort at benchmarking methods yet, we believe that this would be an important goal for
 the PopSim Consortium and population genetics more broadly. The analysis workflows that
 we have released as part of \stdpopsim should provide a cookbook for the community to
 dive in to more rigorous benchmarking than we have done thus far.
 
-Although we did not produce an exhaustive comparison of different demographic inference methods,
-our results are informative,
-and highlight the utility of easy comparison of methods on the same footing.
-The tests here were under best-case scenarios --
-simulations of discrete, randomly mating populations that fit the assumptions of the methods nearly exactly --
-and yet different methods, as well as applications of the same method
-to different simulations of the same model,
-produced somewhat different results.
-We found that the methods tested \emph{do} generally perform well,
-up to, for instance, the usual factor-of-two differences in bottleneck population sizes.
+In the use case comparisons we have performed,
+we found that the methods tested \emph{do} generally perform well on human genomes,
+up to, for instance, the usual factor-of-two differences in inferred population sizes.
 This will not be surprising to people familiar with the landscape of
 demographic inference methods in population genetics,
 but the nature and scale of uncertainty may be not clear to people new to the field.
-Comparison of results across methods or simulation runs
+The ability for \stdpopsim to generate data with and without significant features, such
+as the genetic map or population size change (e.g., Figure \ref{fig:n_t_HomSap_constant}), allows
+us to ask directly about the various failure modes of popular methods. 
+Moreover the comparison of methods across the various genome organizations, genetic maps,
+and demographic histories of different organisms provides valuable information
+about how methods might perform on non-human systems.
+In our initial comparison we find that inference of population histories from \emph{Drosophila}
+or \emph{Arabidopsis} simulated genomes is a fair bit more difficult from SMC based methods
+than in the human genome. Likely this is consequence of the reduced physical and genetic
+map lengths of these genomes, although we will leave further investigation of this to the future.
+Finally, comparison of results across methods or simulation runs
 gives a strong estimate of inference uncertainty, analogously to parametric bootstrapping --
 although different methods have different strengths and weaknesses,
 strong conclusions should probably not rest entirely on features inferred by only one method.
 
-The models implemented are currently limited to neutral evolution and to populations 
-composed of a finite number of randomly-mating demes. Such models do not reflect 
-the complexities of demographic and selective forces affecting real populations. 
-However, because they are comparatively simple to specify, easy to simulate, 
-and widely use in practice,  they serve as a useful starting point for a 
-comprehensive library of population genetics models. 
+
+The broad brush comparisons we have done, while far from exhaustive, are informative,
+and highlight the utility of easy comparison of methods on the same footing.
+The tests here were under best-case scenarios --
+simulations of discrete, randomly mating populations that evolve neutrally and 
+fit the assumptions of the methods nearly exactly --
+and yet different methods, as well as applications of the same method
+to different simulations of the same model,
+produced somewhat different results.
+
 
 %\adk{should we mention benchmarking of tree sequence inference here? what else?}
 
-
-\paragraph{The problem of comparison} % Moved from the intro
-Benchmarking the performance of inference methods in population genetics is not straightforward.
-Different methods often fit different types of model
-or use different summaries of the genetic variation data, even when
-attempting to address the same biological question. For example, there are
-numerous methods to infer population size changes.
-The \MSMC method \citep{schiffels2014inferring} allows for the
-population to continuously change in size over time. Other methods, such as
-\dadi \citep{gutenkunst2009inferring}, allow for a smaller number of size changes to occur at certain
-points throughout the population's history. The types of data that the
-methods use also differs. While \MSMC uses one to four whole genome sequences and leverages the
-spatial patterns of genetic variation along the sequence, \dadi  instead uses the
-site frequency spectrum (SFS), which summarizes the frequencies of SNPs in the
-sample, ignoring any information about the correlation structure (linkage
-disequilibrium) among SNPs. Thus from the start these methods may not be
-expected to perform equally well in all scenarios,
-and indeed, it is not always clear how to compare to the truth --
-for instance, how well can a method of piecewise constant population sizes
-describe a period of exponential growth?
-Or, how should discrete population models be mapped onto real-world (continuous) geography?
-The answer depends on determining what is most important for the question at hand.
+% \paragraph{The problem of comparison} % Moved from the intro
+% Benchmarking the performance of inference methods in population genetics is not straightforward.
+% Different methods often fit different types of model
+% or use different summaries of the genetic variation data, even when
+% attempting to address the same biological question. For example, there are
+% numerous methods to infer population size changes.
+% The \MSMC method \citep{schiffels2014inferring} allows for the
+% population to continuously change in size over time. Other methods, such as
+% \dadi \citep{gutenkunst2009inferring}, allow for a smaller number of size changes to occur at certain
+% points throughout the population's history. The types of data that the
+% methods use also differs. While \MSMC uses one to four whole genome sequences and leverages the
+% spatial patterns of genetic variation along the sequence, \dadi  instead uses the
+% site frequency spectrum (SFS), which summarizes the frequencies of SNPs in the
+% sample, ignoring any information about the correlation structure (linkage
+% disequilibrium) among SNPs. Thus from the start these methods may not be
+% expected to perform equally well in all scenarios,
+% and indeed, it is not always clear how to compare to the truth --
+% for instance, how well can a method of piecewise constant population sizes
+% describe a period of exponential growth?
+% Or, how should discrete population models be mapped onto real-world (continuous) geography?
+% The answer depends on determining what is most important for the question at hand.
 
 \section*{Methods}
 \subsection*{Generating the PopSim resource}
@@ -692,6 +706,20 @@ for the rate of coalescence in the demographic model.}
 \label{fig:n_t_gutenkunst}
 \end{center}
 \end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.8\linewidth]{display_items/homo_sapiens_constant.pdf}
+\caption{\textbf{Comparing estimates of $N(t)$ in humans}. Here we show estimates of population
+size over time ($N(t)$) inferred using 4 different methods, \smcpp, \texttt{stairwayplot},
+\MSMC with $n=2$ and $n=8$. Data were generated by simulating
+replicate human genomes under a constant sized population model with $N=10^4$ and using the
+HapMapII genetic map~\citep{international2007second}. In black we show the true population size history
+of the model.}
+\label{fig:n_t_HomSap_constant}
+\end{center}
+\end{figure}
+
 
 \begin{figure}
 \begin{center}
