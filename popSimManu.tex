@@ -628,13 +628,12 @@ inference on a generic IM model that was identical to the model used for inferen
 
 From HomSap we ran replicate whole genome simulations under the model
 and specified taking 20 samples each from the Europe and Africa populations. 
-For DroMel, runtimes under OutOfAfrica\_2L06 were prohibitively slow for
-running whole genome simulations. Instead we simulated 3 Mb of chromosome 2R.
-and take 50 samples from each of
-the Africa and Europe populations. We tried to run whole genome simulations under
-this model but after XXXX amount of time... (JRA fill in details here). For the generic
-IM simulations, we used the HomSap genome along with the HapmapII\_GRCh37 genetic map,
-and sampled 20 individuals from each population.
+For DroMel, runtimes under OutOfAfrica\_2L06 were prohibitively slow when simulating whole genomes.
+For example, both chromosomes 3R and X failed to coalesce within 30 days of starting using $n = 50$. 
+Runtimes using the identical sample size were 19, 21, and 12 days for chromosomes 2L, 2R, and 3L, 
+respectively. For this reason, we chose to present only data from chromosome 2R for simulations
+under OutOfAfrica\_2L06. For the generic IM simulations, we used the HomSap genome along with the 
+HapmapII\_GRCh37 genetic map, and sampled 20 individuals from each population.
 
 Following simulation, we outputted tree sequences and masked low recombination
 regions using the same approach described for the single population pipeline above. We
