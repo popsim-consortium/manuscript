@@ -519,80 +519,79 @@ under a wider range of simulated demographic models.
 \section*{Discussion}
 
 Here we have described what we view as the first product from the PopSim Consortium:
-the \stdpopsim library. We have founded the Consortium with a number of specific goals
-in mind: standardization of simulation within the computational genetics community,
-increasing reproducibility of simulation based results, community-based development and
-decision making in guiding best practices in population genetics, and eventual benchmarking
-of inferential methods.
+the \stdpopsim library. We have founded the Consortium with a number of specific goals in mind:
+standardization of simulation within the computational genetics community,
+increasing reproducibility and ease of use of complex simulation based results,
+community-based development and decision making guiding best practices in population genetics,
+and eventual benchmarking of inferential methods.
 
 The \stdpopsim library is the first piece of this effort, in that it allows for rigorous
 standardization of complex population genetic simulations. Population genetics, as a field,
-% RNG: We should have more coalescence puns in the paper! :-P
-has yet to coalesce around a set of gold-standards for the crucial task of method
+has yet to coalesce around a set of standards for the crucial task of method
 evaluation, which in our field hinges on simulation. In contrast, other fields such as
 structural biology \citep{moult1995large} and machine learning \citep{russakovsky2015imagenet} have a long track record
 of standardized method testing. We hope that our efforts represent the beginning of what
 will prove to be an equally longstanding and invaluable tradition in population genetics.
 
-Moreover individual research groups are often in the position of having to independently
-reimplement complex previously published models. \stdpopsim offers solutions to both of
-these issues by creating a quality controlled, easy-to-use, gateway to models and organisms
+Individual research groups are often in the position of having to independently
+reimplement complex, previously published demographic models.
+Additional layers of realism (e.g., recombination maps) makes this especially daunting.
+\stdpopsim aims to lower this barrier
+by creating a quality controlled, easy-to-use, gateway to models and organisms
 that are central to modern research in genetics.
 
-We have built \stdpopsim, and the PopSim Consortium, to be an open, community-developed
-project, meaning that it has excellent potential for future growth.
-Thus far we have implemented genome representations and genetic maps for the three most
-common study systems in computational genetics: humans, \emph{Drosophila}, and \emph{Arabidopsis}.
-% RNG: Needs to be updated for final count.
-The standard operating procedures that we have outlined in our detailed documentation
-mean that new researchers, who are interested in adding their favorite organism/genome
-are free to do so with few barriers to entry (see Methods).
-Further, new demographic models can be added
-to each of the organisms in the catalog through similarly well documented steps.
-A long-term goal is that the community
-can determine (in an open way) what is the correct implementation for a published demographic model,
-and in turn, what are the models in which the community is most interested.
+We have illustrated in this paper how \stdpopsim can be used for direct
+comparisons of inferential methods on a common set of simulations. Our
+benchmarking comparisons have been limited, but nevertheless
+reveal some informative comparisons. For
+example, at the task of estimating $N(t)$ trajectories for simulations of single human
+populations, we find that the sequence-based methods (\MSMC and \smcpp)
+perform somewhat better overall---at least for mid-range values of
+$t$---than the site frequency spectrum-based method (\stairwayplot)
+(Figures~\ref{fig:n_t_ragsdale} and~\ref{fig:n_t_gutenkunst}), which
+tends to over-estimate the size of oscillations.  By contrast,
+\stairwayplot outperforms the sequence-based methods
+on simulations of \textit{D.~melanogaster} populations,
+in which linkage disequilibrium is considerably reduced (Figure~\ref{fig:n_t_sheehan}).
+In simulations of two human populations
+(Figure~\ref{fig:IM_popn_human}), most methods do reasonably well at
+reconstructing the YRI history, but struggle with the more complex CEU
+history, in large part because of the restriction of constant sizes per
+population.  An exception is \smcpp, which does not have the same
+restrictions on its inferred history, and as a result does somewhat better
+with the CEU history but tends to overfit the YRI history.  The results for
+the two-population \textit{D.~melanogaster} case (Figure~\ref{fig:two_popn_fly})
+are generally similar.  
 
-We have shown in the results above how \stdpopsim can be used for direct comparisons
-of inferential methods on a common set of simulations. While we have not made a concerted
-effort at benchmarking methods yet, we believe that this would be an important goal for
-the PopSim Consortium and population genetics more broadly. The analysis workflows that
-we have released as part of \stdpopsim should provide a cookbook for the community to
-dive in to more rigorous benchmarking than we have done thus far.
-
-In the use case comparisons we have performed,
-we found that the methods tested \emph{do} generally perform well on human genomes,
-up to, for instance, the usual factor-of-two differences in inferred population sizes.
-This will not be surprising to people familiar with the landscape of
-demographic inference methods in population genetics,
-but the nature and scale of uncertainty may be not clear to people new to the field.
-The ability for \stdpopsim to generate data with and without significant features, such
-as the genetic map or population size change (e.g., Figure \ref{fig:n_t_HomSap_constant}), allows
-us to ask directly about the various failure modes of popular methods.
+Altogether, these preliminary experiments highlight
+the utility of \stdpopsim for comparing a variety of inference methods on
+the same footing, under a variety of different demographic models.
+In addition, the ability of \stdpopsim to generate data with and without significant features, such
+as a genetic map or population size change (e.g., Figure \ref{fig:n_t_HomSap_constant}), allows
+investigation of the failure modes of popular methods.
 Moreover the comparison of methods across the various genome organizations, genetic maps,
 and demographic histories of different organisms, provides valuable information
 about how methods might perform on non-human systems.
-In our initial comparison we find that inference of population histories from simulated \emph{Drosophila}
-or \emph{Arabidopsis} genomes is a fair bit more difficult from SMC based methods
-% RNG: No Arabidopsis results are presented in this paper
-than in the human genome. Likely this is at least partly a consequence of the reduced physical and genetic
-map lengths of these genomes, although we leave further investigation of this to the future.
-Finally, comparison of results across methods or simulation runs
-gives a strong estimate of inference uncertainty, analogous to parametric
-bootstrapping---although different methods have different strengths and weaknesses,
-strong conclusions should probably not rest entirely on features inferred by only one method.
 
-The broad brush comparisons we have done, while far from exhaustive, are informative,
-and highlight the utility of easy comparison of methods on the same footing.
-The tests here were under best-case scenarios---simulations of discrete,
-randomly mating populations that fit the assumptions of the methods nearly
-exactly---and yet different methods, as well as applications of the same method
-to different simulations of the same model,
-produced somewhat different results. Future efforts will extend the resource described here to
-encompass additional population genetic tasks, such as detecting natural selection, inferring
-recombination rates, etc, in hopes of producing a general-purpose resource for fair and
-standardized evaluation of the ever-increasing arsenal of computational population genetic
-inference tools.
+Finally, comparison of results across methods or simulation runs
+provides an estimate of inference uncertainty, analogous to parametric
+bootstrapping,
+especially since different methods are likely vulnerable to model misspecification
+in different ways.
+
+\stdpopsim is intended to be a fully open, community-developed project.  
+Our implementations of genome representations and genetic maps for the some of
+the most common study systems in computational genetics---humans, \textit{Drosophila},
+and \textit{Arabidopsis} (among others)---are only intended to be a starting point for
+future development.  In addition to other taxa,
+we hope to soon incorporate other common biological processes
+such as selection, gene conversion, and mutational heterogeneity.
+Researchers are invited to contribute to the resource by adding their
+organisms and models of choice. The \stdpopsim resource is
+accompanied by clearly documented standard operating procedures that are
+intended to minimize barriers to entry for new developers.  In this way, we
+expect the resource to expand and adapt to meet the evolving needs of the
+population genomics community.  
 
 %\adk{should we mention benchmarking of tree sequence inference here? what else?}
 
