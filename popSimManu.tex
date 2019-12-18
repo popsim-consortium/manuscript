@@ -77,7 +77,7 @@ the degree of sophistication of the questions, models, data, and computational a
 used have all increased over the past decade. Currently there exist myriad computational methods
 that can infer the histories of populations
 \citep{gutenkunst2009inferring,li2011inference,excoffier2013robust,schiffels2014inferring, terhorst2017robust,ragsdale2019models},
-the distribution of fitness effects \citep{kim2017inference},
+the distribution of fitness effects \citep{kim2017inference,tataru2017inference},
 recombination rates \citep{chan2012genome,lin2013fast,Adrion662247},
 and the extent of positive selection in genome sequence data
 \citep{eyre2009estimating, alachiotis2012omegaplus,degiorgio2016sweepfinder2,kern2018diplos,sugden2018localization}.
@@ -86,7 +86,8 @@ impacts of genetic and evolutionary processes, very little has been done to syst
 benchmark the quality of inferences gleaned from computational population genetics.
 As large databases of population genetic variation begin to be used to inform public health procedures,
 the accuracy and quality of these inferences is becoming even more important.
-This is in large part because ``ground-truth'' in population genetics comes from simulation,
+Assessing accuracy in population genetics is challenging in large part because
+ ``ground-truth'' in population genetics comes from simulation,
 not from empirical observations, and as a field there has been no agreement as to what should
 constitute community standards or best practices. The general modus operandi to date has been to
 introduce methods that are validated by a set of bespoke simulations produced by individual
@@ -103,8 +104,6 @@ and select the best tool for a given task, thereby substantially increasing the 
 The degree to which modeling assumptions and choices of data summaries can affect the ultimate results of population genetic inference has been challenging to assess. Yet there
 have been several clear examples of different methods yielding fundamentally
 different conclusions. For example, Markovian coalescent methods applied to human genomes have
-% JK is this right? > 100 years doesn't sound very ancient to me.
-% RNG: Fixed time and removed unexplained acronyms.
 suggested large ancient ($>100,000$ years ago) ancestral population sizes and
 bottlenecks that have not been detected by methods based on allele frequency spectra
 \citep[see][]{beichman2017comparison}.
@@ -157,7 +156,7 @@ for simulating published demographic models from a number of popular study syste
 This resource, which we call \texttt{stdpopsim}, makes running
 realistic simulations for population genetic analysis a simple matter of
 choosing pre-implemented models from a community-maintained catalog.
-The \stdpopsim catalog currently contains five organisms: humans, orangutans,
+The \stdpopsim catalog currently contains five organisms: humans, \emph{P. pygmaeus},
 \emph{D.~melanogaster}, \emph{A.~thaliana}, and \emph{E.~coli}. For each
 organism the catalog contains details on the physical organization (e.g., chromosome structure)
 of their genomes, one or more genetic maps, default population-level parameters (mutation rate,
@@ -172,8 +171,8 @@ to continue its growth and maintain its accuracy.
 Importantly, we have rigorous quality control methods to ensure implemented models are accurate
 and have documented methods for others to contribute new modules.
 We invite new collaborators to join our community.
-Below we describe the resource and give an
-example of how it can be used to benchmark demographic inference methods.
+Below we describe the resource and give
+examples of how it can be used to benchmark demographic inference methods.
 
 \begin{figure}[t]
 \begin{center}
@@ -200,7 +199,8 @@ The central contribution of the PopSim consortium currently is \stdpopsim, a
 community-maintained library of empirical genome data and population genetics simulation
 models, providing easy access to realistic simulations. Figure \ref{fig:cartoon} shows a graphical
 representation of the structure of \stdpopsim. The package centers
-on a catalog of species (Fig. \ref{fig:cartoon}A), initially consisting of humans, \emph{D.~melanogaster}, \emph{A.~thaliana}, \emph{E.~coli}, and\emph{P.~abelii}.
+on a catalog of species (Fig. \ref{fig:cartoon}A), initially consisting of humans, \emph{P.~abelii}, 
+\emph{D.~melanogaster}, \emph{A.~thaliana}, and \emph{E.~coli}.
 % RNG: Abbreviate consistently with introduction
 A species definition consists of two key elements.  Firstly, the library defines
 some basic information about the species' genome, including information about chromosome
@@ -214,7 +214,7 @@ deCODE~\citep{kong2010fine} genetic maps. The second key element of a species de
 within \stdpopsim is a set of carefully curated population genetic model
 descriptions from the literature, which are the basis for accurate simulations
 of specific historical scenarios that have influenced present-day patterns of
-genetic polymorphism.
+genetic variation.
 
 Given the genome data and simulation model descriptions defined within the
 library, it is then straightforward to run accurate, standardized simulations
@@ -228,7 +228,7 @@ extremely compact, and can be processed efficiently using the \tskit library
 \stdpopsim uses the  \texttt{msprime} coalescent simulator \citep{kelleher2016efficient}
 as the default simulation engine. We plan to include other simulation
 engines to support scenarios that cannot be modelled under the coalescent framework,
-and we have already implemented \texttt{SLiM} \citep{haller2019slim} as
+and have already implemented \texttt{SLiM} \citep{haller2019slim} as
 an alternative back-end.
 
 The \stdpopsim command line interface, by default, outputs citation information
@@ -241,8 +241,7 @@ Together with the \stdpopsim version number, this citation information will resu
 \subsection*{The \stdpopsim Catalog}
 The current contents of the \stdpopsim catalog are shown in \autoref{tab:catalog}. At the time of
 writing, the PopSim Consortium has implemented previously published demographic models for
-humans, \emph{Drosophila}, and \emph{Arabidopsis}.
-% RNG: Pongo added by submission?
+humans, \emph{Pongo}, \emph{Drosophila}, and \emph{Arabidopsis}.
 These range from
 simple, single population histories \cite[e.g.,][]{sheehan2016deep},
 to complex models which include population splitting, migration, and archaic
@@ -289,7 +288,6 @@ population sizes.
 As an example of the utility of \stdpopsim, we demonstrate how it can be used
 to simply and fairly compare popular demographic inference methods.
 Although we present comparison of results from several
-% RNG: Not competitors... We complement each other ;-)
 methods, our aim at this stage is not to provide an exhaustive
 evaluation or ranking of these methods. Our hope is instead that future work built upon this resource
 will enable more detailed exploration of the strengths and weaknesses of the numerous
@@ -336,7 +334,9 @@ for the rate of coalescence in the demographic model.}
 % JK here --- I think it would really help if we described what the models
 % were, briefly, rather than saying who inferred them.
 In Figure \ref{fig:n_t_ragsdale} we present results from our $N(t)$ analysis pipeline
-run on whole genome simulations under an empirical genetic map and a model of human migration out of Africa that includes archaic admiture \citep{ragsdale2019models}. In each column of this figure
+run on whole genome simulations under under a sophisticated demographic model
+and empirical genetic map and a model of human migration out of Africa
+that includes archaic admiture \citep{ragsdale2019models}. In each column of this figure
 we show inferred $N(t)$ for the three extant populations in the model.
 In each row we show comparisons among the methods (note that we compare two differing
 sample sizes for \MSMC).
@@ -354,9 +354,9 @@ models it is interesting to note that $N(t)$ estimates for the CHB and CEU
 simulated populations are generally better across methods than estimates from the YRI
 simulated population.
 
-We can even do away with the demographic model entirely and simulate under a human
-genome architecture and genetic map to see how well methods might do at recovering
-the population history of a constant sized population. We show results of such an
+To see how well methods might do at recovering the population history of a constant sized population,
+we can simulate under a human genome architecture and genetic map, but without demography.
+We show results of such an
 experiment in Figure \ref{fig:n_t_HomSap_constant}. Again we see that all methods
 are recovering a modern population size within a factor of two of the truth, however
 SMC-based methods, perhaps due to their regularization, tend to learn sinusoidal
@@ -408,9 +408,9 @@ the bottom, with a common X-axis to the population size panels.}
 
 \paragraph*{Multi-population demographic models}
 As \texttt{stdpopsim} implements multi-population demographic models, we also
-explored two population inference with several popular methods. Specifically,
-we performed simulations under multi-population models for humans and \emph{Drosophila}
-and inferred demographic parameters using \dadi, \fastsimcoal, and \smcpp.
+explored parameter estimation of population divergence parameters. In particular,
+we simulated data under multi-population models for humans and \emph{Drosophila}
+and then inferred  parameters using \dadi, \fastsimcoal, and \smcpp.
 For simplicity, we conducted inference in \dadi and \fastsimcoal by fitting an isolation with migration (IM) model
 with constant population sizes and bi-directional migration \citep{hey2004im}. Our motivation for using
 an IM model was to mimic the approach often used on empirical datasets, where a relatively
@@ -453,7 +453,7 @@ under a wider range of simulated demographic models.
 \section*{Discussion}
 
 Here we have described what we view as the first product from the PopSim Consortium:
-the \stdpopsim library. We have founded the Consortium with a number of specific aims
+the \stdpopsim library. We have founded the Consortium with a number of specific goals
 in mind: standardization of simulation within the computational genetics community,
 increasing reproducibility of simulation based results, community-based development and
 decision making in guiding best practices in population genetics, and eventual benchmarking
