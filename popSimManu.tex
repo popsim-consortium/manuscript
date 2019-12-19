@@ -528,13 +528,15 @@ time, for each of the inference methods, using samples drawn from African and Eu
 simulated under the \cite{gutenkunst2009inferring} model. Our results highlight many
 of the strengths and weaknesses of the different types of methods we used.
 For instance, the SFS-based approaches where we fit simple IM models do not capture
-recent exponential growth in the CEU population, however do consistently recover the
+recent exponential growth in the CEU population, but do consistently recover the
 simulated YRI population size history. Moreover, these approaches allow for estimating
 migration rates (Figure \ref{fig:homsap_mig_rates}), also leading to more accurate inference
-of divergence times. By contrast, \smcpp is much better at capturing the recent exponential
+of divergence times. However, these migration rate estimates are somewhat biased likely
+due to model misspecification (Figure \ref{fig:homsap_mig_rates}).
+By contrast, \smcpp is much better at capturing the recent exponential
 growth in the CEU population, though the inferred population sizes are in general more
 noisy. In addition, the assumption of no migration by \smcpp leads to divergence time
-estimates that are consistently underestimated.
+estimates that are consistently underestimated (Figure \ref{fig:IM_popn_human}C).
 
 Again, we can compare between species and look at the performance of these methods in
 the context of a two-population model from \emph{D. melanogaster}. Figure
@@ -543,9 +545,11 @@ the model of \cite{li2006inferring}, which includes
 an ancestral population in Africa, then a population expansion with a population
 split and bottleneck into a European population with no post-divergence migration.
 Here again, we find that \dadi and \fastsimcoal are more consistent in their inferred
-parameters, but ignore the brief population bottleneck in Europe. The inferred
-demographic parameters from \smcpp are more noisy, though in some cases are better
-able to capture the bottleneck in the Europe population.
+parameters, but ignore the brief population bottleneck in Europe. In addition, \dadi
+and \fastsimcoal both do reasonably well at correctly inferring the absence of
+migration (Figure \ref{fig:dromel_mig_rates}). By contrast, the inferred
+demographic parameters from \smcpp are more noisy, though in some cases better
+capture the short bottleneck in the Europe population.
 
 Although these results do not represent an exhaustive benchmarking,
 we have highlighted some of the strengths and weaknesses of these methods.
@@ -764,13 +768,14 @@ data, where the user is not aware of the `true' underlying demography and the in
 model is often misspecified. To ground-truth our inference approach, we also conducted
 inference on a generic IM model that was identical to the model used for inference \ref{fig:generic_IM}.
 
-From HomSap we ran replicate whole genome simulations under the model
-and specified taking 20 samples each from the Europe and Africa populations.
-For DroMel, runtimes under OutOfAfrica\_2L06 were prohibitively slow when simulating whole genomes.
-For this reason, we chose to present only data from 3 Mb of chromosome 2R for simulations
-under OutOfAfrica\_2L06.
+From HomSap we ran replicate whole genome simulations under the OutOfAfrica\_3G09 model
+with the HapmapII\_GRCh37 genetic map, taking 20 samples each from the Europe and Africa populations.
+For DroMel, runtimes under OutOfAfrica\_2L06 were prohibitively slow when simulating whole genomes
+with the Comeron2012\_dm6 map due to the large effective population sizes leading to
+high effective recombination rates. For this reason, we chose to present only data
+from 3 Mb of chromosome 2R for simulations under OutOfAfrica\_2L06.
 For the generic IM simulations, we used the HomSap genome along with the
-HapmapII\_GRCh37 genetic map, and sampled 20 individuals from each population.
+HapmapII\_GRCh37 genetic map and sampled 20 individuals from each population.
 
 Following simulation, we outputted tree sequences and masked low-recombination
 regions using the same approach described for the single population pipeline above. We
