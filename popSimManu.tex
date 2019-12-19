@@ -33,16 +33,72 @@
 \newcommand{\adk}[1]{\textcolor{red}{ADK: #1}}
 
 \usepackage[hidelinks]{hyperref}
+\usepackage[blocks]{authblk}
+\renewcommand\Affilfont{\small}
+\makeatletter
+\renewcommand\AB@affilsepx{, \protect\Affilfont}
+\makeatother
+\usepackage[utf8]{inputenc}
 
 \begin{document}
 
 \title{A community-maintained standard library of population genetic simulations}
+% First authors
+\author[1,$\star$]{Jeffrey R. Adrion}
+\author[2,$\star$]{Christopher B. Cole}
+\author[3,$\star$]{Noah Dukler}
+\author[1,$\star$]{Jared G. Galloway}
+\author[4,$\star$]{Ariella L. Gladstein}
+\author[5,$\star$]{Graham Gower}
+\author[6,$\star$]{Christopher C. Kyriazis}
+\author[7,$\star$]{Aaron P. Ragsdale}
+\author[8,$\star$]{Georgia Tsambos}
+% Second Authors
+\author[9]{Franz Baumdicker}
+\author[10]{Jedidiah Carlson}
+\author[11]{Reed A. Cartwright}
+\author[12]{Arun Durvasula}
+\author[13]{Bernard Y. Kim}
+\author[14]{Patrick McKenzie}
+\author[15]{Philipp W. Messer}
+\author[16]{Ekaterina Noskova}
+\author[17]{Diego Ortega-Del Vecchyo}
+\author[18]{Fernando Racimo}
+\author[19]{Travis J. Struck}
+%Senior Authors
+\author[7,$\dagger$]{Simon Gravel}
+\author[19,$\dagger$]{Ryan N. Gutenkunst}
+\author[6,$\dagger$]{Kirk E. Lohmeuller}
+\author[1,$\dagger$]{Peter L. Ralph}
+\author[4,$\dagger$]{Daniel R. Schrider}
+\author[3,$\dagger$]{Adam Siepel}
+\author[20,$\dagger$,$\aleph$]{Jerome Kelleher}
+\author[1,$\dagger$,$\aleph$]{Andrew D. Kern}
 
-\author{%
-\name{The PopSim Consortium}
-\address{}
-\email{}}
+\affil[1]{Department of Biology and Institute of Ecology and Evolution, University of Oregon}
+\affil[2]{Wellcome Trust Centre for Human Genetics, University of Oxford}
+\affil[3]{Simons Center for Quantitative Biology, Cold Spring Harbor Laboratory}
+\affil[4]{Department of Genetics, University of North Carolina at Chapel Hill}
+\affil[5]{Lundbeck GeoGenetics Centre, GLOBE Institute, University of Copenhagen}
+\affil[6]{Department of Ecology and Evolutionary Biology, University of California, Los Angeles}
 
+\affil[7]{Department of Human Genetics, McGill University}
+\affil[8]{Melbourne Integrative Genomics, School of Mathematics and Statistics, University of Melbourne}
+\affil[9]{Department of Mathematical Stochastics, University of Freiburg}
+\affil[10]{Department of Genome Sciences, University of Washington}
+\affil[11]{The Biodesign Institute and The School of Life Sciences, Arizona State University}
+\affil[12]{Department of Human Genetics, David Geffen School of Medicine, University of California, Los Angeles}
+\affil[13]{Department of Biology, Stanford University}
+\affil[14]{Department of Ecology, Evolution, and Environmental Biology, Columbia University}
+\affil[15]{Department of Computational Biology, Cornell University}
+\affil[16]{Computer Technologies Laboratory, ITMO University}
+\affil[17]{International Laboratory for Human Genome Research, National Autonomous University of Mexico}
+\affil[18]{Globe Institute, University of Copenhagen}
+\affil[19]{Department of Molecular and Cellular Biology, University of Arizona}
+\affil[20]{Big Data Institute, Oxford Unviersity}
+\affil[$\star$]{Denotes shared first authorship, listed alphabetically}
+\affil[$\dagger$]{Denotes shared senior authorship, listed alphabetically}
+\affil[$\aleph$]{Denotes corresponding authors, listed alphabetically}
 % JK: didn't bother with the \texttt stuff for stdpopsim in the abstract as it's nearly
 % always dropped in production anyway.
 
@@ -64,7 +120,7 @@ can be used to systematically compare demographic inference methods,
 and we encourage an even broader
 community of developers to join in the effort to standardize
 population genetic methods.}
-\date{\today}
+\date{}
 
 \keywords{Population genetics, Simulation, Inference}
 
