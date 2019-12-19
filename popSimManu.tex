@@ -45,7 +45,7 @@
 
 \begin{document}
 
-\title{A community-maintained standard library of population genetic simulations}
+\title{A community-maintained standard library of population genetic models}
 % First authors
 \author[1,$\star$]{Jeffrey R. Adrion}
 \author[2,$\star$]{Christopher B. Cole}
@@ -221,9 +221,8 @@ for simulating published demographic models from a number of popular study syste
 This resource, which we call \stdpopsim, makes running
 realistic simulations for population genetic analysis a simple matter of
 choosing pre-implemented models from a community-maintained catalog.
-The \stdpopsim catalog currently contains five organisms: humans, \emph{Pongo~pygmaeus},
-\emph{Drosophila~melanogaster}, \emph{Arabidopsis~thaliana}, and \emph{Escherichia~coli}. For each
-% CK: i think we should spell out genus at first mention.
+The \stdpopsim catalog currently contains three organisms: humans,
+\emph{Drosophila~melanogaster}, and \emph{Arabidopsis~thaliana}. For each
 organism the catalog contains details on the physical organization (e.g., chromosome structure)
 of their genomes, one or more genetic maps, default population-level parameters (mutation rate,
 generation time) and one or more published demographic histories. Through
@@ -259,8 +258,8 @@ The first contribution of the PopSim consortium is \stdpopsim, a
 community-maintained library of empirical genome data and population genetics simulation
 models. Figure \ref{fig:cartoon} shows a graphical
 representation of the structure of \stdpopsim. The package centers
-on a catalog of species (Fig. \ref{fig:cartoon}A), initially consisting of humans, \emph{P.~pygmaeus},
-\emph{D.~melanogaster}, \emph{A.~thaliana}, and \emph{E.~coli}.
+on a catalog of species (Fig. \ref{fig:cartoon}A), initially consisting of humans,
+\emph{D.~melanogaster}, \emph{A.~thaliana}.
 % RNG: Abbreviate consistently with introduction
 A species definition consists of two key elements.  Firstly, the library defines
 some basic information about the species' genome, including information about chromosome
@@ -316,7 +315,8 @@ used.
 \subsection*{The \stdpopsim Catalog}
 The current contents of the \stdpopsim catalog are shown in \autoref{tab:catalog}. At the time of
 writing, the PopSim Consortium has implemented previously published demographic models for
-humans, \emph{Pongo}, \emph{Drosophila}, and \emph{Arabidopsis}.
+humans, \emph{Drosophila}, and \emph{Arabidopsis}, 
+and we have models in development for \emph{Pongo abelii} and \emph{Escherichia coli}.
 These range from
 simple, single population histories \cite[e.g.,][]{sheehan2016deep},
 to complex models which include population splitting, migration, and archaic
@@ -360,7 +360,8 @@ contain features believed to have widespread impacts in real data (e.g. bottlene
 admixture) and are therefore highly pertinent in the context of method development.
 
 For non-human genomes we have have implemented two demographic histories for
-\emph{D. melanogaster}, three from \emph{A. thaliana}, an one each from \emph{P. pygmaeus} and \emph{E. coli}.
+\emph{D. melanogaster}, three from \emph{A. thaliana}, and have under development
+model for \emph{P. abelii} and \emph{E. coli}.
 For \emph{D. melanogaster} we have implemented the three-epoch model estimated by \cite{sheehan2016deep} from
 an African sample, as well as the out-of-Africa divergence
 and associated bottleneck model of \cite{li2006inferring} which jointly models African
@@ -368,9 +369,11 @@ and European populations. For \emph{A. thaliana}, we implemented the
 model in \cite{durvasula2017african} inferred using \MSMC. This model includes
 a continuous change in population size over time, rather than pre-specified epochs of different
 population sizes. We have also implemented a two epoch and a three epoch model estimated from African
-samples of \emph{A. thaliana} in \cite{huber2018gene}. For \emph{P. pygmaeus} we have implemented the two
-species divergence model of \cite{locke2011comparative}, which models isolation with migration between \emph{P. pygmaeus}
-and \emph{P. abelii}. For \emph{E. coli} we have a simple, large constant population size model implemented.
+samples of \emph{A. thaliana} in \cite{huber2018gene}. 
+%For \emph{P. pygmaeus} we have implemented the two
+%species divergence model of \cite{locke2011comparative}, which models isolation with migration between \emph{P. pygmaeus}
+%and \emph{P. abelii}. 
+%For \emph{E. coli} we have a simple, large constant population size model implemented.
 Beyond organism specific models \stdpopsim also includes a generic piecewise constant size model and
 isolation with migration (IM) model which can be used with any genome and genetic map combination.
 
