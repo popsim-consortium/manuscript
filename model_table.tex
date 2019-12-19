@@ -1,22 +1,45 @@
-\begin{tabular}{lllll}
-\hline
-\multicolumn{5}{l}{ Homo sapiens (homsap) } \\
-\hline
-ooa\_3& Three population out-of-Africa& [x]& 12.2s& 173.3 MB\\
-ooa\_2& Two population out-of-Africa& [x]& 12.8s& 189.7 MB\\
-african& African population& [x]& 10.7s& 182.6 MB\\
-america& American admixture& [x]& 11.1s& 177.1 MB\\
-ooa\_archaic& Three population out-of-Africa with archaic admixture& [x]& 9.5s& 174.9 MB\\
-zigzag& Periodic growth and decline.& [x]& 3.5s& 100.4 MB\\
-kamm\_ancient\_eurasia& Multi-population model of ancient Eurasia (Kamm et al. 2019)& [x]& 68.8s& 281.4 MB\\
-\hline
-\multicolumn{5}{l}{ Drosophila melanogaster (dromel) } \\
-\hline
-afr\_3epoch& Three epoch African population& [x]& 0.5s& 59.9 MB\\
-ooa\_2& Three epoch model for African and European populations& [x]& 0.7s& 68.8 MB\\
-\hline
-\multicolumn{5}{l}{ Arabidopsis thaliana (aratha) } \\
-\hline
-SMA\_1pop& South Middle Atlas population size history& [x]& 147.4s& 317.1 MB\\
-Afr\_2epoch& African two epoch model& [x]& 407.2s& 359.7 MB\\
+\begin{tabular}{lllS[table-format=3.1]S[table-format=3.1]S[table-format=2.1]}
+\toprule
+& Model ID & Citation & 
+\multicolumn{1}{c}{ CPU(s) } 
+&
+\multicolumn{1}{c}{ RAM(MB) } 
+&
+\multicolumn{1}{c}{ File(MB) } 
+\\
+\midrule
+\multicolumn{6}{l}{ HomSap (\emph{Homo sapiens}) } \\
+&
+Africa\_1T12& \cite{tennessen2012evolution} & 10.2& 191.3& 23.3\\
+&
+Zigzag\_1S14& \cite{schiffels2014inferring} & 3.4& 103.5& 7.9\\
+&
+OutOfAfrica\_3G09& \cite{gutenkunst2009inferring} & 11.4& 181.6& 21.4\\
+&
+OutOfAfrica\_2T12& \cite{tennessen2012evolution} & 12.4& 200.4& 24.7\\
+&
+AncientEurasia\_9K19& \cite{kamm2019efficiently} & 64.8& 303.1& 41.2\\
+&
+AmericanAdmixture\_4B11& \cite{browning2018ancestry} & 10.6& 185.0& 22.3\\
+&
+OutOfAfricaArchaicAdmixture\_5R19& \cite{ragsdale2019models} & 9.1& 182.1& 21.7\\
+\midrule
+\multicolumn{6}{l}{ DroMel (\emph{Drosophila melanogaster}) } \\
+&
+OutOfAfrica\_2L06& \cite{li2006inferring} & 0.6& 66.7& 1.6\\
+&
+African3Epoch\_1S16& \cite{sheehan2016deep} & 0.5& 58.8& 0.2\\
+\midrule
+\multicolumn{6}{l}{ AraTha (\emph{Arabidopsis thaliana}) } \\
+&
+African2Epoch\_1H18& \cite{huber2018gene} & 379.5& 358.2& 50.7\\
+&
+African3Epoch\_1H18& \cite{huber2018gene} & 187.1& 399.5& 58.0\\
+&
+SouthMiddleAtlas\_1D17& \cite{durvasula2017african} & 141.1& 315.8& 43.1\\
+\midrule
+\multicolumn{6}{l}{ PonPyg (\emph{Pongo pygmaeus}) } \\
+&
+TwoSpecies\_2L11& \cite{locke2011comparative} & 9.2& 170.0& 15.5\\
+\bottomrule
 \end{tabular}

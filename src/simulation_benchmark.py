@@ -49,15 +49,15 @@ def main():
     seed = 42
 
     data = {"species": [], "model": [], "cpu_time": [], "ram": [], "file_size": []}
-    for species_id in ["homsap", "dromel", "aratha"]:
+    for species_id in ["PonPyg", "HomSap", "DroMel", "AraTha"]:
         species = stdpopsim.get_species(species_id)
         # Get the shortest chromosome
         chrom = sorted(species.genome.chromosomes, key=lambda x: x.length)[0]
         assert chrom.recombination_rate > 0
-        for model in species.models:
+        for model in species.demographic_models:
             with tempfile.NamedTemporaryFile() as out:
                 cmd = (
-                    f"{species_id} -m {model.id} -c {chrom.id} {num_samples} "
+                    f"{species_id} -d {model.id} -c {chrom.id} {num_samples} "
                     f"-s {seed} -o {out.name}")
                 cpu_time, ram = time_cmd(["stdpopsim"] + cmd.split())
                 file_size = os.path.getsize(out.name)
