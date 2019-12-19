@@ -165,9 +165,7 @@ standards or best practices for executing them. Instead, the general modus
 operandi to date has been for individual groups to validate their own
 methods using bespoke simulations. 
 Often these studies focus more on showcasing a novel method than on
-rigorously comparing it with competing methods.
 Moreover, this approach results in a great deal of duplicated effort across research
-groups, and contributes to decreased reproducibility and transparency.
 It is also a barrier to entry to the field, because new researchers can
 struggle with 
 the many steps involved
@@ -175,6 +173,8 @@ in implementing a state-of-the-art population genetics simulation,
 including identifying appropriate demographic models from the literature, 
 translating them into input for a simulator, obtaining appropriate genetic
 maps, and choosing appropriate values for key population genetic parameters.
+groups, and contributes to decreased reproducibility and transparency.
+rigorously comparing it with competing methods.
 
 A related issue is that it has been challenging to assess the degree to which modeling assumptions
 and choices of data summaries can affect population
@@ -277,10 +277,10 @@ contains complete genealogical information about the simulated samples, is
 extremely compact, and can be processed efficiently using the \tskit library
 \citep{kelleher2016efficient,kelleher2018efficient}. Currently,
 \stdpopsim uses the  \texttt{msprime} coalescent simulator \citep{kelleher2016efficient}
-as the default simulation engine. We plan to include other simulation
-engines to support scenarios that cannot be modeled under the coalescent framework,
-and have already implemented \texttt{SLiM} \citep{haller2019tree,haller2019slim} as
-an additional backend.
+as the default simulation engine. 
+We have implemented \texttt{SLiM} \citep{haller2019tree,haller2019slim}
+as an alternative backend,
+to allow simulation of processes that cannot be modeled under the coalescent.
 
 The \stdpopsim command line interface, by default, outputs citation information
 for the models, genetic maps and simulation engines used in any particular run.
@@ -391,9 +391,9 @@ For single-population population size histories, we compared
 \MSMC~\citep{schiffels2014inferring}, \smcpp~\citep{terhorst2017robust}, and
 \stairwayplot~\citep{liu2015exploring}
  on simulated genomes sampled from a single population,
-in a number of the demographic models described above. The pipeline was generalized to
+in a number of the demographic models described above. The workflow was generalized to
 run $R$ replicates with $C$ chromosomes for $n$ samples, for a total of $R \times C$
-simulations for each demographic model. After simulation, the pipeline prepares
+simulations for each demographic model. After simulation, the workfow prepares
 input files for each of the respective inference methods by grouping all
 chromosomes, for each sample, into a single file. For each of the $R$ simulation replicates, this step results in an
 input file for each of the
@@ -426,6 +426,7 @@ a model of human migration out of Africa that includes archaic admixture
 we show inferred $N(t)$ for the three extant populations in the model.
 In each row we show comparisons among the methods (note that we compare two differing
 sample sizes for \MSMC).
+% ALG: I still think this sentence is confusing.
 There is no single ``true'' reference for effective population size
 because of model misspecification---the inference methods are fitting a single population model
 to data simulated from mulitple populations.
@@ -452,7 +453,7 @@ To see how well methods might do at recovering the population history of a const
 we can simulate under a human genome architecture and genetic map, but without demography.
 We show results of such an
 experiment in Figure \ref{fig:n_t_HomSap_constant}. Again we see that all methods
-are recovering a modern population size within a factor of two of the truth, however
+recover a modern population size within a factor of two of the truth, however
 SMC-based methods, perhaps due to their regularization, tend to learn sinusoidal
 patterns of population size even though no change is present.
 
@@ -527,8 +528,8 @@ migration rates (Figure \ref{fig:homsap_mig_rates}), also leading to more accura
 of divergence times. However, these migration rate estimates are somewhat biased likely
 due to model misspecification (Figure \ref{fig:homsap_mig_rates}).
 By contrast, \smcpp is much better at capturing the recent exponential
-growth in the CEU population, though the inferred population sizes are in general more
-noisy. In addition, the assumption of no migration by \smcpp leads to divergence time
+growth in the CEU population, though the inferred population sizes are in generally noisier. 
+In addition, the assumption of no migration by \smcpp leads to divergence time
 estimates that are consistently underestimated (Figure \ref{fig:IM_popn_human}C).
 
 Again, we can compare between species and look at the performance of these methods in
@@ -554,7 +555,7 @@ under a wider range of simulated demographic models.
 
 Here we have described the first major product from the PopSim Consortium:
 the \stdpopsim library. We have founded the Consortium with a number of specific goals in mind:
-standardization of simulation within the computational genetics community,
+standardization of simulation within the population genetics community,
 increasing reproducibility and ease of use of complex simulation based results,
 community-based development and decision making guiding best practices in population genetics,
 and eventual benchmarking of inferential methods.
@@ -571,6 +572,7 @@ will prove to be an equally longstanding and valuable tradition in population ge
 % All of the important points are made below (even with some of the same
 % phrases, such as "barriers to entry") and I think it is needlessly
 % redundant.
+% ALG: I'm not sure about that. I don't really see that it's covered below.
 
 %Individual research groups are often in the position of having to independently
 %reimplement complex, previously published demographic models.
@@ -594,9 +596,10 @@ on simulations of \textit{D.~melanogaster} populations,
 in which linkage disequilibrium is considerably reduced (Figure~\ref{fig:n_t_sheehan}).
 In simulations of two human populations
 (Figure~\ref{fig:IM_popn_human}), most methods do reasonably well at
-reconstructing the YRI history, but struggle with the more complex CEU
+reconstructing the simulated YRI history, but struggle with the more complex simulated CEU
 history, in large part because of the restriction of constant sizes per
-population.  An exception is \smcpp, which does not have the same
+population.  
+An exception is \smcpp, which does not have the same
 restrictions on its inferred history, and as a result does somewhat better
 with the CEU history but tends to overfit the YRI history.  The results for
 the two-population \textit{D.~melanogaster} case (Figure~\ref{fig:two_popn_fly})
@@ -632,6 +635,9 @@ expect the resource to expand and adapt to meet the evolving needs of the
 population genomics community.
 
 %\adk{should we mention benchmarking of tree sequence inference here? what else?}
+% ALG: Mention in what way?
+
+% ALG: I think the paragraph below has unnecessary detail that we don't need at this point.
 
 % \paragraph{The problem of comparison} % Moved from the intro
 % Benchmarking the performance of inference methods in population genetics is not straightforward.
@@ -664,14 +670,18 @@ As a consortium we have agreed to a standardized procedure for model inclusion
 into \stdpopsim that allows for rigorous quality control. Imagine Developer A
 wants to introduce a new model into \stdpopsim. Developer A implements the
 demographic model for the relevant organism along with clear documentation
-of the model parameters and populations. This model is submitted as a Pull Request,
+of the model parameters and populations. 
+% ALG: I’m not sure what documentation of populations means. 
+This model is submitted on GitHub as a Pull Request,
 where it is evaluated by a reviewer and then included as `preliminary',
 but is not linked to the online documentation nor the command line interface.
-Inclusion of a preliminary model triggers a QC issue, and a second developer,
+Inclusion of a preliminary model 
+% ALG: automatically?
+triggers a QC issue, and a second developer,
 Developer B, then independently reimplements the model from the relevant
 primary sources and adds an automatic unit test for equality between the
-QC implementation and the preliminary production model. If the two
-implementations are equal the original model is included in \stdpopsim.
+QC implementation and the preliminary production model. 
+If the two implementations are equal the original model is included in \stdpopsim.
 If not, we move to an arbitration process whereby A and B first try
 to work out the details of what went wrong. If that fails, the original
 authors of the published model must be contacted
@@ -761,7 +771,7 @@ data, where the user is not aware of the `true' underlying demography and the in
 model is often misspecified. To ground-truth our inference approach, we also conducted
 inference on a generic IM model that was identical to the model used for inference \ref{fig:generic_IM}.
 
-From HomSap we ran replicate whole genome simulations under the OutOfAfrica\_3G09 model
+For HomSap we ran replicate whole genome simulations under the OutOfAfrica\_3G09 model
 with the HapmapII\_GRCh37 genetic map, taking 20 samples each from the Europe and Africa populations.
 For DroMel, runtimes under OutOfAfrica\_2L06 were prohibitively slow when simulating whole genomes
 with the Comeron2012\_dm6 map due to the large effective population sizes leading to
@@ -780,6 +790,7 @@ on the popgensims/analysis GitHub repository (\url{https://github.com/popgensims
 The parameter estimates from the top run of each simulation replicate
 are shown in Figures \ref{fig:IM_popn_human}C and \ref{fig:two_popn_fly}C.
 
+% ALG: Is this also in the Snakefile?
 For \smcpp, we converted the tree sequences into vcf format and performed inference
 with default settings. Importantly, \smcpp assumes no migration post-divergence, so
 here again the model fitted during inference does not exactly match the simulated
@@ -791,6 +802,7 @@ To visualize our results, we plotted the inferred population size trajectories
 for each simulation replicate along side the census population sizes
 (Figures \ref{fig:IM_popn_human}C and \ref{fig:two_popn_fly}C). Here, unlike the single-population pipeline,
 we focus on census size rather than the inverse coalescence rate as the `true' population size.
+% ALG: If you have Snakefile for the whole workflow, I would just say that at the end here.
 
 
 
