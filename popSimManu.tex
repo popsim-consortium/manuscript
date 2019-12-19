@@ -137,25 +137,27 @@ the distribution of fitness effects \citep{Boyko:2008cr,kim2017inference,tataru2
 recombination rates \citep{chan2012genome,lin2013fast,Adrion662247,Barroso2019},
 and the extent of positive selection in genome sequence data
 \citep{eyre2009estimating, alachiotis2012omegaplus,degiorgio2016sweepfinder2,kern2018diplos,sugden2018localization}.
-While en masse these methods have increased our understanding of the
+While these methods have increased our understanding of the
 impacts of genetic and evolutionary processes, very little has been done to systematically
 benchmark the quality of inferences gleaned from computational population genetics.
 As large databases of population genetic variation begin to be used to inform public health procedures,
-the accuracy and quality of these inferences is becoming even more important.
+the accuracy and quality of these inferences is becoming ever more important.
 Assessing accuracy in population genetics is challenging in large part because
  ``ground-truth'' in population genetics comes from simulation,
-not from empirical observations, and as a field there has been no agreement as to what should
-constitute community standards or best practices. The general modus operandi to date has been to
+not from empirical observations, and as a field there has been no agreement
+on community standards or best practices. The general modus operandi to date has been to
 introduce methods that are validated by a set of bespoke simulations produced by individual
 groups. Beyond inefficiency from duplicated effort, such a situation leads
 to decreased reproducibility and transparency across the entire field.
 Here we describe \stdpopsim, a community-driven catalog
 of standardized population genetics models spanning a variety of common study organisms.
-This resource will empower the field to rigorously evaluate population genetic software
-and select the best tool for a given task, thereby substantially increasing the reliability of population genetic inferences.
+This resource will empower the field to rigorously evaluate population genetic software,
+%and select the best tool for a given task,
+thereby substantially increasing the reliability of population genetic inferences.
 %DRS: still not in love with this last sentence here, but tried to make it a little less sappy by adding some explanation.
 %ADK: made some edits here
 %RNG: Removed the sap. :-P Feel free to put it back if you like it better.
+%JK: not crazy about it either. Making it shorter helps though?
 
 The degree to which modeling assumptions and choices of data summaries can affect the ultimate results of population genetic inference has been challenging to assess. Yet there
 have been several clear examples of different methods yielding fundamentally
@@ -223,7 +225,7 @@ simulation output from their chosen model is returned.
 
 The software has been developed by the PopSim Consortium using a
 distributed open source model, with strong procedures in place
-to continue its growth and maintain its accuracy.
+to continue its growth and maintain its quality.
 Importantly, we have rigorous quality control methods to ensure implemented models are accurate
 and have documented methods for others to contribute new modules.
 We invite new collaborators to join our community.
