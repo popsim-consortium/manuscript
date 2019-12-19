@@ -255,9 +255,9 @@ be manipulated and analysed with \tskit.}
 
 \section*{Results}
 \paragraph{The \stdpopsim library}
-The central contribution of the PopSim consortium currently is \stdpopsim, a
+The first contribution of the PopSim consortium is \stdpopsim, a
 community-maintained library of empirical genome data and population genetics simulation
-models, providing easy access to realistic simulations. Figure \ref{fig:cartoon} shows a graphical
+models. Figure \ref{fig:cartoon} shows a graphical
 representation of the structure of \stdpopsim. The package centers
 on a catalog of species (Fig. \ref{fig:cartoon}A), initially consisting of humans, \emph{P.~abelii},
 \emph{D.~melanogaster}, \emph{A.~thaliana}, and \emph{E.~coli}.
@@ -265,22 +265,31 @@ on a catalog of species (Fig. \ref{fig:cartoon}A), initially consisting of human
 A species definition consists of two key elements.  Firstly, the library defines
 some basic information about the species' genome, including information about chromosome
 lengths, average mutation rates and so on. We also provide access to detailed
-empirical information such as recombination maps, which model empirically-observed
-heterogeneity along chromosomes. As such maps are often large and hard
-to find, we provide a mechanism to automatically download (and cache locally) a
-set of previously published maps (Fig. \ref{fig:cartoon}B). For example, in humans we support the
-HapMapII~\citep{international2007second} and
-deCODE~\citep{kong2010fine} genetic maps. The second key element of a species description
+empirical information such as genetic maps, which model observed
+heterogeneity in recombination rate along chromosomes. As such maps are often large,
+we do not distribute them directly with the software, but make them available
+for download in a standard format. When a simulation using such a map is
+requested by the user, \stdpopsim will transparently download the map
+data into a local cache (\texttt{$\sim$/.local/cache/stdpopsim} by default
+on Unix platforms), where it can be quickly retrieved for subsequent
+simulations.
+In the initial version of \stdpopsim we support
+the HapMapII~\citep{international2007second} and
+deCODE~\citep{kong2010fine} genetic maps in humans;
+the \cite{salome2011recombination} map in \emph{A.~thaliana};
+and the \cite{comeron2012many} map in \emph{D.~melanogaster}.
+The second key element of a species description
 within \stdpopsim is a set of carefully curated population genetic model
 descriptions from the literature, which are the basis for accurate simulations
 of specific historical scenarios that have influenced present-day patterns of
-genetic variation.
+genetic variation. (See the Methods for a description of the community
+development and quality-control process for these models.)
 
 Given the genome data and simulation model descriptions defined within the
 library, it is then straightforward to run accurate, standardized simulations
 across a range of organisms. \stdpopsim has a Python API and a user-friendly
-command line interface (Fig.~\ref{fig:cartoon}C), allowing users with minimal experience direct access to
-state-of-the-art simulations. Simulations are output in the “tree sequence”
+command line interface, allowing users with minimal experience direct access to
+state-of-the-art simulations. Simulations are output in the ``tree sequence''
 format \citep{kelleher2016efficient,kelleher2018efficient,kelleher2019inferring}, which
 contains complete genealogical information about the simulated samples, is
 extremely compact, and can be processed efficiently using the \tskit library
@@ -288,15 +297,21 @@ extremely compact, and can be processed efficiently using the \tskit library
 \stdpopsim uses the  \texttt{msprime} coalescent simulator \citep{kelleher2016efficient}
 as the default simulation engine. We plan to include other simulation
 engines to support scenarios that cannot be modelled under the coalescent framework,
-and have already implemented \texttt{SLiM} \citep{haller2019slim} as
-an alternative back-end.
+and have already implemented \texttt{SLiM} \citep{haller2019tree,haller2019slim} as
+an additional backend.
 
 The \stdpopsim command line interface, by default, outputs citation information
 for the models, genetic maps and simulation engines used in any particular run.
 We hope that this will encourage users to appropriately acknowledge the
-resources used in published work and authors
+resources used in published work, and encourage authors
 of simulation models to contribute to our ongoing community-driven development process.
-Together with the \stdpopsim version number, this citation information will result in a reasonably well-documented and reproducible simulation workflow.
+Together with the \stdpopsim version number and the long-term stable identifiers
+for population models and genetic maps,
+this citation information will result in well-documented and reproducible
+simulation workflows. The individual tree sequence files produced by
+\stdpopsim also contain complete provenance information including the command
+line arguments, operating system environment and versions of key libraries
+used.
 
 \subsection*{The \stdpopsim Catalog}
 The current contents of the \stdpopsim catalog are shown in \autoref{tab:catalog}. At the time of
