@@ -337,21 +337,27 @@ the European and Asian populations, the \cite{tennessen2012evolution} two popula
 Gutenkunst model which does not include Asian populations, but more explicitly models
 recent rapid human population growth, the \cite{browning2018ancestry} admixture model
 for American populations which specifies ancestral African, European, and Asian population
-components, and the three-population out-of-Africa model from \cite{ragsdale2019models}
-which includes archaic admixture.
+components, a three-population out-of-Africa model from \cite{ragsdale2019models}
+which includes archaic admixture, a complex model of ancient eurasian admixture from \cite{kamm2019efficiently},
+and a synthetic model of oscillating population size from \cite{schiffels2014inferring}.
 Together these models
 contain features believed to have widespread impacts in real data (e.g. bottlenecks, population growth,
 admixture) and are therefore highly pertinent in the context of method development.
 
 For non-human genomes we have have implemented two demographic histories for
-\emph{Drosophila melanogaster} and one each from \emph{A. thaliana} and \emph{E. coli}.
+\emph{Drosophila melanogaster}, three from \emph{A. thaliana}, an one each from \emph{P. abelii} and \emph{E. coli}.
 For \emph{D. melanogaster} we have implemented the three-epoch model estimated by \cite{sheehan2016deep} from
 an African sample, as well as the out-of-Africa divergence
 and associated bottleneck model of \cite{li2006inferring} which jointly models African
-and European populations. For \emph{Arabidopsis thaliana}, we implemented the
+and European populations. For \emph{A. thaliana}, we implemented the
 model in \cite{durvasula2017african} inferred using \MSMC. This model includes
 a continuous change in population size over time, rather than pre-specified epochs of different
-population sizes. Additionally, we have also implemented two generic models that comprise a piecewise constant size model and an isolation with migration (IM) model.
+population sizes. We have also implemented a two epoch and a three epoch model estimated from African
+samples of \emph{A. thaliana} in \cite{huber2018gene}. For \emph{P. abelii} we have implemented the two 
+species divergence model of \cite{locke2011comparative}, which models isolation with migration between \emph{P. abelii}
+and \emph{P. pygmaeus}. For \emph{E. coli} we have a simple, large constant population size model implemented.
+Beyond organism specific models \stdpopsim also includes a generic piecewise constant size model and 
+isolation with migration (IM) model which can be used with any genome and genetic map combination.
 
 \subsection*{Use case: comparing methods of demographic inference}
 As an example of the utility of \stdpopsim, we demonstrate how it can be used
@@ -689,7 +695,7 @@ to their default values. For \MSMC we used the ``--fixedRecombination"
 option and used the default number of iterations.
 
 For the single-population task we ran human (HomSap) simulations
-using a variety of models: OutOfAfricaArchaicAdmixture\_5R19, OutOfAfrica\_3G09,
+using a variety of models (see Table 1): OutOfAfricaArchaicAdmixture\_5R19, OutOfAfrica\_3G09,
 a constant-sized generic model, and a two-epoch generic model where the
 population size instantaneously decreases from $N=10^4$ to $N=10^3$, 500
 generations before the present. Each HomSap simulation was run
