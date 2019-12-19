@@ -516,38 +516,43 @@ under a wider range of simulated demographic models.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Discussion}
 
-Here we have described what we view as the first product from the PopSim Consortium:
+Here we have described the first major product from the PopSim Consortium:
 the \stdpopsim library. We have founded the Consortium with a number of specific goals in mind:
 standardization of simulation within the computational genetics community,
 increasing reproducibility and ease of use of complex simulation based results,
 community-based development and decision making guiding best practices in population genetics,
 and eventual benchmarking of inferential methods.
 
-The \stdpopsim library is the first piece of this effort, in that it allows for rigorous
+The \stdpopsim library allows for rigorous
 standardization of complex population genetic simulations. Population genetics, as a field,
 has yet to coalesce around a set of standards for the crucial task of method
 evaluation, which in our field hinges on simulation. In contrast, other fields such as
 structural biology \citep{moult1995large} and machine learning \citep{russakovsky2015imagenet} have a long track record
 of standardized method testing. We hope that our efforts represent the beginning of what
-will prove to be an equally longstanding and invaluable tradition in population genetics.
+will prove to be an equally longstanding and valuable tradition in population genetics.
 
-Individual research groups are often in the position of having to independently
-reimplement complex, previously published demographic models.
-Additional layers of realism (e.g., recombination maps) makes this especially daunting.
-\stdpopsim aims to lower this barrier
-by creating a quality controlled, easy-to-use, gateway to models and organisms
-that are central to modern research in genetics.
+% (ACS) I suggest deleting the following paragraph (commented out below).
+% All of the important points are made below (even with some of the same
+% phrases, such as "barriers to entry") and I think it is needlessly
+% redundant.
+
+%Individual research groups are often in the position of having to independently
+%reimplement complex, previously published demographic models.
+%Additional layers of realism (e.g., recombination maps) make this especially daunting.
+%\stdpopsim aims to lower this barrier
+%by creating a quality controlled, easy-to-use, gateway to models and organisms
+%that are central to modern research in genetics.
 
 We have illustrated in this paper how \stdpopsim can be used for direct
 comparisons of inferential methods on a common set of simulations. Our
 benchmarking comparisons have been limited, but nevertheless
-reveal some informative comparisons. For
-example, at the task of estimating $N(t)$ trajectories for simulations of single human
+reveal some informative features. For
+example, at the task of estimating $N(t)$ trajectories for simulated human
 populations, we find that the sequence-based methods (\MSMC and \smcpp)
 perform somewhat better overall---at least for mid-range values of
 $t$---than the site frequency spectrum-based method (\stairwayplot)
 (Figures~\ref{fig:n_t_ragsdale} and~\ref{fig:n_t_gutenkunst}), which
-tends to over-estimate the size of oscillations.  By contrast,
+tends to over-estimate the sizes of oscillations.  By contrast,
 \stairwayplot outperforms the sequence-based methods
 on simulations of \textit{D.~melanogaster} populations,
 in which linkage disequilibrium is considerably reduced (Figure~\ref{fig:n_t_sheehan}).
