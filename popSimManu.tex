@@ -241,19 +241,13 @@ examples of how it can be used to benchmark demographic inference methods.
 
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=0.5\linewidth]{display_items/Figure1.pdf}
+\includegraphics[width=0.7\linewidth]{display_items/Figure1.pdf}
 \caption{\textbf{Structure of \stdpopsim}. \textbf{A.} The
-hierarchical organization of the PopSim catalog contains all information
-within individual species. Information within the species level is shown here
-for \emph{Homo sapiens} only. We see that \emph{H. sapiens} is associated
-with a default generation time and mutation rate,
-a representation of the physical genome, and two genetic maps. Also shown is a
-subset of the demographic models currently implemented. \textbf{B.} Caching
-and automated download of genetic maps. \textbf{C.} Example code to specify
-and simulate models using \stdpopsim via the API (top) or
-command-line interface (bottom). \textbf{D.} Simulation output
-is a tree sequence file that can
-be manipulated and analyzed with \tskit.}
+hierarchical organization of the \stdpopsim catalog contains all model simulation information
+within individual species (expanded information shown here for \emph{Homo sapiens} only). 
+Each species is associated with a representation of the physical genome, and one or more genetic maps and demographic models.
+Dotted lines indicate that only a subset of these categories is shown. \textbf{B.} Example code to specify
+and simulate models using \stdpopsim via the API (top) or\textbf{C.} through a command line interface.}
 \label{fig:cartoon}
 \end{center}
 \end{figure}
