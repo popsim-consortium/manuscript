@@ -161,7 +161,9 @@ thereby substantially increasing the reliability of population genetic inference
 %RNG: Removed the sap. :-P Feel free to put it back if you like it better.
 %JK: not crazy about it either. Making it shorter helps though?
 
-The degree to which modeling assumptions and choices of data summaries can affect the ultimate results of population genetic inference has been challenging to assess. Yet there
+It has been challenging to assess the degree to which modeling assumptions
+and choices of data summaries can affect the ultimate results of population
+genetic inference. Yet there 
 have been several clear examples of different methods yielding fundamentally
 different conclusions. For example, Markovian coalescent methods applied to human genomes have
 suggested large ancient ($>100,000$ years ago) ancestral population sizes and
@@ -181,7 +183,7 @@ demography and selection.
 One way to benchmark different methods for statistical inference in population
 genetics is to apply the methods to simulated datasets where the true model
 parameters are known. Methods that perform well will accurately infer these
-parameters and will also provide reasonable estimates of uncertainty of the
+parameters and will also provide reasonable measures of uncertainty of the
 estimated parameters. Indeed, simulation studies are a standard ingredient in
 most papers proposing new methods in population genetics. However, these
 studies often use simulations of the particular models for which the method was designed,
@@ -193,7 +195,7 @@ but more rigorous testing is necessary for tools that are to be widely used in t
 % a major additional time investment, and can lead to errors.
 % Lastly, the degree to which different methods are compared can be quite variable.
 Many more researchers in the broader field
-use simulations to perform power and other exploratory analyses.
+use simulations to evaluate statistical power and perform other exploratory analyses.
 The many steps of implementing a moderately complicated population genetics simulation,
 including translating published demographic models into input for a simulator
 and obtaining genetic maps,
@@ -221,7 +223,7 @@ The \stdpopsim catalog currently contains five organisms: humans, \emph{P. pygma
 organism the catalog contains details on the physical organization (e.g., chromosome structure)
 of their genomes, one or more genetic maps, default population-level parameters (mutation rate,
 generation time) and one or more published demographic histories. Through
-either a command line interface or a simple Python API, the user can specify which
+either a command line interface or a simple Python API, users can specify which
 organism, genetic map, chromosome, and demographic history they are interested in simulating, and the
 simulation output from their chosen model is returned.
 
@@ -812,7 +814,8 @@ We thank the Probabilistic Modeling in Genomics conference organizers with makin
 Early on in the project we were helped by many people including XXXXXX.
 CCK and KEL were funded under NIH Award R35GM119856.
 JRA and ADK were funded under NIH Award R01GM117241.
-TJS and RNG were funded under NIH award R01GM127348.
+TJS and RNG were funded under NIH Award R01GM127348.
+ND and AS were supported in part by NIH Awards R01HG010346 and R35GM127070.
 FR and GG were supported by a Villum Young Investigator award (project no.~00025300).
 DODV is funded by a UC MEXUS-CONACYT Collaborative Grant and a DGAPA-PAPIIT grant (PAPIIT-IA200620).
 JK is supported by the Robertson Foundation.
