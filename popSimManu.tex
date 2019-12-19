@@ -24,6 +24,7 @@
 
 % method names
 
+\newcommand{\Stdpopsim}{\texttt{Stdpopsim}\xspace}
 \newcommand{\stdpopsim}{\texttt{stdpopsim}\xspace}
 \newcommand{\dadi}{$\partial a \partial i$\xspace}
 \newcommand{\MSMC}{\texttt{MSMC}\xspace}
@@ -113,7 +114,7 @@ Computational genetics researchers currently re-implement simulation models
 independently, leading to duplication of effort and the possibility for error.
 Population genetics, as a field, also lacks standard benchmarks by which new tools for inference might
 be measured. Here we describe a new resource, \stdpopsim, that attempts to rectify this situation.
-\stdpopsim is a community-driven open source project, which provides a standard
+\Stdpopsim is a community-driven open source project, which provides a standard
 catalog of published simulation models from a wide range of organisms
 and supports multiple simulation engine backends.
 % PopSim assures correctness in our implementations through a mature, community-based quality control pipeline.
@@ -217,7 +218,7 @@ present a major obstacle, especially to new researchers.
 
 For these reasons, we have generated a standardized, community-driven resource
 for simulating published demographic models from a number of popular study systems.
-This resource, which we call \texttt{stdpopsim}, makes running
+This resource, which we call \stdpopsim, makes running
 realistic simulations for population genetic analysis a simple matter of
 choosing pre-implemented models from a community-maintained catalog.
 The \stdpopsim catalog currently contains five organisms: humans, \emph{Pongo~pygmaeus},
@@ -286,7 +287,7 @@ development and quality-control process for these models.)
 
 Given the genome data and simulation model descriptions defined within the
 library, it is then straightforward to run accurate, standardized simulations
-across a range of organisms. \stdpopsim has a Python API and a user-friendly
+across a range of organisms. \Stdpopsim has a Python API and a user-friendly
 command line interface, allowing users with minimal experience direct access to
 state-of-the-art simulations. Simulations are output in the ``tree sequence''
 format \citep{kelleher2016efficient,kelleher2018efficient,kelleher2019inferring}, which
@@ -441,7 +442,7 @@ Blue lines show estimates from each of three replicate whole genome simulations.
 While there is variation in accuracy among methods, populations, and individual replicates,
 generally the methods are accurate for this model of human history.
 
-\stdpopsim allows us to readily compare these estimates to those drawn from a different
+\Stdpopsim allows us to readily compare these estimates to those drawn from a different
 model of human history. In Figure \ref{fig:n_t_gutenkunst} we show estimates of
 $N(t)$ from simulations using the same physical and genetic maps, but a different demographic
 history that does not include archaic admixture \citep{gutenkunst2009inferring}. Again we see that each
@@ -613,14 +614,13 @@ investigation of the failure modes of popular methods.
 Moreover the comparison of methods across the various genome organizations, genetic maps,
 and demographic histories of different organisms, provides valuable information
 about how methods might perform on non-human systems.
-
 Finally, comparison of results across methods or simulation runs
 provides an estimate of inference uncertainty, analogous to parametric
 bootstrapping,
 especially since different methods are likely vulnerable to model misspecification
 in different ways.
 
-\stdpopsim is intended to be a fully open, community-developed project.
+\Stdpopsim is intended to be a fully open, community-developed project.
 Our implementations of genome representations and genetic maps for the some of
 the most common study systems in computational genetics---humans, \textit{Drosophila},
 and \textit{Arabidopsis} (among others)---are only intended to be a starting point for
