@@ -4,6 +4,8 @@
 \usepackage{graphicx,rotating}
 \usepackage{dsfont}
 \usepackage{xspace}
+\usepackage{booktabs}
+\usepackage{siunitx}
 
 \newcommand{\Est}[1]{\hat{#1}}
 
@@ -303,14 +305,24 @@ simple, single population histories \cite[e.g.,][]{sheehan2016deep},
 to complex models which include population splitting, migration, and archaic
 admixture \cite[e.g.,][]{ragsdale2019models}.
 
+\renewcommand{\arraystretch}{1.2}
 \begin{table}[t]
-\begin{footnotesize}
-\input{model_table.tex}
-\end{footnotesize}
+% Make sure the table is centered even though it's too wide
+\makebox[\textwidth][c]{
+    \begin{footnotesize}
+    \input{model_table.tex}
+    \end{footnotesize}
+}
 \caption{\label{tab:catalog}
-Details of the initial set of population models across four species.
-\textbf{NOTES: Column names are ID, name (or description maybe?),
-reference, CPU time, RAM}
+Initial set of demographic models in the Catalog and simple benchmarks.
+For each model we report the CPU time, maximum memory usage and the
+size of the output \tskit file. In each case we simulate 100 samples
+drawn from the first population, for the shortest chromosome of that species
+and a constant chromosome-specific recombination rate.
+The times reported are for a single replicate run on an Intel i5-7600 CPU.
+These are not intended to be rigorous benchmarks, and the computing resources
+required will vary widely depending on sample sizes, chromosome length,
+recombination rates and other factors.
 }
 \end{table}
 
