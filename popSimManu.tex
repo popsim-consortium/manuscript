@@ -356,9 +356,9 @@ Together these models
 contain features believed to have widespread impacts in real data (e.g., bottlenecks, population growth,
 admixture) and are therefore highly pertinent in the context of method development.
 
-For other species we have have implemented two demographic histories for
-\textit{D.~melanogaster}, three from \textit{A.~thaliana}, and have under development
-model for \textit{P.~abelii} and \textit{E.~coli}.
+Beyond humans we have have implemented two demographic histories for
+\textit{D.~melanogaster}, three from \textit{A.~thaliana}, and are currently developing
+models for \textit{P.~abelii} and \textit{E.~coli}.
 For \textit{D.~melanogaster} we have implemented the three-epoch model estimated by \cite{sheehan2016deep} from
 an African sample (African3Epoch\_1S16), as well as the out-of-Africa divergence
 and associated bottleneck model of \cite{li2006inferring}, which jointly models African
@@ -581,7 +581,7 @@ and benchmarking of inference methods.
 The \stdpopsim library allows for rigorous
 standardization of complex population genetic simulations. Population genetics, as a field,
 has yet to coalesce around a set of standards for the crucial task of method
-evaluation, which in our field hinges on simulation. In contrast, other fields such as
+evaluation, which in our discipline hinges on simulation. In contrast, other fields such as
 structural biology \citep{moult1995large} and machine learning \citep{russakovsky2015imagenet} have a long track record
 of standardized method testing. We hope that our efforts represent the beginning of what
 will prove to be an equally longstanding and valuable tradition in population genetics.
@@ -778,7 +778,7 @@ from each replicate.
 Runtimes of DroMel simulations were prohibitively slow when simulating whole genomes
 with the Comeron2012\_dm6 map due to large effective population sizes leading to
 high effective recombination rates. For this reason, we present only data
-from 20 samples of a \SI{3}{\mega\byte} region of chromosome 2R from simulations under OutOfAfrica\_2L06.
+from 50 samples of a \SI{3}{\mega\byte} region of chromosome 2R from simulations under OutOfAfrica\_2L06.
 For the generic IM simulations, we used the HomSap genome along with the
 HapmapII\_GRCh37 genetic map and sampled 20 individuals from each population.
 
@@ -804,6 +804,11 @@ for each simulation replicate alongside census population sizes
 Here, unlike the single-population workflow,
 we compare to census size rather than the inverse coalescence rate as the `true' population size.
 
+\section*{Resource availability}
+The version 0.1 release of \stdpopsim is available for download on Github: 
+\url{https://github.com/popsim-consortium/stdpopsim/releases}. 
+Documentation for the project can be found here: 
+\url{https://stdpopsim.readthedocs.io/en/latest/}. 
 
 
 
