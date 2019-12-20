@@ -6,7 +6,7 @@ library(RColorBrewer)
 
 
 ## read in data
-setwd("~/Desktop/PopSim/figures/data/")
+setwd("../data/")
 popsize_1 <- read.csv("IM_popsize_pop1.csv")
 popsize_2 <- read.csv("IM_popsize_pop2.csv")
 tdiv <- read.csv("IM_tdiv.csv")
@@ -213,7 +213,7 @@ pg_custom<-ggdraw(add_sub(pg, expression(paste("Years ago")), vpadding=grid::uni
   draw_label("Population size", x=0, y=0.51, vjust= 1.5, angle=90, size=22)
 pg_custom
 
-setwd("~/Desktop/PopSim/figures/")
+setwd("../display_items/")
 save_plot("generic_IM.pdf", pg_custom, base_height = 10 , base_width = 14)
 
 

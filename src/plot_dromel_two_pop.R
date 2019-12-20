@@ -8,7 +8,7 @@ library(RColorBrewer)
 
 
 ## read in data
-setwd("~/Desktop/PopSim/figures/data/")
+setwd("../data/")
 popsize_af <- read.csv("dromel_popsize_africa.csv")
 popsize_eu <- read.csv("dromel_popsize_europe.csv")
 tdiv <- read.csv("dromel_tdiv.csv")
@@ -214,7 +214,7 @@ pg_custom<-ggdraw(add_sub(pg, expression(paste("Years ago")), vpadding=grid::uni
   draw_label("Population size", x=0, y=0.51, vjust= 1.5, angle=90, size=22)
 pg_custom
 
-setwd("~/Desktop/PopSim/figures/")
+setwd("../display_items/")
 save_plot("dromel_3mb_no_mask_3rep_anc_tdiv.pdf", pg_custom,base_height = 10 , base_width = 14)
 
 
