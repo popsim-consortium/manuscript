@@ -200,8 +200,8 @@ realistic simulations for population genetic analysis a simple matter of
 choosing pre-implemented models from a community-maintained catalog.
 The \stdpopsim catalog currently contains three organisms: humans,
 \emph{Drosophila~melanogaster}, and \emph{Arabidopsis~thaliana}. For each
-organism the catalog contains details on the physical organization (e.g., chromosome structure)
-of their genomes, one or more genetic maps, default population-level parameters (mutation rate,
+organism, the catalog contains details on the physical organization (e.g., chromosome structure)
+of its genome, one or more genetic maps, default population-level parameters (mutation rate,
 generation time) and one or more published demographic histories. Through
 either a command line interface or a simple Python API, users can specify which
 organism, genetic map, chromosome, and demographic history they are interested in simulating, and the
@@ -236,7 +236,7 @@ and simulate models using \stdpopsim via the API or \textbf{(C)} through a comma
 \end{figure}
 
 \section*{Results}
-\paragraph{The \stdpopsim library}
+\paragraph{The \stdpopsim library.}
 The first contribution of the PopSim consortium is \stdpopsim, a
 community-maintained library of empirical genome data and population genetics simulation
 models. Figure \ref{fig:cartoon} shows a graphical
@@ -245,8 +245,8 @@ on a catalog of species (Fig. \ref{fig:cartoon}A), initially consisting of human
 \emph{D.~melanogaster}, \emph{A.~thaliana}.
 % RNG: Abbreviate consistently with introduction
 A species definition consists of two key elements.  Firstly, the library defines
-some basic information about the species' genome, including information about chromosome
-lengths, average mutation rates and so on. We also provide access to detailed
+some basic information about each species' genome, including information about chromosome
+lengths, average mutation rates, and generation times. We also provide access to detailed
 empirical information such as genetic maps, which model observed
 heterogeneity in recombination rate along chromosomes. As such maps are often large,
 we do not distribute them directly with the software, but make them available
@@ -331,8 +331,8 @@ recombination rates and other factors.
 }
 \end{table}
 
-Currently, more models of human history have been implemented than for
-any other organism (see Table \ref{tab:catalog}). 
+Currently, {\em Homo sapiens} has the largest number of population models in
+\stdpopsim (see Table \ref{tab:catalog}).  
 These models include: a simplified version of the \cite{tennessen2012evolution}
 model with only the African population specified (expansion from the ancestral
 population and recent growth; Africa\_1T12), the three-population model of \cite{gutenkunst2009inferring}
@@ -354,7 +354,7 @@ For non-human genomes we have have implemented two demographic histories for
 model for \emph{P. abelii} and \emph{E. coli}.
 For \emph{D. melanogaster} we have implemented the three-epoch model estimated by \cite{sheehan2016deep} from
 an African sample (African3Epoch\_1S16), as well as the out-of-Africa divergence
-and associated bottleneck model of \cite{li2006inferring} which jointly models African
+and associated bottleneck model of \cite{li2006inferring}, which jointly models African
 and European populations (OutOfAfrica\_2L06). For \emph{A. thaliana}, we implemented the
 model in \cite{durvasula2017african} inferred using \MSMC. This model includes
 a continuous change in population size over time, rather than pre-specified epochs of different
@@ -364,8 +364,8 @@ samples of \emph{A. thaliana} in \cite{huber2018gene} (African2Epoch\_1H18 and A
 %species divergence model of \cite{locke2011comparative}, which models isolation with migration between \emph{P. pygmaeus}
 %and \emph{P. abelii}. 
 %For \emph{E. coli} we have a simple, large constant population size model implemented.
-Beyond organism specific models \stdpopsim also includes a generic piecewise constant size model and
-isolation with migration (IM) model which can be used with any genome and genetic map combination.
+Beyond organism specific models \stdpopsim also includes a generic piecewise-constant-size model and
+an isolation-with-migration (IM) model, both of which can be used with any genome and genetic-map combination.
 
 We note that we have put a good deal of effort into coming up with a standardized naming
 conventions for species, genetic maps, and demographic models that will enable long term stability
@@ -373,11 +373,12 @@ of unique identifiers used throughout \stdpopsim. This is an essential feature t
 \subsection*{Use case: comparing methods of demographic inference}
 As an example of the utility of \stdpopsim, we demonstrate how it can be used
 to simply and fairly compare popular demographic inference methods.
-Although we present comparison of results from several
+Although we present comparisons of results from several
 methods, our aim at this stage is not to provide an exhaustive
 evaluation or ranking of these methods. Our hope is instead that future work built upon this resource
 will enable more detailed exploration of the strengths and weaknesses of the numerous
-inference methods that are available to the population genetics community.
+inference methods that are available to the population genetics community
+(see Discussion).
 
 We start by comparing popular methods for estimating
 population size histories ($N(t)$) of single populations and subsequently
@@ -411,7 +412,7 @@ replicate human genomes under the OutOfAfricaArchaicAdmixture\_5R19 model and us
 HapMapII\_GRCh37 genetic map~\citep{international2007second}. From top to bottom we show estimates for each
 of the three populations in the model (YRI, CEU, and CHB). In shades of blue we show the estimated
 $N(t)$ trajectories for each replicate. In black we show the true population size history as inferred
-for the rate of coalescence in the demographic model.}
+for the rate of coalescence in the demographic model (see Appendix).}
 \label{fig:n_t_ragsdale}
 \end{center}
 \end{figure}
@@ -419,8 +420,8 @@ for the rate of coalescence in the demographic model.}
 
 % JK here --- I think it would really help if we described what the models
 % were, briefly, rather than saying who inferred them.
-In Figure \ref{fig:n_t_ragsdale} we present results from our $N(t)$ analysis pipeline
-run on whole genome simulations under under OutOfAfricaArchaicAdmixture\_5R19,
+In Figure \ref{fig:n_t_ragsdale}, we present results from our $N(t)$ analysis pipeline
+run on whole genome simulations under OutOfAfricaArchaicAdmixture\_5R19,
 a model of human migration out of Africa that includes archaic admixture 
 \citep{ragsdale2019models}, along with an empirical genetic map. In each column of this figure
 we show inferred $N(t)$ for the three extant populations in the model.
@@ -428,17 +429,19 @@ In each row we show comparisons among the methods (note that we compare two diff
 sample sizes for \MSMC).
 There is no single ``true'' reference for effective population size
 because of model misspecification---the inference methods are fitting a single population model
-to data simulated from mulitple populations.
+to data simulated from multiple populations.  
 However, many methods work by matching coalescence time distributions,
 and a single-population model with varying population size can match any coalescence time distribution
 (in which case coalescence rate is the inverse of the effective size).
-For this reason, solid black lines do not show historical census sizes,
+For this reason, we used as our ``ground-truth'' (solid black lines) 
+not historical census sizes,
 but rather inverse coalescence rates calculated analytically in \texttt{msprime} (see Appendix).
 Blue lines show estimates from each of three replicate whole genome simulations.
 While there is variation in accuracy among methods, populations, and individual replicates,
-generally the methods are accurate for this model of human history.
+the methods are generally accurate for this model of human history.
 
-\stdpopsim allows us to readily compare these estimates to those drawn from a different
+\stdpopsim allows us to readily compare relative performance on this benchmark to
+that based on a different
 model of human history. In Figure \ref{fig:n_t_gutenkunst} we show estimates of
 $N(t)$ from simulations using the same physical and genetic maps, but from the OutOfAfrica\_3G09
 demographic model that does not include archaic admixture. Again we see that each
@@ -499,7 +502,7 @@ the bottom, with a common X-axis to the population size panels.}
 \end{center}
 \end{figure}
 
-\paragraph*{Multi-population demographic models}
+\paragraph*{Multi-population demographic models.}
 As \texttt{stdpopsim} implements multi-population demographic models, we also
 explored parameter estimation of population divergence parameters. In particular,
 we simulated data under multi-population models for humans and \emph{Drosophila}
@@ -509,7 +512,7 @@ with constant population sizes and bi-directional migration \citep{hey2004im}. O
 an IM model was to mimic the approach often used on empirical datasets, where a relatively
 simple model is fit that may not reflect the true underlying demography.
 For human models with more than two-populations (e.g. \cite{gutenkunst2009inferring})
-this means that we are inferring parameters for a model which itself does
+this means that we are inferring parameters for a model that does
 not match the model from which the data were generated (Figure
 \ref{fig:IM_popn_human}A and B). However, because the inferred models here better
 match the simulated models relative to the single population case, here we compare
