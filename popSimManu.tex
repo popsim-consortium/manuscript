@@ -147,74 +147,43 @@ As large databases of population genetic variation begin to be used to inform pu
 the accuracy and quality of these inferences is becoming ever more important.
 %CK: this first paragraph is super long - might be helpful to break up
 
-Assessing accuracy in population genetics is challenging in large part because
- ``ground-truth'' in population genetics comes from simulation,
-not from empirical observations, and as a field there has been no agreement
-on community standards or best practices. The general modus operandi to date has been to
-introduce methods that are validated by a set of bespoke simulations produced by individual
-groups. Beyond inefficiency from duplicated effort, such a situation leads
-to decreased reproducibility and transparency across the entire field.
-Here we describe \stdpopsim, a community-driven catalog
-of standardized population genetics models spanning a variety of common study organisms.
-This resource will empower the field to rigorously evaluate population genetic software,
-%and select the best tool for a given task,
-thereby substantially increasing the reliability of population genetic inferences.
-%DRS: still not in love with this last sentence here, but tried to make it a little less sappy by adding some explanation.
-%ADK: made some edits here
-%RNG: Removed the sap. :-P Feel free to put it back if you like it better.
-%JK: not crazy about it either. Making it shorter helps though?
+Assessing the accuracy of inference methods for population genetics is
+challenging in large part because the ``ground-truth'' in question
+generally comes not from direct empirical observations, as the relevant
+historical processes can rarely be observed, but instead from simulations.
+Population genetic simulations are therefore critically important to the
+field, yet there has been no systematic attempt to establish community
+standards or best practices for executing them. Instead, the general modus
+operandi to date has been for individual groups to validate their own
+methods using bespoke simulations. 
+Often these studies focus more on showcasing a novel method than on
+rigorously comparing it with competing methods.
+Moreover, this approach results in a great deal of duplicated effort across research
+groups, and contributes to decreased reproducibility and transparency.
+It is also a barrier to entry to the field, because new researchers can
+struggle with 
+the many steps involved
+in implementing a state-of-the-art population genetics simulation,
+including identifying appropriate demographic models from the literature, 
+translating them into input for a simulator, obtaining appropriate genetic
+maps, and choosing appropriate values for key population genetic parameters.
 
-It has been challenging to assess the degree to which modeling assumptions
-and choices of data summaries can affect the ultimate results of population
-genetic inference. Yet there
-have been several clear examples of different methods yielding fundamentally
+A related issue is that it has been challenging to assess the degree to which modeling assumptions
+and choices of data summaries can affect population
+genetic inferences. Yet there
+are clear examples of different methods yielding fundamentally
 different conclusions. For example, Markovian coalescent methods applied to human genomes have
 suggested large ancient ($>100,000$ years ago) ancestral population sizes and
 bottlenecks that have not been detected by methods based on allele frequency spectra
 \citep[see][]{beichman2017comparison}.
 These distinct methods differ in how they model, summarize, and optimize fit to
 genetic variation data, suggesting that such design choices can greatly affect the
-performance of the inference. Furthermore, it is reasonable
-to assume generally that specific methods will perform better than others under certain scenarios.
-However, because these conditions are typically unknown, empirical researchers
-lack principled guidelines for deciding which statistical method is best suited
-to accurately answer their particular question. The need for empirical
-guidance will only increase as researchers continue to generate more genomic
-variation data from non-model taxa and wish to make inferences regarding
-demography and selection.
-
-One way to benchmark different methods for statistical inference in population
-genetics is to apply the methods to simulated datasets where the true model
-parameters are known. Methods that perform well will accurately infer these
-parameters and will also provide reasonable measures of uncertainty of the
-estimated parameters. Indeed, simulation studies are a standard ingredient in
-most papers proposing new methods in population genetics. However, these
-studies often use simulations of the particular models for which the method was designed,
-which showcases the novel method rather than rigorously comparing performance to competing methods.
-Of course, testing a new method in the situation for which it was designed is an important step,
-but more rigorous testing is necessary for tools that are to be widely used in the field.
-% Moreover researchers are generally forced to reimplement previously
-% inferred scenarios independently, which makes good benchmarking
-% a major additional time investment, and can lead to errors.
-% Lastly, the degree to which different methods are compared can be quite variable.
-Many more researchers in the broader field
-use simulations to evaluate statistical power and perform other exploratory analyses.
-The many steps of implementing a moderately complicated population genetics simulation,
-including translating published demographic models into input for a simulator
-and obtaining genetic maps,
-present a major obstacle, especially to new researchers.
-
-% One reason why simulation studies do not compare the performance of many methods
-% across a wide range of situations
-% is that simulation studies are challenging to carry out, for several reasons.
-% First, while there are many published population genetic models available, their
-% parameters are often not easily accessible, usually presented in supplemental
-% tables. Translating these parameters into input for a given simulation engine can
-% be a time-consuming and error prone process. In addition, papers often present many
-% different models, and different authors may choose to select distinct models,
-% making comparison difficult. While improvements in simulation software and ever
-% faster computers have partially ameliorated this concern, generating the
-% simulated datasets can still be a time and computing resource bottleneck.
+performance of the inference. Furthermore, some methods are likely to
+perform better than others under certain scenarios, but 
+researchers lack principled guidelines for selecting the best method for addressing 
+their particular questions. The need for empirical
+guidance will only increase as researchers 
+seek to apply population genetic methods to a growing collection of non-model taxa.
 
 For these reasons, we have generated a standardized, community-driven resource
 for simulating published demographic models from a number of popular study systems.
@@ -229,8 +198,10 @@ generation time) and one or more published demographic histories. Through
 either a command line interface or a simple Python API, users can specify which
 organism, genetic map, chromosome, and demographic history they are interested in simulating, and the
 simulation output from their chosen model is returned.
+In this way, \stdpopsim will enable rigorous evaluation of population genetic software,
+and contribute to increased reliability of population genetic inferences.
 
-The software has been developed by the PopSim Consortium using a
+The \stdpopsim library has been developed by the PopSim Consortium using a
 distributed open source model, with strong procedures in place
 to continue its growth and maintain its quality.
 Importantly, we have rigorous quality control methods to ensure implemented models are accurate
@@ -238,6 +209,10 @@ and have documented methods for others to contribute new modules.
 We invite new collaborators to join our community.
 Below we describe the resource and give
 examples of how it can be used to benchmark demographic inference methods.
+
+
+
+
 
 \begin{figure}[t]
 \begin{center}
