@@ -5,7 +5,8 @@
 \usepackage{dsfont}
 \usepackage{xspace}
 \usepackage{booktabs}
-\usepackage{siunitx}
+\usepackage[binary-units]{siunitx}
+\usepackage[section]{placeins}
 
 \newcommand{\Est}[1]{\hat{#1}}
 
@@ -270,7 +271,7 @@ extremely compact, and can be processed efficiently using the \tskit library
 \citep{kelleher2016efficient,kelleher2018efficient}. Currently,
 \stdpopsim uses the  \texttt{msprime} coalescent simulator \citep{kelleher2016efficient}
 as the default simulation engine. We plan to include other simulation
-engines to support scenarios that cannot be modelled under the coalescent framework,
+engines to support scenarios that cannot be modeled under the coalescent framework,
 and have already implemented \texttt{SLiM} \citep{haller2019tree,haller2019slim} as
 an additional backend.
 
@@ -414,12 +415,12 @@ for the rate of coalescence in the demographic model.}
 In Figure \ref{fig:n_t_ragsdale} we present results from our $N(t)$ analysis pipeline
 run on whole genome simulations under under a sophisticated demographic model
 and empirical genetic map and a model of human migration out of Africa
-that includes archaic admiture \citep{ragsdale2019models}. In each column of this figure
+that includes archaic admixture \citep{ragsdale2019models}. In each column of this figure
 we show inferred $N(t)$ for the three extant populations in the model.
 In each row we show comparisons among the methods (note that we compare two differing
 sample sizes for \MSMC).
 There is no single ``true'' reference for effective population size
-because of model misspecification -- the inference methods are fitting a single population model
+because of model misspecification---the inference methods are fitting a single population model
 to data simulated from mulitple populations.
 However, many methods work by matching coalescence time distributions,
 and a single-population model with varying population size can match any coalescence time distribution
@@ -694,7 +695,7 @@ any particular software package,
 as our goal was not to benchmark performance of methods but
 instead show how such benchmarking could be easily done using
 the \stdpopsim resource. In this spirit we ran each software package as near
-to default parameters as possibile. For \stairwayplot we
+to default parameters as possible. For \stairwayplot we
 set the parameters numRuns=1 and dimFactor=5000. For \smcpp we used the
 ``estimate" run mode to infer $N(t)$ with all other parameters set
 to their default values. For \MSMC we used the ``--fixedRecombination"
@@ -717,7 +718,7 @@ set the sample size of the focal population to $N=50$ chromosomes.
 Following simulation, low-recombination portions of chromosomes were masked
 from the analysis in a manner that reflects the ``accessible" subset of sites
 used in empirical population genomic studies \citep[e.g.,][]{danecek20111000,langley2012genomic}.
-Specifically we masked regions of 1\,cM or greater in the lowest 5th percentile of the empirical
+Specifically we masked regions of \SI{1}{cM} or greater in the lowest 5th percentile of the empirical
 distribution of recombination, regions which are nearly uniformly absent for
 empirical analysis.
 
@@ -758,7 +759,7 @@ with the HapmapII\_GRCh37 genetic map, taking 20 samples each from the Europe an
 For DroMel, runtimes under OutOfAfrica\_2L06 were prohibitively slow when simulating whole genomes
 with the Comeron2012\_dm6 map due to the large effective population sizes leading to
 high effective recombination rates. For this reason, we chose to present only data
-from 3 Mb of chromosome 2R for simulations under OutOfAfrica\_2L06.
+from \SI{3}{\mega\byte} of chromosome 2R for simulations under OutOfAfrica\_2L06.
 For the generic IM simulations, we used the HomSap genome along with the
 HapmapII\_GRCh37 genetic map and sampled 20 individuals from each population.
 
@@ -810,13 +811,13 @@ we focus on census size rather than the inverse coalescence rate as the `true' p
 % recombination and mutation rate maps are used. However, there is no standard
 % format for such maps, and finding the maps can be challenging.
 
-\section*{Acknowledgements}
+\section*{Acknowledgments}
 We thank the Probabilistic Modeling in Genomics conference organizers with making this collaboration possible.
 Early on in the project we were helped by many people including XXXXXX.
 CCK and KEL were funded under NIH Award R35GM119856.
 JRA and ADK were funded under NIH Award R01GM117241.
 TJS and RNG were funded under NIH Award R01GM127348.
-ALG and DRS were funded under NIH award R00HG008696
+ALG and DRS were funded under NIH award R00HG008696.
 ND and AS were supported in part by NIH Awards R01HG010346 and R35GM127070.
 FR and GG were supported by a Villum Young Investigator award (project no.~00025300).
 DODV is funded by a UC MEXUS-CONACYT Collaborative Grant and a DGAPA-PAPIIT grant (PAPIIT-IA200620).
