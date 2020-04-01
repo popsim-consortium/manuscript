@@ -614,9 +614,20 @@ reconstructing the simulated YRI history, but struggle with the more complex sim
 history, in large part because of the restriction of constant population sizes.
 An exception is \smcpp, which does not have the same
 restrictions on its inferred history, and as a result does somewhat better
-with the CEU history but tends to overfit the YRI history.  The results for
+with the CEU history but tends to overfit the YRI history.
+The results for
 the two-population \textit{D.~melanogaster} model (Figure~\ref{fig:two_popn_fly})
 are generally similar.
+In these comparisons, \fastsimcoal and \dadi perform almost identically, which is expected because they fit the same models to the same summaries of the data, differing only in how they calculate model expectations and optimize parameters.
+
+All methods for inferring demographic history have strengths and weaknesses (as recently reviewed by \citet{beichman2018review}.)
+We compared inferences from simulated whole genome data, but many factors affect choice of methodology.
+Markovian coalescent methods (\MSMC and \smcpp) require long contiguous stretches of sequence data.
+By contrast, frequency spectrum methods (\stairwayplot, \dadi, and \fastsimcoal) can use reduced-representation sequencing data, such as RADseq \citep{andrews2016radseq}.
+\dadi and \fastsimcoal require a pre-specified parametric model, unlike \MSMC, \smcpp, and \stairwayplot.
+Using a parametric approach yields less noisy results, but a model that is too simple may not capture important demographic events (Figures~\ref{fig:IM_popn_human} and~\ref{fig:two_popn_fly}).
+From a software engineering perspective, methods also differ in their ease of installation and use.
+We hope our workflows will assist in the application of all the methods we have considered.
 
 Altogether, these preliminary experiments highlight
 the utility of \stdpopsim for comparing a variety of inference methods on
