@@ -97,6 +97,8 @@ We have added in a basic `stdpopsim` API and CLI example in a Jupyter Notebook t
 > "Adding further maps to the library is trivial" - discuss - since the audience for this is the broader pop-gen community, perhaps pointing them to the detailed development environment on readthedocs would be helpful. 
 > 
 > Fig S6: The figure captions/labels are acronyms, which aren't explained. Would help readers to understand what this plot is estimating. 
+We added a sentence to the caption better explaining this figure. 
+
 > 
 
 # Reviewer #3 
@@ -142,6 +144,7 @@ We have added in a basic `stdpopsim` API and CLI example in a Jupyter Notebook t
 > -Page 10, last sentence before "Multi-population demographic models" section: clarify what "this setting" is (both species I assume) 
 > 
 > -Figure 4 captain: "or smc++" -> "and smc++" (some other figure captions have this too), I would also say "$x$-axis" 
+We made the suggested change.
 > 
 > -Page 12, first paragraph: include a reference where people could learn more about the effective population size vs. census size, random-mating models, etc 
 > 
@@ -166,6 +169,7 @@ We have added in a basic `stdpopsim` API and CLI example in a Jupyter Notebook t
 > -Figure S2 caption: move "and" to before MSMC (in a few other figure captions too) 
 > 
 > -Figure S6: explain x-axis "MIG_AF_EU" and "MIG_EU_AF". I assume these are directional migration rates 
+We added a sentence to the caption better explaining this figure. 
 > 
 > -Figure S9: unreadable when printed (not sure it adds a lot) 
 > 
