@@ -19,7 +19,9 @@ This will definitely need to be removed before we send the actual response!
 > 3) We felt that the discussion would benefit from a discussion of the details not yet incorporated into the platform, e.g. sex-specific recombination, gene conversion, assembly error, structural variants etc. Such an addition might spur future development, and also give the authors an opportunity to discuss general ways forward on these issues. 
 > 
 > 4) We would be interested to see more of a discussion of the strengths and weakness of the various demographic inference methods. 
-> 
+
+We have added an additional paragraph to the discussion exploring some of the additional factors that may affect choice of inference method, beyond results like those presented here. These include data required, type of model, and software engineering. A comprehensive investigation of these issues is beyond the scope of the current manuscript, which focuses on the resource itself, rather than its application.
+ 
 > Beyond testing methods, another major use axis that I can personally see for this platform is for empirical researchers to see whether patterns they see in their data are consistent with known demographic models. For example, demonstrating whether the frequency spectrum in larger samples lines up with previously inferred models. Having all of these models implemented in a central place will significantly lower the barrier of entry of empirical researchers into rigorous simulation frameworks. 
 > 
 > Overall we are very excited to see this big move forward and welcome the authors' careful work in this important area. 
