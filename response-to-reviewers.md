@@ -5,25 +5,35 @@ Dear Graham,
 
 Please see below a point-by-point response to the comments.
 
+
 ---- 
 
 > # Editors comments
 > 1) Ensuring that the language about the models & parameters conveys the correct sense of uncertainty. Obviously the reviewers and the authors know that these just represent best guesses at the moment, but as this platform catches on we don't want these numbers & models to be seen as gospel. 
 > 
 
-FIXME: An example response just to illustrate how to respond to comments in this Markdown file. 
-This will definitely need to be removed before we send the actual response!
+Issue #163 (ckyriazis)
 
 > 2) We would like to see the SLIM integration demonstrated with an application that MsPrime doesn't cover. This could be, for example, a figure of the average value some summary statistics surrounding a selective under the human demographic model. The reviewers didn't want this to be a lot of work, e.g. it would be outside of the scope of the current paper to demonstrate the power of a range of selection methods. However, we felt that a simple demonstration of the functionality would substantially increase the scenarios easily available and imaginable by readers of the paper. 
-> 
+
+Issue #150 (jadrion) will add the figures we need and some explanation;
+we need to explain here (and maybe in the text) that selection is beyond the scope of this paper,
+and instead we are focusing in the paper on validating scaling.
+This will also be covered by issue #164.
+
 > 3) We felt that the discussion would benefit from a discussion of the details not yet incorporated into the platform, e.g. sex-specific recombination, gene conversion, assembly error, structural variants etc. Such an addition might spur future development, and also give the authors an opportunity to discuss general ways forward on these issues. 
-> 
+
+Issue #164. (petrelharp)
+
 > 4) We would be interested to see more of a discussion of the strengths and weakness of the various demographic inference methods. 
 
 We have added an additional paragraph to the discussion exploring some of the additional factors that may affect choice of inference method, beyond results like those presented here. These include data required, type of model, and software engineering. A comprehensive investigation of these issues is beyond the scope of the current manuscript, which focuses on the resource itself, rather than its application.
  
 > Beyond testing methods, another major use axis that I can personally see for this platform is for empirical researchers to see whether patterns they see in their data are consistent with known demographic models. For example, demonstrating whether the frequency spectrum in larger samples lines up with previously inferred models. Having all of these models implemented in a central place will significantly lower the barrier of entry of empirical researchers into rigorous simulation frameworks. 
-> 
+
+TODO: discussion other applications
+petrelharp
+
 > Overall we are very excited to see this big move forward and welcome the authors' careful work in this important area. 
 > 
 
@@ -42,11 +52,37 @@ We have added an additional paragraph to the discussion exploring some of the ad
 > 1. Emphasize parameters are current best-guesses: 
 > a. I am most worried about the fragility of the models over time and the misperception one might have that these models are "accurate" for a species. Genome assemblies change, recombination rates improve, mutation rates change, etc. I would like to see that uncertainty reflected more in the language used in the paper so that it's clear the catalog is a collection of inferred parameters that are subject to change over time. This is a subtle and cosmetic, but important I think. For example, page 4 "the library defines basic information about each species genome, including information about chromosome lengths, average mutation rates, and generation times." Yet, this is information we don't have - each of these parameters is actively under revision/discussion for even the best studied species. It would be great to hammer home these are all inferred values. (Also see page 3 sentence on "details on =the= physical organization of the genome"; the same comment applies, and an improvement might be something like "details on the physical organization of the latest reference genome assembled for the species"). 
 > b. On a related note, there is wording on page 4, regarding ensuring "implemented models are accurate" - I think what is meant is that the "implemented models are faithful to the source publications from which they derive". As the second half of this paper makes clear, because of errors in inference, many of these models will not be accurate, in the sense of representing the true history of the species. 
+
+Issue #163.
+
 > 2. It would be wonderful to have a comments section for the models that would be either curated by a set of editors or crowd-sourced. I say this because overtime, models will proliferate, and some will come to be regarded as out-of-date. One can imagine those approaching the field afresh will be overwhelmed by the possible selections and possible implement models that become outdated. If the goal is standardization, how do we communicate that standards change? A comment system (or even star-rating system?) may be wise to implement now. Assuming it can be layered on top of the existing structure, it may be enough for this publication to note this as a future challenge that needs development/addressing. 
+
+Response summary:
+Thank you for this forward-thinking comment.
+Good idea but how would you actually do it?
+We will have to let this emerge, and can't solve the problem until we actually have it.
+
 > 3. In terms of the maturity of the examples developed for the initial release, I would have liked to see at least one simulation model with a selective sweep, one with background selection, and one with spatial stepping-stone structure. Each of these would be helpful test cases to implement to be sure that the existing catalog framework has the breadth/flexibility necessary to accommodate future use cases. I do not think this is a requirement for publication, but it would add great value to this initial release of the resource. 
+
+We're not going to do this either;
+Issue #164.
+Emphasize importance of selection in the discussion.
+
 > 4. Page 15. The approach of masking "low-recombination" portions of the chromosomes seems like an incomplete/indirect attempt to model the inherent limitations of sequencing to an "accessible" genome. 
 > a. Shouldn't the approach instead be to drop "low complexity" regions (e.g., as defined by an excessive number of "N"'s in the reference, low mapability scores, or via tools like RepeatMasker?). This part of the pipeline seems open to refinement. 
+
+Maybe so, but beyond the scope?
+Issue #166 (andrewkern)
+
 > b. Are the "masks" a separate configuration file for the simulations? It seems that it would be preferable for them to be separate from the recombination rate files - right now it reads as if the mask applied is a function of the genetic map file, but this seems too inflexible for users who prefer an alternative approach to masking. 
+
+Each software package requires its own kind of masking - eg smc++ requires a bedfile.
+Issue #166
+
+
+Issue minor comments
+ckyriazis and others
+
 > 
 > 
 > ## Minor comments
@@ -64,16 +100,28 @@ We have added an additional paragraph to the discussion exploring some of the ad
 > 
 > a. "bespoke" struck me as a distracting word choice, given its contemporary associations. Upon checking a dictionary, I see how it is an appropriate and precise word choice, but maybe it's best to instead simply say: "custom" or "one-off". 
 > b. To elaborate on the point you're making here, you could also share how the general modus operandi often includes the pasting of long unwieldy command-line calls for generating simulations into methods sections. Many of these command-line values are buried across the literature, often in supplementary methods. Additional virtues of your catalog is having: 1) a central repository for such models, and 2) modular configuration files (e.g. I can keep the same demographic model, but change the recombination map, without having to re-write, or learn, the innards of a complex command-line for ms/msprime) 
+
+Maybe make this wording more descriptive and precise.
+
 > 
 > 5. Page 5, "accurate, standardized simulations": related to the point above about "accurate" models - I wonder if a different word should be used here, or even omit "accurate". The word doesn't add much value over simply saying the models are standardized - the standardization includes that the model implementation is quality controlled to match the original source publication, which I think is what is meant by accuracy here? 
 > 
 > 6. Page 6. Typo in "time or writing". Change to "time of writing" 
 > 
 > 7. Page 8. I like the approach of showing inverse coalescent rates, but it would be instructive to practitioners and useful for teaching, if in all figures you showed both the census sizes (e.g. with light grey dashed lines) and inverse rates (e.g. with dark grey solid lines as now in Fig 2). 
+
+Add census size ("simulated pop size as taken from the published model"?) to Fig 2, 3,
+Also S1, S2, S3.
+Explain in the text (maybe caption), and also explain why not to Fig 4.
+Issue #160 (jradrion)
+
 > 
 > 8. Figure 4. 
 > a. Confusing how in panels A and B time moves left to right, and in panel C time moves right to left. 
 > b. Also, the figure would be improved by showing with vertical lines the timing of the CEU/YRI divergence in the true model. (similar comments hold for Figures S4 and S5) 
+
+Done in PR #161, thanks ckyriazis!
+
 > 
 > 9. Page 16 "checked for convergence" : Wording - sounds like checking for convergence between the methods - I think you mean convergence by each method to an optimum in their respective objective functions. 
 > 
@@ -86,11 +134,15 @@ We have added an additional paragraph to the discussion exploring some of the ad
 > The authors in this manuscript describe the implementation of a publicly curated, open source simulation package called stdpopsim - equipped with commonly utilized population genetic demographic models in humans, Drosophila melanogaster, and Arabidopsis thaliana. I am in awe of what these authors have achieved, in terms of benchmarking these standard models in an effort to avoid duplication of effort, and possibility of erroneous inference. The package is currently equipped with several "in-built" models that allow the simulation of trees with msprime and SLiM. The authors explain the application of these models by simulating and benchmarking estimates of Ne under a couple of scenarios. The manuscript is also well written, and use popular tools like dadi and smc++ to estimate and benchmark the simulations under a variety of models. Across all simulated scenarios (except under more complex models), the simulations seem relatively accurate. 
 > 
 > Despite a little hiccup with python version mismatch prior to me successfully installing stdpopsim, I was able to successfully get the tutorials running within minutes after. I have one recommendation however for the tutorials - it would definitely help if the CLI versus python tutorials were kept separate. I found it a little confusing since they are all listed on the same page (https://stdpopsim.readthedocs.io/en/latest/tutorial.html). The simulations, testing models, calculating divergences, plotting ran without a hitch, and I am impressed and excited to play around with more models in coming days. Having also developed similar libraries/pipelines, I have also found it extremely useful for developers to provide some more detailed documentation/tutorials via Jupyter notebooks, or some similar platform. I did however notice that the authors have provided their analyses as Snakemake files in the interest of replication. I did not replicate their analyses, but I trust that the documentation for these analyses are detailed enough to aid readers/users in establishing similar analysis pipelines for stdpopsim simulated data.
+
  
 We have added in a basic `stdpopsim` API and CLI example in a Jupyter Notebook that can be accessed and used interactively via Binder and encourage users to try out the tutorials there. We have linked to the Binder in the README on the GitHub. See https://mybinder.org/v2/gh/popsim-consortium/stdpopsim/master?filepath=stdpopsim_example.ipynb
  
 > 
 > I thoroughly enjoyed reading this manuscript, and learning of all the new features that have been written into stdpopsim, and believe that this will be an invaluable contribution to the population genomics community. 
+
+Thank YOU!
+
 > 
 > ## Minor comments: 
 > 
@@ -98,10 +150,14 @@ We have added in a basic `stdpopsim` API and CLI example in a Jupyter Notebook t
 > 
 > "Adding further maps to the library is trivial" - discuss - since the audience for this is the broader pop-gen community, perhaps pointing them to the detailed development environment on readthedocs would be helpful. 
 > 
+
+
 > Fig S6: The figure captions/labels are acronyms, which aren't explained. Would help readers to understand what this plot is estimating. 
 We added a sentence to the caption better explaining this figure. 
 
 > 
+
+Done in PR #161.
 
 # Reviewer #3 
 
@@ -115,12 +171,26 @@ We added a sentence to the caption better explaining this figure.
 > ## Comments 
 > 
 > 1) The authors mention that SLiM can be used as an alternative backend, which would presumably allow for simulations with selection. Although I don't think an extensive comparison of selection methods is necessary for this paper, it would be ideal if the authors can give some idea of how this would work (example command line, etc). There are also a myriad of methods for detecting/quantifying selection, and these simulations are not consistent either. 
+
+Issue #150 and #164, as above.
+
 > 
 > 2) I like the inclusion of the "zigzag" history, as well as generic piecewise constant models and IM models (page 7). I wonder if these could be included in a separate section (not organism specific) in the documentation and software (and then in Table 1). Right now the zigzag model is under humans in the catalog. 
+
+Summary of response:
+This is done, in the documentation now.
+But note that zigzag is in human because the parameterization is human-ish.
+
 > 
 > 3) On page 8 the authors set up notation for the number of replicates (R), number of chromosomes (C), and sample size (n), but don't seem to use it afterward (or use it inconsistently). It would be helpful if all the figure captions and main text included this notation (I am guessing the number of replicates is 3 based on the images, but this should be clarified). The authors use N in the Methods (i.e. page 15) to refer to population size (which makes sense), but then also say "In all cases we set the sample size of the focal population to N = 50 chromosomes." For MSMC, the sample size was set to n=2,8 which suggests haploid samples, but the "Calculating coalescence rates" section says that n is the diploid sample size. 
+
+Issue #168 (petrelharp)
+
 > 
 > 4) "Calculating coalescence rates" section needs a read through. Reword first sentence and add some citations (especially regarding computing p(t) and p(z,t)). It was unclear to me how the "mean coalescence times" were used (the rate was used to compute the ground truth over time). This section is also referred to as the Appendix in the main text. 
+
+Issue #169 (petrelharp)
+
 > 
 > 
 > ## Minor Comments 
@@ -161,6 +231,9 @@ We made the suggested change.
 > -Page 13: "overfit the YRI history" do you mean overfit in a technical sense? 
 > 
 > -Page 14: "Method quality control" section. Could you say a bit more about how Developer B would be identified? Someone in the consortium or someone else in the community? What kind of leadership structures are in place? (Maybe the goal is to make this a bit more distributed?) And just to be clear, Developer B would not have access to Developer A's implementation of the model while they were independently implementing it, right? 
+
+(B would have access - it's not blinded - they just aren't supposed to look at it)
+
 > 
 > -Page 16, line 6: "population 1 after"? 
 > 
@@ -171,7 +244,12 @@ We made the suggested change.
 > -Figure S2 caption: move "and" to before MSMC (in a few other figure captions too) 
 > 
 > -Figure S6: explain x-axis "MIG_AF_EU" and "MIG_EU_AF". I assume these are directional migration rates 
+
 We added a sentence to the caption better explaining this figure. 
+
 > 
 > -Figure S9: unreadable when printed (not sure it adds a lot) 
 > 
+
+Remove this figure.
+
