@@ -58,7 +58,7 @@ We thank the reviewer for bringing up this important point and fully agree that 
 On page 3, it now reads:
 "For each organism, the catalog contains information on our current understanding of the physical organization (e.g., chromosome structure)
 of its genome, one or more inferred genetic maps, default population-level parameters (mutation rate and generation time estimates)
-and one or more published demographic models.. These available models
+and one or more published demographic models. These available models
 and parameters are meant to represent the current standards in the field, however our
 intention is that this resource will evolve as new results become available"
 
