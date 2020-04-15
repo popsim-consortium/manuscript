@@ -58,6 +58,9 @@
 \usepackage{etoolbox}
 \pretocmd{\abstractname}{\newpage}{}{}
 
+\usepackage{lineno}
+\linenumbers
+
 \begin{document}
 
 \title{A community-maintained standard library of population genetic models}
@@ -128,7 +131,7 @@ Recent advances in population genetic simulation have made it possible to
 simulate large and complex models, but specifying such models for a particular
 simulation engine remains a difficult and error-prone task.
 Computational genetics researchers currently re-implement simulation models
-independently, leading to duplication of effort and the possibility for error.
+independently, leading to duplication of effort and inconsistency.
 Population genetics, as a field, also lacks standard benchmarks by which new tools for inference might
 be measured. Here we describe a new resource, \stdpopsim, that attempts to rectify this situation.
 \Stdpopsim is a community-driven open source project, which provides easy access to a standard
@@ -208,9 +211,12 @@ realistic simulations for population genetic analysis a simple matter of
 choosing pre-implemented models from a community-maintained catalog.
 The \stdpopsim catalog currently contains three organisms: humans,
 \emph{Drosophila~melanogaster}, and \emph{Arabidopsis~thaliana}. For each
-organism, the catalog contains details on the physical organization (e.g., chromosome structure)
-of its genome, one or more genetic maps, default population-level parameters (mutation rate,
-generation time) and one or more published demographic histories. Through
+organism, the catalog contains information on our current understanding of
+ the physical organization (e.g., chromosome structure)
+of its genome, one or more inferred genetic maps, default population-level parameters (mutation rate and generation time estimates) 
+and one or more published demographic models. These available models
+and parameters are meant to represent the current standards in the field, however our 
+intention is that this resource will evolve as new results become available. Through
 either a command line interface or a simple Python API, users can specify which
 organism, genetic map, chromosome, and demographic history they are interested in simulating, and the
 simulation output from their chosen model is returned.
@@ -218,12 +224,15 @@ In this way, \stdpopsim will lower the barrier to high-quality simulation for ex
 enable rigorous evaluation of population genetic software,
 and contribute to increased reliability of population genetic inferences.
 
+
 The \stdpopsim library has been developed by the PopSim Consortium using a
 distributed open source model, with strong procedures in place
 to continue its growth and maintain its quality.
-Importantly, we have rigorous quality control methods to ensure implemented models are accurate
+Importantly, we have rigorous quality control methods to ensure that models
+are correctly implemented with respect to their original publication 
 and have documented methods for others to contribute new modules.
 We invite new collaborators to join our community.
+% CK: perhaps we could add a bit more info here on how to contribute demographic models and a link to the tutorial when its available?
 Below we describe the resource and give
 examples of how it can be used to benchmark demographic inference methods.
 
@@ -255,9 +264,10 @@ representation of the structure of \stdpopsim. The package centers
 on a catalog of species (Fig.~\ref{fig:cartoon}A), initially consisting of humans,
 \textit{D.~melanogaster}, and \textit{A.~thaliana}.
 A species definition consists of two key elements.  Firstly, the library defines
-some basic information about each species' genome, including information about chromosome
-lengths, average mutation rates, and generation times. We also provide access to detailed
-empirical information such as genetic maps, which model observed
+some basic information on our current understanding of each 
+species' genome, including information about chromosome
+lengths, average mutation rate estimates, and generation times. We also provide access to detailed
+empirical information such as inferred genetic maps, which model observed
 heterogeneity in recombination rate along chromosomes. As such maps are often large,
 we do not distribute them directly with the software, but make them available
 for download in a standard format. When a simulation using such a map is
@@ -270,23 +280,26 @@ the HapMapII~\citep{international2007second} and
 deCODE~\citep{kong2010fine} genetic maps for humans;
 the \cite{salome2011recombination} map for \emph{A.~thaliana};
 and the \cite{comeron2012many} map for \emph{D.~melanogaster}.
-Adding futher maps to the library is trivial.
+Adding further maps to the library is straightforward.
 The second key element of a species description
 within \stdpopsim is a set of carefully curated population genetic model
 descriptions from the literature, which allow simulation under
 specific historical scenarios that have been fit to present-day patterns of
-genetic variation. (See the Methods for a description of the community
+genetic variation. Our aim is that this catalog will grow as we continue
+to refine our understanding of different species' demographic histories
+and new models are published. (See the Methods for a description of the community
 development and quality-control process for these models.)
 
 Given the genome data and simulation model descriptions defined within the
-library, it is then straightforward to run accurate, standardized simulations
+library, it is then straightforward to run standardized simulations
 across a range of organisms. \Stdpopsim has a Python API and a user-friendly
 command line interface, allowing users with minimal experience direct access to
 state-of-the-art simulations. Simulations are output in the ``tree sequence''
 format \citep{kelleher2016efficient,kelleher2018efficient,kelleher2019inferring}, which
 contains complete genealogical information about the simulated samples, is
 extremely compact, and can be processed efficiently using the \tskit library
-\citep{kelleher2016efficient,kelleher2018efficient}. Currently,
+\citep{kelleher2016efficient,kelleher2018efficient}. The tree sequence format could also be converted
+to other formats (e.g., vcf) by the user if desired. Currently,
 \stdpopsim uses the  \texttt{msprime} coalescent simulator \citep{kelleher2016efficient}
 as the default simulation engine.
 We have implemented \texttt{SLiM} \citep{haller2019tree,haller2019slim}
@@ -309,16 +322,16 @@ used.
 \subsection*{The Species Catalog}
 The central feature of \stdpopsim is the species catalog, a systematic organization
 of the key quantitative data needed to simulate a given species. These include a description
-of the assembly, information about mutation rate, recombination rate(s), and generation time
-in addition to a series of demographic models that are specific to that organism.
+of the assembly, information about mutation rate estimates, inferred recombination rate(s), and generation time
+in addition to a series of demographic models that have been estimated for that organism.
 
 The current contents of the \stdpopsim catalog are shown in \autoref{tab:catalog}.
 These range from
 simple, single population histories \cite[e.g.,][]{sheehan2016deep},
 to complex models which include population splitting, migration, and archaic
 admixture \cite[e.g.,][]{ragsdale2019models}.
-In addition to those models shown, at time or writing
-the PopSim Consortium has models in development for \textit{Pongo abelii} and \textit{Escherichia coli}.
+In addition to those models shown, at time of writing
+the PopSim Consortium has models in development for \textit{Pongo abelii}, \textit{Canis familiaris}, and \textit{Escherichia coli}.
 
 \renewcommand{\arraystretch}{1.2}
 \begin{table}[t]
@@ -358,9 +371,9 @@ Together these models
 contain features believed to have widespread impacts in real data (e.g., bottlenecks, population growth,
 admixture) and are therefore highly pertinent in the context of method development.
 
-Beyond humans we have have implemented two demographic histories for
+Beyond humans we have have implemented two demographic models for
 \textit{D.~melanogaster}, three from \textit{A.~thaliana}, and are currently developing
-models for \textit{P.~abelii} and \textit{E.~coli}.
+models for \textit{P.~abelii} , \textit{Canis familiaris}, and \textit{E.~coli}.
 For \textit{D.~melanogaster} we have implemented the three-epoch model estimated by \cite{sheehan2016deep} from
 an African sample (African3Epoch\_1S16), as well as the out-of-Africa divergence
 and associated bottleneck model of \cite{li2006inferring}, which jointly models African
@@ -378,7 +391,7 @@ isolation with migration (IM) model which can be used with any genome and geneti
 
 To guarantee reproducibility,
 we have standardized naming
-conventions for species, genetic maps, and demographic models that will enable long term stability
+conventions for species, genetic maps, and demographic models that will enable long-term stability
 of unique identifiers used throughout \stdpopsim,
 as described in our documentation
 (\url{https://stdpopsim.readthedocs.io/en/latest/development.html#naming-conventions}).
@@ -441,22 +454,19 @@ a model of human migration out of Africa that includes archaic admixture
 \citep{ragsdale2019models}, along with an empirical genetic map. In each column of this figure
 we show $N(t)$ inferred from samples taken from each of the three extant populations in the model.
 In each row we show comparisons among the methods (including two sample sizes for \MSMC).
-Blue lines show estimates from each of three replicate whole genome simulations.
-There is no single ``true'' reference for effective population size
-because of model misspecification---the inference methods are fitting a single population model
-to data simulated from multiple populations.
-However, many methods work by matching coalescence time distributions,
-and a single-population model with varying population size can match any coalescence time distribution
-(in which case coalescence rate is the inverse of the effective size).
-For this reason, we used as our ``ground-truth'' (solid black lines)
-not historical census sizes,
-but rather inverse coalescence rates calculated analytically in \texttt{msprime} (see Appendix).
+Blue lines show estimates from each of three replicate whole genome simulations and (FIXME: what color?)
+lines show the simulated population sizes. When fitting single-population models to data simulated for multiple
+populations with migration, however, we do not necessarily expect the inference methods to recover the 
+``true'' simulated population size due to model misspecification. Instead, many methods work by matching
+ coalescence time distributions, and a single-population model with varying population size can match any 
+ coalescence time distribution (in which case coalescence rate is the inverse of the effective size).
+For this reason, we also plot the inverse coalescence rates calculated analytically in \texttt{msprime} (see Appendix)
+as another benchmark of the ``truth'' in the single-population inference setting. 
 While there is variation in accuracy among methods, populations, and individual replicates,
 the methods are generally accurate for this model of human history.
 
-\Stdpopsim allows us to readily compare relative performance on this benchmark to
-that based on a different
-model of human history. In Figure \ref{fig:n_t_gutenkunst} we show estimates of
+Using \stdpopsim, we can readily compare performance on this benchmark to
+that based on a different model of human history. In Figure \ref{fig:n_t_gutenkunst} we show estimates of
 $N(t)$ from simulations using the same physical and genetic maps, but from the OutOfAfrica\_3G09
 demographic model that does not include archaic admixture. Again we see that each
 of the methods is capturing relevant parts of the population history, although the
@@ -496,9 +506,10 @@ genomes. Figure \ref{fig:n_t_sheehan} shows parameter estimates from the African
 model, originally estimated from an African sample of \textit{D.~melanogaster} \citep{sheehan2016deep},
 and Figure \ref{fig:n_t_AraTha} shows estimates from simulations of \textit{A.~thaliana}
 under the African2Epoch\_1H18 model originally inferred by \cite{huber2018gene}.
-In both cases, as with humans, we use \stdpopsim to simulate replicate genomes using an empirically derived genetic map,
+In both cases, as with humans, we use \stdpopsim to simulate replicate genomes using an empirically-derived genetic map,
 and try to infer back parameters of the simulation model.
-Accuracy is mixed among methods in this setting and generally worse than what we
+Accuracy is mixed among methods when doing inference on simulated data from these \textit{D.~melanogaster}
+and \textit{A.~thaliana} models, and generally worse than what we
 observe for simulations of the human genome.
 
 
@@ -506,14 +517,14 @@ observe for simulations of the human genome.
 \begin{center}
 \includegraphics[width=0.7\linewidth]{display_items/homo_sapiens_two_pop_comp.pdf}
 \caption{\textbf{Parameters estimated using a multi-population human model}.
-Here we show estimates of $N(t)$ inferred using \dadi, \fastsimcoal, or \smcpp. \textbf{(A)} Data were generated by simulating
+Here we show estimates of $N(t)$ inferred using \dadi, \fastsimcoal, and \smcpp. \textbf{(A)} Data were generated by simulating
 replicate human genomes under the OutOfAfrica\_3G09 model and using the HapMapII\_GRCh37 genetic map
 inferred in \cite{international2007second}. \textbf{(B)} For \dadi and \fastsimcoal we show parameters inferred
 by fitting the depicted IM model, which includes population sizes, migration rates, and a split
 time between CEU and YRI samples. \textbf{(C)} Population size estimates for each population (rows)
 from \dadi, \fastsimcoal, and \smcpp (columns).
 In shades of blue we show $N(t)$ trajectories estimated from each simulation,
-and in black census sizes for the respective population.
+and in black simulated population sizes for the respective population.
 The population split date, $T_{DIV}$, is shown at
 the bottom, with a common $x$-axis to the population size panels.}
 \label{fig:IM_popn_human}
@@ -532,10 +543,10 @@ simple model is fit that may not reflect the true underlying demography.
 For human models with more than two populations (e.g., \cite{gutenkunst2009inferring})
 this means that we are inferring parameters for a model that does
 not match the model from which the data were generated (Figures
-\ref{fig:IM_popn_human}A and B). However, because the inferred models here better
-match the simulated models than in the single population case, here we compare
-our inferred population sizes directly to the census size of the simulated models (black line in
-Figure \ref{fig:IM_popn_human}C).
+\ref{fig:IM_popn_human}A and B). However, because model misspecification 
+here is less severe  compared to the single-population case, we compare
+our inferred population sizes only to the simulated population sizes (black line in
+Figure \ref{fig:IM_popn_human}C) and not the inverse coalescence rates.
 
 In Figure \ref{fig:IM_popn_human}C we show estimates of population sizes and divergence
 time, for each of the inference methods, using samples drawn from African and European populations
@@ -547,23 +558,23 @@ simulated YRI population size history. Moreover, these approaches allow for esti
 migration rates (Figure \ref{fig:homsap_mig_rates}), also leading to more accurate inference
 of divergence times. However, these migration rate estimates are somewhat biased likely
 due to model misspecification (Figure \ref{fig:homsap_mig_rates}).
-By contrast, \smcpp is much better at capturing the recent exponential
+In contrast, \smcpp is much better at capturing the recent exponential
 growth in the CEU population, though the inferred population sizes are generally
 noisier. In addition, the assumption of no migration by \smcpp leads to divergence time
 estimates that are consistently underestimated (Figure \ref{fig:IM_popn_human}C).
 
 Again, we can compare between species and look at the performance of these methods
 for a two-population model of \textit{D.~melanogaster}. Figure
-\ref{fig:two_popn_fly} shows parameter estimates for simulations drawn from
-the OutOfAfrica\_2L06 model, which includes
-an ancestral population in Africa, then a population expansion with a population
-split and bottleneck into a European population with no post-divergence migration.
+\ref{fig:two_popn_fly} shows inference results using data simulated under 
+the OutOfAfrica\_2L06 model. This model includes an ancestral population in
+Africa from which a European population splits off following a bottleneck, with no 
+post-divergence gene flow between the African and European population (Figure \ref{fig:two_popn_fly}A).
 Here again, we find that \dadi and \fastsimcoal infer more consistent histories,
 but ignore the brief population bottleneck in Europe. In addition, \dadi
 and \fastsimcoal both do reasonably well at correctly inferring the absence of
-migration (Figure \ref{fig:dromel_mig_rates}). By contrast, the inferred
+migration (Figure \ref{fig:dromel_mig_rates}). In contrast, the inferred
 demographic parameters from \smcpp are more noisy, though in some cases better
-capture the short bottleneck in the Europe population.
+capture the short bottleneck in the European population.
 
 Although these results do not represent an exhaustive benchmarking,
 we have highlighted some of the strengths and weaknesses of these methods.
@@ -604,7 +615,7 @@ populations, we find that the sequence-based methods (\MSMC and \smcpp)
 perform somewhat better overall---at least for mid-range values of
 $t$---than the site frequency spectrum-based method (\stairwayplot)
 (Figures~\ref{fig:n_t_ragsdale} and~\ref{fig:n_t_gutenkunst}), which
-tends to over-estimate the sizes of oscillations.  By contrast,
+tends to over-estimate the sizes of oscillations.  In contrast,
 \stairwayplot outperforms the sequence-based methods
 on simulations of \textit{D.~melanogaster} or \textit{A.~thaliana} populations,
 in which linkage disequilibrium is reduced (Figures~\ref{fig:n_t_sheehan} \& \ref{fig:n_t_AraTha}).
@@ -620,10 +631,10 @@ the two-population \textit{D.~melanogaster} model (Figure~\ref{fig:two_popn_fly}
 are generally similar.
 In these comparisons, \fastsimcoal and \dadi perform almost identically, which is expected because they fit the same models to the same summaries of the data, differing only in how they calculate model expectations and optimize parameters.
 
-All methods for inferring demographic history have strengths and weaknesses (as recently reviewed by \citet{beichman2018review}.)
+All methods for inferring demographic history have strengths and weaknesses (as recently reviewed by \citep{beichman2018review}.)
 We compared inferences from simulated whole genome data, but many factors affect choice of methodology.
 Markovian coalescent methods (\MSMC and \smcpp) require long contiguous stretches of sequence data.
-By contrast, frequency spectrum methods (\stairwayplot, \dadi, and \fastsimcoal) can use reduced-representation sequencing data, such as RADseq \citep{andrews2016radseq}.
+In contrast, frequency spectrum methods (\stairwayplot, \dadi, and \fastsimcoal) can use reduced-representation sequencing data, such as RADseq \citep{andrews2016radseq}.
 \dadi and \fastsimcoal require a pre-specified parametric model, unlike \MSMC, \smcpp, and \stairwayplot.
 Using a parametric approach yields less noisy results, but a model that is too simple may not capture important demographic events (Figures~\ref{fig:IM_popn_human} and~\ref{fig:two_popn_fly}).
 From a software engineering perspective, methods also differ in their ease of installation and use.
@@ -710,7 +721,7 @@ Further details of our QC process can be found in our developer documentation
 \subsection*{Workflow for analysis of simulated data}
 To demonstrate the utility of \stdpopsim we created \texttt{Snakemake}
 workflows \citep{koster2012snakemake} that perform demographic inference on
-tree sequence output from our package using a few common software packages.
+tree sequence output from our package using a few common software packages (see Figure \ref{fig:n_t_dag} for an example workflow).
 Our choice of \texttt{Snakemake} allows complete reproducibility of the
 analyses shown, and all code is available from \url{https://github.com/popsim-consortium/analysis}.
 
@@ -774,7 +785,7 @@ parameter-rich demographic models.
 For both \dadi and \fastsimcoal, we fit a two population
 isolation-with-migration (IM) model with constant population sizes.
 This IM model contains six parameters:
-the ancestral population size, the sizes of each population 1 after the split,
+the ancestral population size, the sizes of each population after the split,
 the divergence time, and two migration rate parameters.
 Importantly, this meant that for both species, the
 fitted model did not match the simulated model (Figures \ref{fig:IM_popn_human} and \ref{fig:two_popn_fly}).
@@ -784,7 +795,7 @@ population that was ignored by our inference. Our motivation for fitting this si
 IM model was to mimic the typical approach of two population inference on empirical
 data, where the user is not aware of the `true' underlying demography and the inference
 model is often misspecified. To ground-truth our inference approach, we also conducted
-inference on a generic IM model that was identical to the model used for inference \ref{fig:generic_IM}.
+inference on a generic IM model that was identical to the model used for inference (Figure \ref{fig:generic_IM}).
 
 From HomSap simulations we took 20 whole genome samples each from the Europe and Africa populations
 from each replicate.
@@ -799,7 +810,10 @@ Following simulation, we output tree sequences and masked low-recombination
 regions using the same approach described for the single population workflow above. We
 converted tree sequences into a two-dimensional site frequency spectrum for all
 chromosomes in the appropriate format for \dadi and \fastsimcoal. For each simulation
-replicate, we performed 10 runs of \dadi and \fastsimcoal and checked for convergence.
+replicate, we performed 10 runs of \dadi and \fastsimcoal, checking to ensure that 
+each method reached convergence. 
+
+checked for convergence.
 Detailed settings for \dadi and \fastsimcoal can be found in the Snakefile
 on our git repository (\url{https://github.com/popsim-consortium/analysis}).
 Estimates from the highest log-likelihood (out of 10 runs) for each simulation replicate
@@ -812,10 +826,11 @@ for continuous population size changes, it is better equipped to capture many of
 more complex aspects of the simulated demographic models (e.g., exponential growth).
 
 To visualize our results, we plotted the inferred population size trajectories
-for each simulation replicate alongside census population sizes
+for each simulation replicate alongside the simulated population sizes
 (Figures \ref{fig:IM_popn_human}C and \ref{fig:two_popn_fly}C).
 Here, unlike the single-population workflow,
-we compare to census size rather than the inverse coalescence rate as the `true' population size.
+we compare our inferred population sizes only to the simulated population
+sizes and not the inverse coalescence rates. 
 
 \section*{Resource availability}
 The version 0.1 release of \stdpopsim is available for download on Github:
@@ -849,7 +864,7 @@ Documentation for the project can be found here:
 % format for such maps, and finding the maps can be challenging.
 
 \section*{Acknowledgments}
-We thank the Probabilistic Modeling in Genomics conference organizers with making this collaboration possible,
+We thank the Probabilistic Modeling in Genomics conference organizers for making this collaboration possible,
 and the Simons Center for Quantitative Biology at Cold Spring Harbor Laboratory
 for sponsoring the first workshop.
 Early on in the project we were encouraged by many people including Patrick Phillips, Richard Durbin,
@@ -889,7 +904,7 @@ for the rate of coalescence in the demographic model.}
 \begin{center}
 \includegraphics[width=0.8\linewidth]{display_items/homo_sapiens_constant.png}
 \caption{\textbf{Comparing estimates of $N(t)$ in humans}. Here we show estimates of population
-size over time ($N(t)$) inferred using 4 different methods, \smcpp, and \texttt{stairway plot},
+size over time ($N(t)$) inferred using 4 different methods, \smcpp, and \texttt{stairway plot}, and
 \MSMC with $n=2$ and $n=8$. Data were generated by simulating
 replicate human genomes under a constant sized population model with $N=10^4$ and using the
 HapMapII genetic map~\citep{international2007second}. In black we show the true population size history
@@ -902,56 +917,12 @@ of the model.}
 \begin{center}
 \includegraphics[width=0.8\linewidth]{display_items/AraTha_African2Epoch_1H18.png}
 \caption{\textbf{Comparing estimates of $N(t)$ in \textit{A.~thaliana}}. Here we show estimates of population
-size over time ($N(t)$) inferred using 4 different methods, \smcpp, and \texttt{stairway plot},
+size over time ($N(t)$) inferred using 4 different methods, \smcpp, and \texttt{stairway plot}, and
 \MSMC with $n=2$ and $n=8$. Data were generated by simulating
 replicate \textit{A.~thaliana} genomes under the African2Epoch\_1H18 model and using
 the genetic map of \cite{salome2011recombination}. In black we show the true population size history
 of the model.}
 \label{fig:n_t_AraTha}
-\end{center}
-\end{figure}
-
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=0.8\linewidth]{display_items/d_mel_two_popn_comp.pdf}
-\caption{\textbf{Parameters estimated using a two-population \emph{Drosophila} model}.
-Here we show estimates of $N(t)$ inferred using \dadi, \fastsimcoal, or \smcpp.
-Data were generated by simulating
-replicate \emph{Drosophila} genomes under the \cite{li2006inferring} model and using the genetic map
-inferred in \cite{comeron2012many}. See legend of Figure \ref{fig:IM_popn_human} for details.
-In shades of blue we show the estimated
-$N(t)$ trajectories for each replicate. In black we show the true population size history
-as given by the census size for the simulated model.}
-\label{fig:two_popn_fly}
-\end{center}
-\end{figure}
-
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=0.8\linewidth]{display_items/generic_IM.pdf}
-\caption{\textbf{Parameters estimated from a generic IM model} Here we show estimates of $N(t)$
-inferred using \dadi, \texttt{fastsimcoal2}, or \smcpp. Data were generated by simulating
-under a generic IM model with a human genome and \cite{international2007second} genetic map.
-In shades of blue we show the estimated
-$N(t)$ trajectories for each replicate. In black we show the true population size history
-as given by the census size for the simulated model.}
-\label{fig:generic_IM}
-\end{center}
-\end{figure}
-
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=0.8\linewidth]{display_items/dromel_migration_rates.pdf}
-\caption{\textbf{Migration rate parameters estimated under a two-population \emph{Drosophila} model}.
-Here we show inferred migration rates from \dadi and \fastsimcoal.
-Data were generated by simulating replicate \emph{Drosophila} genomes under the \cite{li2006inferring} model and using the genetic map
-inferred in \cite{comeron2012many}.
-Directional migration from Europe to Africa is represented as MIG_AF_EU and
-migration from Africa to Europe is represented as MIG_EU_AF.}
-\label{fig:dromel_mig_rates}
 \end{center}
 \end{figure}
 
@@ -969,6 +940,37 @@ migration from Africa to Europe is represented as MIG_EU_AF.}
 \end{center}
 \end{figure}
 
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.8\linewidth]{display_items/d_mel_two_popn_comp.pdf}
+\caption{\textbf{Parameters estimated using a two-population \emph{Drosophila} model}.
+Here we show estimates of $N(t)$ inferred using \dadi, \fastsimcoal, and \smcpp.
+Data were generated by simulating
+replicate \emph{Drosophila} genomes under the \cite{li2006inferring} model and using the genetic map
+inferred in \cite{comeron2012many}. See legend of Figure \ref{fig:IM_popn_human} for details.
+In shades of blue we show the estimated
+$N(t)$ trajectories for each replicate. In black we show the simulated population sizes.}
+\label{fig:two_popn_fly}
+\end{center}
+\end{figure}
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.8\linewidth]{display_items/dromel_migration_rates.pdf}
+\caption{\textbf{Migration rate parameters estimated under a two-population \emph{Drosophila} model}.
+Here we show inferred migration rates from \dadi and \fastsimcoal.
+Data were generated by simulating replicate \emph{Drosophila} genomes under the \cite{li2006inferring} model and using the genetic map
+inferred in \cite{comeron2012many}.
+Directional migration from Europe to Africa is represented as MIG_AF_EU and
+migration from Africa to Europe is represented as MIG_EU_AF.}
+\label{fig:dromel_mig_rates}
+\end{center}
+\end{figure}
+
+
+
 \begin{figure}
 \begin{center}
 \includegraphics[width=0.8\linewidth]{display_items/n_t_dag.pdf}
@@ -981,18 +983,20 @@ come from the same set of simulations.}
 \end{center}
 \end{figure}
 
+
 \begin{figure}
 \begin{center}
-\includegraphics[width=0.8\linewidth]{display_items/two_pop_dag.pdf}
-\caption{\textbf{Workflow for our two population N(t) inference methods comparison}
-Here we show single replicate for one chromosome, chr22, simulated under the HomSap
-OutOfAfrica\_3G09 demographic model, with a HapmapII\_GRCh37 recombination map.
-Note that resulting data for input to all inference methods \dadi, \smcpp,
-and \fastsimcoal,
-derive from the same set of simulations.}
-\label{fig:two_pop_dag}
+\includegraphics[width=0.8\linewidth]{display_items/generic_IM.pdf}
+\caption{\textbf{Parameters estimated from a generic IM model} Here we show estimates of $N(t)$
+inferred using \dadi, \texttt{fastsimcoal2}, and \smcpp. Data were generated by simulating
+under a generic IM model with a human genome and \cite{international2007second} genetic map.
+In shades of blue we show the estimated
+$N(t)$ trajectories for each replicate. In black we show the simulated population sizes.}
+\label{fig:generic_IM}
 \end{center}
 \end{figure}
+
+
 
 \stopsupplement
 
