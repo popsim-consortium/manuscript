@@ -158,20 +158,19 @@ community of developers to contribute to this growing resource.
 \section*{Introduction}
 While population genetics has always used statistical methods to make inferences from data,
 the degree of sophistication of the questions, models, data, and computational approaches
-used have all increased over the past two decades. Currently there exist myriad computational methods
+used have all increased over the past two decades. Currently there exist a myriad of computational methods
 that can infer the histories of populations
 \citep{gutenkunst2009inferring,li2011inference,excoffier2013robust,schiffels2014inferring, terhorst2017robust,ragsdale2019models},
 the distribution of fitness effects \citep{Boyko:2008cr,kim2017inference,tataru2017inference,Fortier703918,Huang2019,Vecchyo770966},
-recombination rates \citep{chan2012genome,lin2013fast,adrion2020predicting,Barroso2019},
+recombination rates \citep{mcvean2004ldhat,chan2012genome,lin2013fast,adrion2020predicting,Barroso2019},
 and the extent of positive selection in genome sequence data
-\citep{eyre2009estimating, alachiotis2012omegaplus,degiorgio2016sweepfinder2,kern2018diplos,sugden2018localization}.
+\citep{kim2002detecting,eyre2009estimating, alachiotis2012omegaplus,garud2015sweeps,degiorgio2016sweepfinder2,kern2018diplos,sugden2018localization}.
 While these methods have undoubtedly increased our understanding of
 genetic and evolutionary processes, very little has been done to systematically
-benchmark the quality of these inferences.
-% or their robustness to deviations from the assumptions.
+benchmark the quality of these inferences or their robustness to deviations from the assumptions.
 As large databases of population genetic variation begin to be used to inform public health procedures,
 the accuracy and quality of these inferences is becoming ever more important.
-
+ 
 Assessing the accuracy of inference methods for population genetics is
 challenging in large part because the ``ground-truth'' in question
 generally comes not from direct empirical observations, as the relevant
@@ -191,8 +190,8 @@ It is also a barrier to entry to the field, because new researchers can
 struggle with the many steps involved
 in implementing a state-of-the-art population genetics simulation,
 including identifying appropriate demographic models from the literature,
-translating them into input for a simulator, obtaining appropriate genetic
-maps, and choosing appropriate values for key population genetic parameters.
+translating them into input for a simulator, and choosing appropriate values for key population genetic parameters,
+such as the mutation and recombination rates.
 
 A related issue is that it has been challenging to assess the degree to which modeling assumptions
 and choices of data summaries can affect population genetic inferences.
@@ -238,7 +237,7 @@ distributed open source model, with strong procedures in place
 to continue its growth and maintain its quality.
 Importantly, we have rigorous quality control methods to ensure that we have
 correctly implemented the models as described in their original publication
-and have documented methods for others to contribute new modules.
+and have documented methods for others to contribute new models.
 We invite new collaborators to join our community:
 those interested should visit our developer documentation at
 \url{https://stdpopsim.readthedocs.io/en/latest/development.html}.
@@ -273,9 +272,10 @@ community-maintained library of empirical genome data and population genetics si
 models. Figure \ref{fig:cartoon} shows a graphical
 representation of the structure of \stdpopsim. The package centers
 on a catalog of species (Fig.~\ref{fig:cartoon}A), initially consisting of humans,
-\textit{D.~melanogaster}, and \textit{A.~thaliana}.
+\textit{D.~melanogaster}, \textit{A.~thaliana},
+\textit{Escherichia coli}, and \textit{Canis familiaris}.
 A species definition consists of two key elements.
-Firstly, the library defines some basic information about our current understanding of each 
+Firstly, the library defines some basic information about our current understanding of each
 species' genome, including information about chromosome
 lengths, average mutation rate estimates, and generation times.
 We also provide access to detailed empirical information such as inferred genetic maps,
@@ -317,26 +317,26 @@ as the default simulation engine.
 
 Coalescent simulations, while highly efficient, are limited in their ability to model
 complex selection scenarios, such as recurrent sweeps and background selection. For these reasons
-we have also implemented the forward-time simulator, \texttt{SLiM} \citep{haller2019tree,haller2019slim}, 
-as an alternative backend engine to \texttt{stdpopsim}, allowing for the simulation of processes that cannot be modeled under 
+we have also implemented the forward-time simulator, \texttt{SLiM} \citep{haller2019tree,haller2019slim},
+as an alternative backend engine to \texttt{stdpopsim}, allowing for the simulation of processes that cannot be modeled under
 the coalescent. However, as forward-time simulators explicitly model all individuals in a population, simulating large
-population sizes can be highly demanding of computational resources. One solution to this obstacle is to 
+population sizes can be highly demanding of computational resources. One solution to this obstacle is to
 rescale the population size, \textit{N}, such that population-dependent parameters (e.g. \textit{N$\mu$}, \textit{Nr},
-and \textit{Ns}) remain unchanged \citep[see the \texttt{SLiM} manual and][]{uricchio2014robust}. 
+and \textit{Ns}) remain unchanged \citep[see the \texttt{SLiM} manual and][]{uricchio2014robust}.
 
-We validated our implementation of the \texttt{SLiM} engine by comparing 
+We validated our implementation of the \texttt{SLiM} engine by comparing
 estimates of several population genetic summary statistics for neutral simulations generated by both \texttt{SLiM}
-and \texttt{msprime} under different factors of population-size rescaling 
+and \texttt{msprime} under different factors of population-size rescaling
 (Figures \ref{fig:slim_val_map} and \ref{fig:slim_val_nomap}). We show that rescaling by up to a factor
-of $50$ ($Q=50$ in \texttt{SLiM}) produces patterns of both diversity and linkage disequilibrium that are 
-qualitatively similar to those observed under the coalescent (i.e. \texttt{msprime}), when both are simulated under a recombination map 
-(Figure \ref{fig:slim_val_map}). It is important to note that rescaling \textit{N} is not, in actuality, the equivalent to simulating 
+of $50$ ($Q=50$ in \texttt{SLiM}) produces patterns of both diversity and linkage disequilibrium that are
+qualitatively similar to those observed under the coalescent (i.e. \texttt{msprime}), when both are simulated under a recombination map
+(Figure \ref{fig:slim_val_map}). It is important to note that rescaling \textit{N} is not, in actuality, the equivalent to simulating
 all individuals in the population, and that differences between the two methods may be subtle and difficult to interpret.
-To emphasize this point, we show deviations between patterns of diversity generated by \texttt{SLiM} and those generated by 
-\texttt{msprime} engines at $Q=50$, when simulating under a uniform recombination rate (Figure \ref{fig:slim_val_nomap}). 
-The causes of these differences remain unclear. 
-While an in-depth investigation of the effects of population-size rescaling under selection 
-scenarios is outside the scope of this report, we are enthusiastic about the potential for \texttt{stdpopsim} and the 
+To emphasize this point, we show deviations between patterns of diversity generated by \texttt{SLiM} and those generated by
+\texttt{msprime} engines at $Q=50$, when simulating under a uniform recombination rate (Figure \ref{fig:slim_val_nomap}).
+The causes of these differences remain unclear.
+While an in-depth investigation of the effects of population-size rescaling under selection
+scenarios is outside the scope of this report, we are enthusiastic about the potential for \texttt{stdpopsim} and the
 \texttt{SLiM} engine to facilitate addressing such pertinent questions in the near future.
 
 
@@ -396,7 +396,7 @@ population and recent growth; Africa\_1T12), the three-population model of \cite
 which specifies the out-of-Africa bottleneck as well as the subsequent divergence of
 the European and Asian populations (OutOfAfrica\_3G09), the \cite{tennessen2012evolution} two-population variant of the
 \citeauthor{gutenkunst2009inferring} model which does not include Asian populations, but more explicitly models
-recent rapid human population growth (OutOfAfrica\_2T12), the \cite{browning2018ancestry} admixture model
+recent rapid human population growth in Europe (OutOfAfrica\_2T12), the \cite{browning2018ancestry} admixture model
 for American populations which specifies ancestral African, European, and Asian population
 components (AmericanAdmixture\_4B11), a three-population out-of-Africa model from \cite{ragsdale2019models}
 which includes archaic admixture (OutOfAfricaArchaicAdmixture\_5R19),
@@ -489,17 +489,18 @@ a model of human migration out of Africa that includes archaic admixture
 we show the inferred population size history (denoted $N(t)$)
 from samples taken from each of the three extant populations in the model.
 In each row we show comparisons among the methods (including two sample sizes for \MSMC).
-Blue lines show estimates from each of three replicate whole genome simulations. 
+Blue lines show estimates from each of three replicate whole genome simulations.
 When fitting single-population models to data simulated for multiple
-populations with migration, however, we do not necessarily expect the inference methods to recover the 
+populations with migration, however, we do not necessarily expect the inference methods to recover the
 ``true'' simulated population size due to model misspecification.
-Instead, many methods work by matching coalescence time distributions,
-and a single-population model with varying population size can match any coalescence time distribution
-(in which case coalescence rate is the inverse of the effective size).
+Instead, many methods work by matching coalescence time distributions, and a single-population model 
+with varying population size can be fit to data generated from a more complex model including migration. 
+In this case, the coalescence time distributions
+will exactly match, and the coalescence rate is the inverse of the effective population size.
 For this reason,
 we plot the inverse coalescence rates (black lines) calculated analytically in \texttt{msprime}
-as a benchmark of the ``truth'' in the single-population inference setting. However, 
-in this case inverse coalescence rates are very close to census population sizes 
+as a benchmark of the ``truth'' in the single-population inference setting. However,
+in this case inverse coalescence rates are very close to census population sizes
 (Figure \ref{fig:census_vs_IRC}).
 See the Appendix for a precise definition and description of the inverse coalescence rate computation.
 While there is variation in accuracy among methods, populations, and individual replicates,
@@ -588,7 +589,7 @@ model is often misspecified.
 For human models with more than two populations \citep[e.g.,][]{gutenkunst2009inferring}
 this means that we are inferring parameters for a model that does
 not match the model from which the data were generated (Figures
-\ref{fig:IM_popn_human}A and B). However, because model misspecification 
+\ref{fig:IM_popn_human}A and B). However, because model misspecification
 here is less severe compared to the single-population case, we compare
 our inferred population sizes only to the simulated population sizes (black line in
 Figure \ref{fig:IM_popn_human}C) and not the inverse coalescence rates.
@@ -596,7 +597,7 @@ Figure \ref{fig:IM_popn_human}C) and not the inverse coalescence rates.
 In Figure \ref{fig:IM_popn_human}C we show estimates of population sizes and divergence
 time, for each of the inference methods, using samples drawn from African and European populations
 simulated under the OutOfAfrica\_3G09 model. Our results highlight many
-of the strengths and weaknesses of the different types of methods we used.
+of the strengths and weaknesses of the different types of methods.
 For instance, the SFS-based approaches where we fit simple IM models do not capture
 recent exponential growth in the CEU population, but do consistently recover the
 simulated YRI population size history. Moreover, these approaches allow for estimating
@@ -610,12 +611,13 @@ because it assumes no migration between populations (Figure \ref{fig:IM_popn_hum
 
 Again, we can compare between species and look at the performance of these methods
 for a two-population model of \textit{D.~melanogaster}. Figure
-\ref{fig:two_popn_fly} shows inference results using data simulated under 
+\ref{fig:two_popn_fly} shows inference results using data simulated under
 the OutOfAfrica\_2L06 model. This model includes an ancestral population in
-Africa from which a European population splits off following a bottleneck, with no 
+Africa from which a European population splits off following a bottleneck, with no
 post-divergence gene flow between the African and European population (Figure \ref{fig:two_popn_fly}A).
 Here again, we find that \dadi and \fastsimcoal infer more consistent histories,
-but ignore the brief population bottleneck in Europe. In addition, \dadi
+but but do not detect the brief bottleneck in Europe, due to inference model
+not allowing for population size changes after the population split. In addition, \dadi
 and \fastsimcoal both do reasonably well at correctly inferring the absence of
 migration (Figure \ref{fig:dromel_mig_rates}). In contrast, the inferred
 demographic parameters from \smcpp are more noisy, though in some cases better
@@ -650,8 +652,8 @@ For instance, \stdpopsim could be used in power analyses to determine adequate s
 or in sanity checks, to see if observed data
 (e.g., levels of divergence or the allele frequency spectrum)
 are roughly consistent with the hypothesized scenario.
-Currently, many studies would benefit from simulation-based checks such as these,
-but this presents a major barrier,
+Currently, many studies would benefit from such simulation-based checks.
+However,  there are major barriers to implementation,
 since individual research groups must reimplement complex, previously published demographic models,
 a task made especially daunting by additional layers of realism (e.g., recombination maps).
 
@@ -708,7 +710,7 @@ especially when different methods are vulnerable to model misspecification in di
 Our implementations of genome representations and genetic maps for the some of
 the most common study systems in computational genetics---humans, \textit{Drosophila},
 and \textit{Arabidopsis} (among others)---are only intended to be a starting point for
-future development.  
+future development.
 Researchers are invited to contribute to the resource by adding their
 organisms and models of choice. The \stdpopsim resource is
 accompanied by clearly documented standard operating procedures that are
@@ -727,7 +729,7 @@ more realistic demography (overlapping generations, separate sexes, mortality/fe
 geographic population structure,
 and downstream aspects of data quality (genotyping and mapping error).
 Moreover, an in-depth investigation into the effects of population-size rescaling under many of the
-above scenarios is warented, given our preliminary findings using neutral simulations 
+above scenarios is warented, given our preliminary findings using neutral simulations
 (Figures \ref{fig:slim_val_map} and \ref{fig:slim_val_nomap}).
 These plans would not be possible without recent important work on SLiM \citep{haller2019slim},
 as well as current work on \texttt{msprime}.
@@ -889,8 +891,8 @@ regions using the same approach described for the single population workflow abo
 converted tree sequences into a two-dimensional site frequency spectrum for all
 chromosomes in the appropriate format for \dadi and \fastsimcoal.
 For each simulation
-replicate, we performed 10 runs of \dadi and \fastsimcoal, checking to ensure that 
-each method reached convergence. 
+replicate, we performed 10 runs of \dadi and \fastsimcoal, checking to ensure that
+each method reached convergence.
 
 Detailed settings for \dadi and \fastsimcoal can be found in the Snakefile
 on our git repository (\url{https://github.com/popsim-consortium/analysis}).
@@ -908,7 +910,7 @@ for each simulation replicate alongside the simulated population sizes
 (Figures \ref{fig:IM_popn_human}C and \ref{fig:two_popn_fly}C).
 Here, unlike the single-population workflow,
 we compare our inferred population sizes only to the simulated population
-sizes and not the inverse coalescence rates. 
+sizes and not the inverse coalescence rates.
 
 \section*{Resource availability}
 The version 0.1 release of \stdpopsim is available for download on Github:
@@ -946,9 +948,7 @@ We thank the Probabilistic Modeling in Genomics conference organizers for making
 and the Simons Center for Quantitative Biology at Cold Spring Harbor Laboratory
 for sponsoring the first workshop.
 Early on in the project we were encouraged by many people including Patrick Phillips, Richard Durbin,
-Dmitri Petrov, and Sohini Ramachandran. 
-In addition we would like to thank NESCENT and Matt Hahn, Victoria Sork, and Michael Whitlock for organizing a 2014
-catalysis meeting in which many of the goals of this effort were first laid out. 
+Dmitri Petrov, and Sohini Ramachandran.
 CCK and KEL were funded under NIH Award R35GM119856.
 JRA and ADK were funded under NIH Award R01GM117241.
 TJS and RNG were funded under NIH Award R01GM127348.
@@ -969,12 +969,12 @@ JK is supported by the Robertson Foundation.
 \begin{center}
 \includegraphics[width=0.8\linewidth]{display_items/HomSap_AE9K19_chr22_map_AI.pdf}
 \caption{\textbf{Validating the \texttt{SLiM} engine backend under a genetic map}.
-Here we validate our integration of the \texttt{SLiM} \citep{haller2019tree,haller2019slim} engine backend. 
-We show quantile-quantile plots between \texttt{SLiM} and \texttt{msprime} engines for three 
-population genetic summary statistics: \textit{r}\textsuperscript{2}, Tajima's $\pi$, and Tajima's D. Additionally, we 
-show runtimes for generating each simulation replicate. Data were generated by simulating 100 replicates 
+Here we validate our integration of the \texttt{SLiM} \citep{haller2019tree,haller2019slim} engine backend.
+We show quantile-quantile plots between \texttt{SLiM} and \texttt{msprime} engines for three
+population genetic summary statistics: \textit{r}\textsuperscript{2}, Tajima's $\pi$, and Tajima's D. Additionally, we
+show runtimes for generating each simulation replicate. Data were generated by simulating 100 replicates
 of human chromosome 22 under the AncientEurasia\_9K19 model \citep{kamm2019efficiently} and using the
-HapMapII\_GRCh37 genetic map \citep{international2007second}. From top to bottom we show results 
+HapMapII\_GRCh37 genetic map \citep{international2007second}. From top to bottom we show results
 using population-size rescaling for three scaling factors: Q=1, Q=10, and Q=100.
 }
 \label{fig:slim_val_map}
@@ -985,12 +985,12 @@ using population-size rescaling for three scaling factors: Q=1, Q=10, and Q=100.
 \begin{center}
 \includegraphics[width=0.8\linewidth]{display_items/HomSap_AE9K19_chr22_nomap_AI.pdf}
 \caption{\textbf{Validating the \texttt{SLiM} engine backend under uniform recombination}.
-Here we validate our integration of the \texttt{SLiM} \citep{haller2019tree,haller2019slim} engine backend. 
-We show quantile-quantile plots between \texttt{SLiM} and \texttt{msprime} engines for three 
-population genetic summary statistics: \textit{r}\textsuperscript{2}, Tajima's $\pi$, and Tajima's D. Additionally, we 
-show runtimes for generating each simulation replicate. Data were generated by simulating 100 replicates 
-of human chromosome 22 under the AncientEurasia\_9K19 model \citep{kamm2019efficiently} and using a uniform 
-rate of recombination across the chromosome. From top to bottom we show results 
+Here we validate our integration of the \texttt{SLiM} \citep{haller2019tree,haller2019slim} engine backend.
+We show quantile-quantile plots between \texttt{SLiM} and \texttt{msprime} engines for three
+population genetic summary statistics: \textit{r}\textsuperscript{2}, Tajima's $\pi$, and Tajima's D. Additionally, we
+show runtimes for generating each simulation replicate. Data were generated by simulating 100 replicates
+of human chromosome 22 under the AncientEurasia\_9K19 model \citep{kamm2019efficiently} and using a uniform
+rate of recombination across the chromosome. From top to bottom we show results
 using population-size rescaling for three scaling factors: Q=1, Q=10, and Q=100.
 }
 \label{fig:slim_val_nomap}
@@ -1001,10 +1001,10 @@ using population-size rescaling for three scaling factors: Q=1, Q=10, and Q=100.
 \begin{center}
 \includegraphics[width=0.8\linewidth]{display_items/HomSap_OutOfAfricaArchaicAdmixture_5R19_census_vs_IRC.pdf}
 \caption{\textbf{Comparing census population sizes and inverse coalescence rates in humans}.
-Data are shown from human genomes under the OutOfAfricaArchaicAdmixture\_5R19 model \citep{ragsdale2019models} 
-and using the HapMapII\_GRCh37 genetic map \citep{international2007second}. 
+Data are shown from human genomes under the OutOfAfricaArchaicAdmixture\_5R19 model \citep{ragsdale2019models}
+and using the HapMapII\_GRCh37 genetic map \citep{international2007second}.
 From left to right we show sizes for each of the three populations in the model: YRI, CEU, and CHB.
-We plot the census sizes for each population in black, and in red we plot 
+We plot the census sizes for each population in black, and in red we plot
 inverse coalescence rates as calculated from the demographic model used for simulation (see text).
 }
 \label{fig:census_vs_IRC}
@@ -1017,9 +1017,9 @@ inverse coalescence rates as calculated from the demographic model used for simu
 \caption{\textbf{Comparing estimates of $N(t)$ in humans}. Estimates of population
 size over time ($N(t)$) inferred using 4 different methods, \smcpp, \stairwayplot, and
 \MSMC with $n=2$ and $n=8$. Data were generated by simulating
-replicate human genomes under the OutOfAfrica\_3G09 model \citep{gutenkunst2009inferring} 
-and using the HapMapII\_GRCh37 genetic map \citep{international2007second}. 
-From top to bottom we show estimates for each of the three populations in the model: 
+replicate human genomes under the OutOfAfrica\_3G09 model \citep{gutenkunst2009inferring}
+and using the HapMapII\_GRCh37 genetic map \citep{international2007second}.
+From top to bottom we show estimates for each of the three populations in the model:
 YRI, CEU, and CHB. In shades of blue we show the estimated
 $N(t)$ trajectories for each replicate.
 As a proxy for the ``truth'', in black we show inverse coalescence rates
@@ -1035,7 +1035,7 @@ as calculated from the demographic model used for simulation (see text).
 \caption{\textbf{Comparing estimates of $N(t)$ in humans}. Here we show estimates of population
 size over time ($N(t)$) inferred using 4 different methods, \smcpp, and \texttt{stairway plot}, and
 \MSMC with $n=2$ and $n=8$. Data were generated by simulating
-replicate human genomes under a constant sized population model with $N=10^4$ 
+replicate human genomes under a constant sized population model with $N=10^4$
 and using the HapMapII\_GRCh37 genetic map \citep{international2007second}.
 As a proxy for the ``truth'', in black we show inverse coalescence rates
 as calculated from the demographic model used for simulation (see text).
