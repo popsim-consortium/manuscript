@@ -170,7 +170,7 @@ genetic and evolutionary processes, very little has been done to systematically
 benchmark the quality of these inferences or their robustness to deviations from the assumptions.
 As large databases of population genetic variation begin to be used to inform public health procedures,
 the accuracy and quality of these inferences is becoming ever more important.
- 
+
 Assessing the accuracy of inference methods for population genetics is
 challenging in large part because the ``ground-truth'' in question
 generally comes not from direct empirical observations, as the relevant
@@ -493,8 +493,8 @@ Blue lines show estimates from each of three replicate whole genome simulations.
 When fitting single-population models to data simulated for multiple
 populations with migration, however, we do not necessarily expect the inference methods to recover the
 ``true'' simulated population size due to model misspecification.
-Instead, many methods work by matching coalescence time distributions, and a single-population model 
-with varying population size can be fit to data generated from a more complex model including migration. 
+Instead, many methods work by matching coalescence time distributions, and a single-population model
+with varying population size can be fit to data generated from a more complex model including migration.
 In this case, the coalescence time distributions
 will exactly match, and the coalescence rate is the inverse of the effective population size.
 For this reason,
@@ -729,7 +729,7 @@ more realistic demography (overlapping generations, separate sexes, mortality/fe
 geographic population structure,
 and downstream aspects of data quality (genotyping and mapping error).
 Moreover, an in-depth investigation into the effects of population-size rescaling under many of the
-above scenarios is warented, given our preliminary findings using neutral simulations
+above scenarios is warranted, given our preliminary findings using neutral simulations
 (Figures \ref{fig:slim_val_map} and \ref{fig:slim_val_nomap}).
 These plans would not be possible without recent important work on SLiM \citep{haller2019slim},
 as well as current work on \texttt{msprime}.
@@ -749,6 +749,14 @@ which are likely good approximations for deep-time population history,
 but may be less useful for methods describing dynamics of contemporary populations.
 \Stdpopsim's framework is sufficiently general that more realistic population models
 will be easily incorporated, once they are published.
+Although the models in the catalog are state of the art, it is
+important to acknowledge that these are current best estimates of parameter values
+which will change over time. Additional complications such as changing
+genome builds as assemblies improve must also incorporated.
+As the selection of models and species grows, we hope to develop an improved
+documentation system that incorporates crowd-sourced community input
+to highlight the most appropriate models and genome details.
+
 
 % \paragraph{The problem of comparison} % Moved from the intro
 % Benchmarking the performance of inference methods in population genetics is not straightforward.
