@@ -122,13 +122,11 @@ however, as we now discuss in greater detail in the Discussion ("next steps").
 > 4. Page 15. The approach of masking "low-recombination" portions of the chromosomes seems like an incomplete/indirect attempt to model the inherent limitations of sequencing to an "accessible" genome.
 > a. Shouldn't the approach instead be to drop "low complexity" regions (e.g., as defined by an excessive number of "N"'s in the reference, low mapability scores, or via tools like RepeatMasker?). This part of the pipeline seems open to refinement.
 
-Maybe so, but beyond the scope?
-Issue #166 (andrewkern)
+Our initial motivation for masking was to reduce the overrepresentation of marginal trees with little to no recombination from biasing patterns of diversity in such a way that demographic inference methods would be misled. While we agree with the reviewer that different masking approaches might better reflect the masking done on real genomic data, at this time the best way to mask remains an open question, and we feel that a nuanced analysis of masking is outside the scope of this paper. For these reasons, we feel that masking using a simple recombination rate threshold is the most appropriate approach. We agree that there may indeed be better ways to mask, which is why we allow users to mask their simulations as they see fit.
 
 > b. Are the "masks" a separate configuration file for the simulations? It seems that it would be preferable for them to be separate from the recombination rate files - right now it reads as if the mask applied is a function of the genetic map file, but this seems too inflexible for users who prefer an alternative approach to masking.
 
-Each software package requires its own kind of masking - eg smc++ requires a bedfile.
-Issue #166
+Mask files are not currently a component of `stdpopsim` proper, rather they were implemented separately from running `stdpopsim`, for the sole purpose of comparing demographic inference methods. Users who download `stdpopsim` will always be simulating raw and unmasked tree sequence files, to which they can apply any variety of masks *post hoc*, if they so choose.
 
 ## Minor comments
 
