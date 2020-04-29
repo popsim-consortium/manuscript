@@ -20,10 +20,21 @@ We have also added a bit more to the discussion (below "next steps") on this poi
 
 > 2) We would like to see the SLIM integration demonstrated with an application that msprime doesn't cover. This could be, for example, a figure of the average value some summary statistics surrounding a selective under the human demographic model. The reviewers didn't want this to be a lot of work, e.g., it would be outside of the scope of the current paper to demonstrate the power of a range of selection methods. However, we felt that a simple demonstration of the functionality would substantially increase the scenarios easily available and imaginable by readers of the paper.
 
-Issue #150 (jadrion) will add the figures we need and some explanation;
-we need to explain here (and maybe in the text) that selection is beyond the scope of this paper,
-and instead we are focusing in the paper on validating scaling.
-This will also be covered by issue #164.
+
+We would like to see this also and agree that it would be of great interest.
+However, we felt that performing adequate simulations with selection would require
+a substantial amount of additional work and would significantly expand the scope of
+the manuscript.
+Furthermore, discussing selection would distract from the current relatively simple focus
+on inference of demographic history.
+We definitely intend to include selection (and expand the available generic models) in future work,
+as we now discuss in greater detail in the Discussion ("next steps").
+
+Consequently, we decided to add an example for possible use of SLiM in neutral simulations (see "simulation engines" section in the results and Supplementary Figures S1 and S2).
+Our focus there was to show that under neutral simulations, SLiM produced data that were consistent with the coalescent simulations of msprime.
+To expand on this fundamental point, we also examined the influence of population size down-scaling, which is a common practice used in forward simulations.
+While this is by no means a comprehensive investigation into this issue, we do believe that it demonstrates the use of SLiM in future applications that will also simulate selection.
+
 
 > 3) We felt that the discussion would benefit from a discussion of the details not yet incorporated into the platform, e.g. sex-specific recombination, gene conversion, assembly error, structural variants etc. Such an addition might spur future development, and also give the authors an opportunity to discuss general ways forward on these issues.
 
@@ -34,7 +45,10 @@ We're trying to walk the line between being forward-looking and promising too mu
 
 > 4) We would be interested to see more of a discussion of the strengths and weakness of the various demographic inference methods.
 
-We have added an additional paragraph to the discussion exploring some of the additional factors that may affect choice of inference method, beyond results like those presented here. These include data required, type of model, and software engineering. A comprehensive investigation of these issues is beyond the scope of the current manuscript, which focuses on the resource itself, rather than its application.
+We have added an additional paragraph to the discussion exploring various factors that may affect choice of inference method.
+These include the data required by the method, the type of model, and software engineering.
+We also provide a qualitative comparison between the performance of methods, as shown in our limited analysis.
+We believe that a more comprehensive comparison between methods is beyond the scope of the current manuscript, which focuses on the resource itself, rather than its application.
 
 > Beyond testing methods, another major use axis that I can personally see for this platform is for empirical researchers to see whether patterns they see in their data are consistent with known demographic models. For example, demonstrating whether the frequency spectrum in larger samples lines up with previously inferred models. Having all of these models implemented in a central place will significantly lower the barrier of entry of empirical researchers into rigorous simulation frameworks.
 
@@ -94,9 +108,9 @@ and without making promises about genome assemblies.)
 > b. On a related note, there is wording on page 4, regarding ensuring "implemented models are accurate" - I think what is meant is that the "implemented models are faithful to the source publications from which they derive". As the second half of this paper makes clear, because of errors in inference, many of these models will not be accurate, in the sense of representing the true history of the species.
 
 We made the suggested change:
-"Importantly, we have rigorous quality control methods to ensure that we have
+"Importantly, we developed rigorous quality control methods to ensure that we have
 correctly implemented the models as described in their original publication
-and have documented methods for others to contribute new modules."
+and provide documented methods for others to contribute new models."
 
 > 2. It would be wonderful to have a comments section for the models that would be either curated by a set of editors or crowd-sourced. I say this because over time, models will proliferate, and some will come to be regarded as out-of-date. One can imagine those approaching the field afresh will be overwhelmed by the possible selections and possible implement models that become outdated. If the goal is standardization, how do we communicate that standards change? A comment system (or even star-rating system?) may be wise to implement now. Assuming it can be layered on top of the existing structure, it may be enough for this publication to note this as a future challenge that needs development/addressing.
 
@@ -111,13 +125,12 @@ we feel happy about postponing this until the problem arises.
 
 > 3. In terms of the maturity of the examples developed for the initial release, I would have liked to see at least one simulation model with a selective sweep, one with background selection, and one with spatial stepping-stone structure. Each of these would be helpful test cases to implement to be sure that the existing catalog framework has the breadth/flexibility necessary to accommodate future use cases. I do not think this is a requirement for publication, but it would add great value to this initial release of the resource.
 
-We would like to see this also!
-But, we felt that the amount of work it took to get to this point
-made this a good point to release the publication.
-Furthermore, discussing selection would distract from the current relatively simple focus
+As mentioned in our response to the editor's comments, we agree that this is an important avenue to pursue in the near future.
+However, performing adequate simulations with selection would require
+a substantial amount of additional work and would likely distract from the current relatively simple focus
 on inference of demographic history.
 We definitely intend to include selection (and expand the available generic models) in future work,
-however, as we now discuss in greater detail in the Discussion ("next steps").
+as we now discuss in greater detail in the Discussion ("next steps").
 
 > 4. Page 15. The approach of masking "low-recombination" portions of the chromosomes seems like an incomplete/indirect attempt to model the inherent limitations of sequencing to an "accessible" genome.
 > a. Shouldn't the approach instead be to drop "low complexity" regions (e.g., as defined by an excessive number of "N"'s in the reference, low mapability scores, or via tools like RepeatMasker?). This part of the pipeline seems open to refinement.
@@ -171,20 +184,14 @@ Thanks for spotting this typo! We corrected it.
 
 > 7. Page 8. I like the approach of showing inverse coalescent rates, but it would be instructive to practitioners and useful for teaching, if in all figures you showed both the census sizes (e.g. with light grey dashed lines) and inverse rates (e.g. with dark grey solid lines as now in Fig 2).
 
-We agree that adding both census size and inverse coalescence rates to these plots would instructive. Thus, we have added census size to all of the single population analysis plots (Figs 2, 3, S1, S2, and S3) in addition to ICR. However, after some discussion, we have decided that adding ICR to the two population analysis plots (Figs 4, S5, and S7, which currently only have census size) might not be appropriate since these multi-population analyses do to some extent account for the effects of migration that are ignored in the single-population case, and should therefore be able to recover the true simulated population sizes.
-
-Finally, we note that we have decided to instead describe the true simulated population sizes as the "simulated population size" rather than "census size" as we realized the use of "census" here could be misleading (see below for further discussion).
-
-FIXME: add the census sizes to Figs 2, 3, S1, S2, and S3 and edit figure captions
-Issue #160 (jradrion)
+First, we note that we decided to avoid using "census size", and simply refer to it as the "simulated population size", as we realized the use of "census" here could be misleading (see below for further discussion). Regarding the main point raised by the reviewer, we agree that in the single-population analyses, it would be instructive to show both the simulated (census) population size and the inverse coalescence rates. We thus plotted the simulated population sizes against the inverse coalescence rate for the model used in Figure 2, and found that they were near identical. As a result, we decided to show this comparison in Supplementary Figure S1 and discuss this issue in the text without adding the simulated population sizes to the main figures (as they didn't appear to add much). Note that in the multi-population analyses, the inverse coalescence rate is less appropriate, because some of the inference methods used in these analyses model gene flow, and should therefore be able to recover the true simulated population sizes. We now clarify this in the text as well.
 
 
 > 8. Figure 4.
 > a. Confusing how in panels A and B time moves left to right, and in panel C time moves right to left.
 > b. Also, the figure would be improved by showing with vertical lines the timing of the CEU/YRI divergence in the true model. (similar comments hold for Figures S4 and S5)
 
-We agree that the orientation of this figure is confusing, and so have changed it as suggested. In addition, we had previously plotted divergence times here as vertical lines, however we felt that plotting it this way made the figure hard to read since there was a great deal of overlap between these lines and the N(t) lines on the figure, which was was especially difficult to read when including multiple replicates. Thus, we prefer to keep the lower divergence times panel for improved readability.
-
+We agree that the orientation of this figure is confusing, and so have changed it as suggested. In addition, we had previously plotted divergence times here as vertical lines, however we felt that plotting it this way made the figure hard to read since there was a great deal of overlap between these lines and the N(t) lines on the figure, which was was especially difficult to read when including multiple replicates. Thus, we decided to depict the divergence times (simulated and inferred) in a separate panel in the bottom of the figure, to improve readability.
 
 > 9. Page 16 "checked for convergence" : Wording - sounds like checking for convergence between the methods - I think you mean convergence by each method to an optimum in their respective objective functions.
 
@@ -226,7 +233,9 @@ Thank YOU! We hope you are right.
 
 > The authors mention the implementation of the SLiM package into stdpopsim, but I was unable to find any details of this either in the manuscript or on the readthedocs page. If this was indeed implemented, I would also like to see the authors add some tutorials/results of analyses based on SLiM simulated data.
 
-FIXME add description of what we added to the manuscript here.
+As mentioned in our response to the editor's comment, we added a demonstration of the use of SLiM to the results (see "Simulation engines" section and Supplementary Figures S1 and S2).
+This new analysis uses SLiM in neutral simulations to validate that it produces data that is consistent with data simulated under the coalescent.
+Furthermore, we provide a rudamentary examination of the effects of population size down-scaling, which is a common practice used in forward simulations such as SLiM.
 
 > "Adding further maps to the library is trivial" - discuss - since the audience for this is the broader pop-gen community, perhaps pointing them to the detailed development environment on readthedocs would be helpful.
 
@@ -256,15 +265,18 @@ Thanks! We hope it is useful to you and your students.
 
 > 1) The authors mention that SLiM can be used as an alternative backend, which would presumably allow for simulations with selection. Although I don't think an extensive comparison of selection methods is necessary for this paper, it would be ideal if the authors can give some idea of how this would work (example command line, etc). There are also a myriad of methods for detecting/quantifying selection, and these simulations are not consistent either.
 
-FIXME: fill this in.
-Issue #150 and #164, as above.
+
+As mentioned in our response to the editor's comment, we added a demonstration of the use of SLiM to the results (see "Simulation engines" section and Supplementary Figures S1 and S2).
+See also our response to related comments made by Reviewers #1 and #2.
 
 
 > 2) I like the inclusion of the "zigzag" history, as well as generic piecewise constant models and IM models (page 7). I wonder if these could be included in a separate section (not organism specific) in the documentation and software (and then in Table 1). Right now the zigzag model is under humans in the catalog.
 
-FIXME: maybe we should do this?
-
-Note that zigzag is in human because the parameterization is human-ish.
+This is an interesting idea. We did discuss adding a suite of generic models to stdpopsim that do not necessarily capture demographic parameters from a certain species,
+but do reflect general trends observed in inference. The "zigzag" model could definitely be one of these.
+This did not make it to this release, but we will note this for the next one.
+the reason why the zigzag model is currently defined as a human model is that its
+effective population size values are taken from (or at least inspired by) values inferred from human genomes.
 
 >
 > 3) On page 8 the authors set up notation for the number of replicates (R), number of chromosomes (C), and sample size (n), but don't seem to use it afterward (or use it inconsistently). It would be helpful if all the figure captions and main text included this notation (I am guessing the number of replicates is 3 based on the images, but this should be clarified). The authors use N in the Methods (i.e. page 15) to refer to population size (which makes sense), but then also say "In all cases we set the sample size of the focal population to N = 50 chromosomes." For MSMC, the sample size was set to n=2,8 which suggests haploid samples, but the "Calculating coalescence rates" section says that n is the diploid sample size.
@@ -357,9 +369,9 @@ However, we have realized that our use of "census size" here to describe the "tr
 as our intention was not to characterize these as actual "census" (as opposed to "effective") population sizes.
 To avoid this confusion, we have changed the manuscript to now describe them as the "simulated population size". For example, this section now reads:
 
-"However, because model misspecification
-here is less severe  compared to the single-population case, we compare
-our inferred population sizes only to the simulated population sizes (black line in
+"However, since the model we use for inference also
+allows gene flow between populations, we directly compare estimated effective population sizes
+to the values used in simulations (black line in
 Figure 4C) and not the inverse coalescence rates."
 
 We have, however, added more discussion of this point (with a citation to a review)
@@ -388,7 +400,7 @@ We reordered the figures to make sure they were referenced in the same order the
 
 > -Page 13: "overfit the YRI history" do you mean overfit in a technical sense?
 
-Really, we just mean that the inferred history has more population size changes
+We meant to say that the inferred history has more population size changes
 than the truth did;
 we've change this to "overcomplicate the simple YRI history".
 
