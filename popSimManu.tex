@@ -223,7 +223,8 @@ one or more inferred genetic maps (except for \textit{E.~coli}),
 default population-level parameters (mutation rate and generation time estimates).
 The catalog also contains numerous published demographic models for the first three species.
 These available models and parameters are meant to represent the field's current understanding,
-and we intend for this resource to evolve as new results become available.
+and we intend for this resource to evolve as new results become available, and relevant
+existing models are added to \stdpopsim by the community.
 Through either a command line interface or a simple Python API, users can specify which
 organism, genetic map, chromosome, and demographic history they are interested in simulating, and the
 simulation output from their chosen model is returned.
@@ -369,6 +370,7 @@ samples of \textit{A.~thaliana} in \cite{huber2018gene} (African2Epoch\_1H18 and
 %For \emph{E. coli} we have a simple, large constant population size model implemented.
 In addition to organism-specific models, \stdpopsim also includes a generic piecewise constant size model and
 isolation with migration (IM) model which can be used with any genome and genetic map.
+%DRS: do we want to include these generic models in Table 1?
 
 To guarantee reproducibility,
 we have standardized naming
@@ -400,7 +402,7 @@ as an alternative backend engine to \texttt{stdpopsim}, allowing for the simulat
 the coalescent. However, as forward-time simulators explicitly model all individuals in a population, simulating large
 population sizes can be highly demanding of computational resources. One common practice used to address this challenge is to
 scale down the population size used in the simulations (\textit{N}),
-and then scale down times specified in the demographic model by the same factor, and scale up the mutation and recombination
+scale down times specified in the demographic model by the same factor, and scale up the mutation and recombination
 rates and selection coefficients such that the scaled parameters, \textit{N$\mu$}, \textit{Nr},
 and \textit{Ns}, remain unchanged \citep[see the \texttt{SLiM} manual and][]{uricchio2014robust}.
 Such down-scaled simulations are not completely equivalent to simulating
@@ -417,21 +419,21 @@ population size by up to a factor
 of $50$ ($Q=50$ in \texttt{SLiM}) produces patterns of both diversity and linkage disequilibrium that are
 qualitatively similar to those observed under the coalescent (i.e. \texttt{msprime}), when both are simulated under a recombination map
 (Figure \ref{fig:slim_val_map}).
-We do observe a slight departure in values of Tajima's D when scaling down by a factor of $50$,
-likely due to the subtle differences implied by down-scaling.
+We do observe a slight departure in values of Tajima's $D$ when scaling down by a factor of $50$,
+likely due to the subtle differences produced by down-scaling.
 Interestingly, this effect of down-scaling is more prominent and extends to other sequence-based statistcs
 when data sets are simulated under a uniform recombination rate (Figure \ref{fig:slim_val_nomap}).
 Importantly, both comparisons validate the equivalence of \texttt{SLiM} and \texttt{msprime} when no down-scaling is applied,
 and they suggest that down-scaling population sizes can significantly reduce running time at a fairly modest cost to accuracy.
 However, since the effects of rescaling are not fully understood, scaling factors should be used as conservatively as practicable.
 The framework provided by \texttt{stdpopsim} should enable a deeper inspection of this issue, which we expect will contribute to
-best practices used when applying forward-time simulators, such as \texttt{SLiM}.
+best practices used when applying forward-time simulators such as \texttt{SLiM}.
 
 %Ilan: added this short subsection since this paragraph didn't quite fit any of the other subsections
 \subsection*{Documentation and reproducability}
 
 The \stdpopsim command line interface, by default, outputs citation information
-for the models, genetic maps and simulation engines used in any particular run.
+for the models, genetic maps, and simulation engines used in any particular run.
 We hope that this will encourage users to appropriately acknowledge the
 resources used in published work, and encourage authors
 publishing demographic models to contribute to our ongoing community-driven development process.
@@ -449,8 +451,8 @@ As an example of the utility of \stdpopsim, we demonstrate how it can be used
 to easily and fairly compare popular demographic inference methods.
 Although we present comparison of results from several
 methods, our aim at this stage is not to provide an exhaustive
-evaluation or ranking of these methods. Our hope is instead that future work built upon this resource
-will enable more detailed exploration of the strengths and weaknesses of the numerous
+evaluation or ranking of these methods. Our hope is instead to demonstrate how \stdpopsim
+will facilitate more detailed future explorations of the strengths and weaknesses of the numerous
 inference methods that are available to the population genetics community
 (see Discussion).
 
@@ -505,7 +507,8 @@ this distribution is only affected by the ancestral effective population sizes, 
 model it is also influenced by migration between the target population and populations not analyzed in inference.
 Since ancestral population sizes correspond to the inverse of the coalescence rates, by computing the
 inverse coalescence rates from the simulated model, we obtain the best estimates
-one may hope to infer by analyzing a single population. We thus analytically compute inverse coalescence
+one may hope to infer by analyzing a single population with a method that seeks to match coalescence time distributions.
+. We thus analytically compute inverse coalescence
 rates in \texttt{msprime} for each simulated model, and use them as a benchmark of the ``true'' effective population sizes.
 See the Appendix for a precise definition and description of the inverse coalescence rate computation.
 
@@ -517,18 +520,10 @@ we show the inferred population size history (denoted $N(t)$)
 from samples taken from each of the three extant populations in the model.
 In each row we show comparisons among the methods (including two sample sizes for \MSMC).
 Blue lines show estimates from each of three replicate whole genome simulations,
-and black lines indicate the ``true" values depicted by the inverse coalescence rates.
-The latter are included as an appropriate reference because
-when fitting single-population models to data simulated for multiple
-populations with migration, we do not necessarily expect the inference methods to recover the
-actual sizes of the populations used in simulation due to model misspecification.
-Instead, many methods work by matching coalescence time distributions, and a single-population model
-with varying population size can be fit to data generated from a more complex model including migration.
-In this case, the coalescence time distributions
-will exactly match, and the coalescence rate is the inverse of the effective population size.
-However, in this specific model,
-the inverse coalescence rates are very close to the simulated population sizes
-(Figure \ref{fig:census_vs_IRC}).
+and black lines indicate the ``true" values depicted by the inverse coalescence rates (although in this specific model
+the inverse coalescence rates are very close to the simulated population sizes;
+Figure \ref{fig:census_vs_IRC}).
+%DRS: trying to cut down on the redundancy between the coal rate stuff here and the previous paragraph
 While there is variation in accuracy among methods, populations, and individual replicates,
 the methods generally infer back a good estimate
 of the true effective population sizes of the simulations --
@@ -676,7 +671,7 @@ will prove to be an equally longstanding and valuable tradition in population ge
 Besides being a resource for developers of computational methods,
 we aim for \stdpopsim to be a resource for empirical researchers using genomic data.
 For instance, \stdpopsim could be used in power analyses to determine adequate sample sizes,
-or in sanity checks, to see if observed data
+or in sanity checks to see if observed data
 (e.g., levels of divergence or the allele frequency spectrum)
 are roughly consistent with the hypothesized scenario.
 Currently, many studies would benefit from such simulation-based checks.
@@ -693,16 +688,16 @@ For example, at the task of estimating population size histories for simulated h
 populations, we find that the sequence-based methods (\MSMC and \smcpp)
 perform somewhat better overall---at least for moderate times in the past---than
 the site frequency spectrum-based method (\stairwayplot),
-which tends to over-estimate the sizes of oscillations.
+which tends to over-estimate the sizes of oscillations
 (Figures~\ref{fig:n_t_ragsdale} and~\ref{fig:n_t_gutenkunst}).
 In contrast, \stairwayplot outperforms the sequence-based methods
 on simulations of \textit{D.~melanogaster} or \textit{A.~thaliana} populations,
 in which linkage disequilibrium is reduced (Figures~\ref{fig:n_t_sheehan} \& \ref{fig:n_t_AraTha}).
 In simulations of two human populations
-(Figure~\ref{fig:IM_popn_human}), most methods do reasonably well at
+(Figure~\ref{fig:IM_popn_human}), \dadi and \fastsimcoal do reasonably well at
 reconstructing the simulated YRI history, but struggle with the more complex simulated CEU
 history, in large part because the methods assume constant population sizes.
-An exception is \smcpp, which does not have the same
+On the other hand, \smcpp does not have the same
 restrictions on its inferred history, and as a result does somewhat better
 with the CEU history but tends to overcomplicate the simple YRI history.
 The results for
@@ -715,7 +710,8 @@ We compared inferences from simulated whole genome data, but many factors affect
 Markovian coalescent methods (\MSMC and \smcpp) require long contiguous stretches of sequence data.
 In contrast, frequency spectrum methods (\stairwayplot, \dadi, and \fastsimcoal) can use reduced-representation sequencing data, such as RADseq \citep{andrews2016radseq}.
 \dadi and \fastsimcoal require a pre-specified parametric model, unlike \MSMC, \smcpp, and \stairwayplot.
-Using a parametric approach yields less noisy results, but a model that is too simple may not capture important demographic events (Figures~\ref{fig:IM_popn_human} and~\ref{fig:two_popn_fly}).
+Using a parametric approach yields less noisy results, but a model that is too simple may not capture important demographic events (Figures~\ref{fig:IM_popn_human} and~\ref{fig:two_popn_fly}),
+and other forms of model misspeficification may also produce undesireable behavior.
 From a software engineering perspective, methods also differ in their ease of installation and use.
 We hope our workflows will assist in the application of all the methods we have considered.
 
@@ -750,7 +746,7 @@ so as to expand the resource to many more species.
 Although we have included demographic models and recombination maps,
 there are many biological processes that we do not model.
 Some of these additions that we are enthusiastic to add are:
-selection (including distributions of fitness effects, maps of functional elements, and single sweeps),
+selection (including distributions of fitness effects, maps of functional elements, and both single and recurrent hitchhiking events),
 gene conversion, mutation models (rate heterogeneity),
 more realistic demography (overlapping generations, separate sexes, mortality/fecundity schedules),
 geographic population structure,
@@ -768,7 +764,7 @@ transposable elements,
 and context-dependent mutation.
 
 % note: this is addressing reviewer comments about model uncertainty
-In particular, although the included demographic models represent the current state of the art,
+In particular, although the included demographic histories are some of the most widely used models for our current set of species,
 we anticipate the set of available models to expand
 as new methods and new modeling frameworks are developed.
 For instance, the current models all describe a small set of discrete, randomly mating populations,
@@ -776,13 +772,16 @@ which are likely good approximations for deep-time population history,
 but may be less useful for methods describing dynamics of contemporary populations.
 \Stdpopsim's framework is sufficiently general that more realistic population models
 will be easily incorporated, once they are published.
-Although the models in the catalog are state of the art, it is
-important to acknowledge that these are current best estimates of parameter values
-which will change over time. Additional complications such as changing
+%DRS: trying to make this part a little less subjective. We were kind of painting the picture that
+%we have all the best/useful models and everything currently published but not included is not useful,
+%and I don't think this is justified.
+Our current set may also omit other widely used models that can be readily incorporated into \stdpopsim.
+Additional complications such as changing
 genome builds as assemblies improve must also incorporated.
-As the selection of models and species grows, we hope to develop an improved
-documentation system that incorporates crowd-sourced community input
-to highlight the most appropriate models and genome details.
+As the selection of models and species grows, we hope to
+incorporate crowd-sourced community input
+to highlight the most appropriate models and genome annotations.
+%DRS: not in love with the word "annotations" here as some might think we are talking gene annotations (which we will be eventually but not yet), but "details" is too vague.
 
 
 % \paragraph{The problem of comparison} % Moved from the intro
