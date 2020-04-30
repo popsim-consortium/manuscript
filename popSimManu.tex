@@ -834,6 +834,16 @@ to resolve ambiguities.
 Further details of our QC process can be found in our developer documentation
 (\url{https://stdpopsim.readthedocs.io/en/latest/development.html#}).
 
+The possibility for error and the importance of careful qualty control
+was inadvertantly illustrated during our own development process:
+during the final revisions of this paper, we noticed that the 
+OutOfAfrica\_3G09 model \citep{gutenkunst2009inferring}
+had not in fact gone through the QC process.
+Then, the QC process revealed that not only was our implementation
+slightly wrong---migration rates had not been set to zero to the European population in the longest-ago time period
+when there should have only been a single population.
+This error was in fact propagated from the \texttt{msprime} documentation.
+
 \subsection*{Workflow for analysis of simulated data}
 To demonstrate the utility of \stdpopsim we created \texttt{Snakemake}
 workflows \citep{koster2012snakemake} that perform demographic inference on
