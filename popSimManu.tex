@@ -314,7 +314,7 @@ These range from
 simple, single population histories \cite[e.g.,][]{sheehan2016deep},
 to complex models which include population splitting, migration, and archaic
 admixture \cite[e.g.,][]{ragsdale2019models}.
-In addition to models from Table \label{tab:catalog}, 
+In addition to models from Table \autoref{tab:catalog}, 
 the PopSim Consortium has demographic models for \textit{Pongo abelii}, \textit{Canis familiaris}, and \textit{Escherichia coli} in development at time of writing.
 
 \renewcommand{\arraystretch}{1.2}
@@ -843,10 +843,11 @@ was inadvertantly illustrated during our own development process:
 during the final revisions of this paper, we noticed that the 
 OutOfAfrica\_3G09 model \citep{gutenkunst2009inferring}
 had not in fact gone through the QC process.
-Then, the QC process revealed that not only was our implementation
+The subsequent QC process revealed that in fact our implementation
 slightly wrong---migration rates had not been set to zero to the European population in the longest-ago time period
 when there should have only been a single population.
-This error was in fact propagated from the \texttt{msprime} documentation.
+This error was propagated from the \texttt{msprime} documentation,
+code which has been used in a number of other publications.
 
 \subsection*{Workflow for analysis of simulated data}
 To demonstrate the utility of \stdpopsim we created \texttt{Snakemake}
