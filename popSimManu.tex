@@ -182,8 +182,8 @@ Instead, the general modus
 operandi to date has been for individual groups to validate their own
 methods using simulations coded from scratch
 (perhaps provided as long command-line calls in supplementary material).
-Often these studies focus more on showcasing a novel method than on
-rigorously comparing it with competing methods.
+Often these simulations are more useful to showcase a novel method than to
+rigorously compare it with competing methods.
 Moreover, this situation results in a great deal of duplicated effort,
 and contributes to decreased reproducibility and transparency across the entire field.
 It is also a barrier to entry to the field, because new researchers can
@@ -214,13 +214,13 @@ for simulating published demographic models from a number of popular study syste
 This resource, which we call \stdpopsim, makes running
 realistic simulations for population genetic analysis a simple matter of
 choosing pre-implemented models from a community-maintained catalog.
-The \stdpopsim catalog currently contains five organisms: humans,
+The \stdpopsim catalog currently contains five species: humans,
 \textit{Drosophila melanogaster}, \textit{Arabidopsis thaliana},
 \textit{Escherichia coli}, and \textit{Canis familiaris}.
-For each organism, the catalog contains information on our current understanding of
-the physical organization (e.g., chromosome structure) of its genome,
+For each species, the catalog contains information on our current understanding of
+the physical organization of its genome (e.g., chromosome structure),
 one or more inferred genetic maps (except for \textit{E.~coli}),
-default population-level parameters (mutation rate and generation time estimates).
+and default population-level parameters (mutation rate and generation time estimates).
 The catalog also contains numerous published demographic models for the first three species.
 These available models and parameters are meant to represent the field's current understanding,
 and we intend for this resource to evolve as new results become available, and relevant
@@ -272,7 +272,14 @@ The first contribution of the PopSim consortium is \stdpopsim, a
 community-maintained library of empirical genome data and population genetics simulation
 models. Figure \ref{fig:cartoon} shows a graphical
 representation of the structure of \stdpopsim. The package centers
-on a catalog of species (Fig.~\ref{fig:cartoon}A), initially consisting of humans,
+on a catalog of species (Fig.~\ref{fig:cartoon}A), 
+and software resources to facilitate efficient simulations (Fig.~\ref{fig:cartoon}B-C).
+
+\subsection*{The species Catalog}
+
+The central feature of \stdpopsim is the species catalog, a systematic organization
+of the key quantitative data needed to simulate a given species. 
+Data is currently available for humans,
 \textit{D.~melanogaster}, \textit{A.~thaliana},
 \textit{Escherichia coli}, and \textit{Canis familiaris}.
 A species definition consists of two key elements.
@@ -302,20 +309,13 @@ specific historical scenarios that have been fit to present-day patterns of
 genetic variation (See the Methods for a description of the community
 development and quality-control process for these models.)
 
-
-\subsection*{The species Catalog}
-The central feature of \stdpopsim is the species catalog, a systematic organization
-of the key quantitative data needed to simulate a given species. These include a description
-of the genome assembly, information about mutation rate estimates, inferred recombination rate(s), and generation time
-in addition to a series of demographic models that have been estimated for that organism.
-
 The current demographic models in the \stdpopsim catalog are shown in \autoref{tab:catalog}.
 These range from
 simple, single population histories \cite[e.g.,][]{sheehan2016deep},
 to complex models which include population splitting, migration, and archaic
 admixture \cite[e.g.,][]{ragsdale2019models}.
-In addition to those models shown, at time of writing
-the PopSim Consortium has demographic models in development for \textit{Pongo abelii}, \textit{Canis familiaris}, and \textit{Escherichia coli}.
+In addition to models from Table \label{tab:catalog}, 
+the PopSim Consortium has demographic models for \textit{Pongo abelii}, \textit{Canis familiaris}, and \textit{Escherichia coli} in development at time of writing.
 
 \renewcommand{\arraystretch}{1.2}
 \begin{table}[t]
@@ -352,9 +352,7 @@ components (AmericanAdmixture\_4B11), a three-population out-of-Africa model fro
 which includes archaic admixture (OutOfAfricaArchaicAdmixture\_5R19),
 a complex model of ancient Eurasian admixture from \cite{kamm2019efficiently} (AncientEurasia\_9K19),
 and a synthetic model of oscillating population size from \cite{schiffels2014inferring} (Zigzag\_1S14).
-Together these models
-contain features believed to have widespread impacts in real data (e.g., bottlenecks, population growth,
-admixture) and are therefore highly pertinent in the context of method development.
+
 
 For \textit{D.~melanogaster} we have implemented the three-epoch model estimated by \cite{sheehan2016deep} from
 an African sample (African3Epoch\_1S16), as well as the out-of-Africa divergence
@@ -368,8 +366,14 @@ samples of \textit{A.~thaliana} in \cite{huber2018gene} (African2Epoch\_1H18 and
 %species divergence model of \cite{locke2011comparative}, which models isolation with migration between \emph{P. pygmaeus}
 %and \emph{P. abelii}.
 %For \emph{E. coli} we have a simple, large constant population size model implemented.
+
 In addition to organism-specific models, \stdpopsim also includes a generic piecewise constant size model and
-isolation with migration (IM) model which can be used with any genome and genetic map.
+isolation with migration (IM) model which can be used with any genome and genetic map. 
+Together these models
+contain many features believed to affect observed patterns of polymorphism (e.g., bottlenecks, population growth,
+admixture) and therefore provide useful benchmarks for method development.
+
+
 %DRS: do we want to include these generic models in Table 1?
 
 To guarantee reproducibility,
@@ -430,7 +434,7 @@ The framework provided by \texttt{stdpopsim} should enable a deeper inspection o
 best practices used when applying forward-time simulators such as \texttt{SLiM}.
 
 %Ilan: added this short subsection since this paragraph didn't quite fit any of the other subsections
-\subsection*{Documentation and reproducability}
+\subsection*{Documentation and reproducibility}
 
 The \stdpopsim command line interface, by default, outputs citation information
 for the models, genetic maps, and simulation engines used in any particular run.
