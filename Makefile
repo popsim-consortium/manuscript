@@ -6,6 +6,10 @@ popSimManu-diff-to-submission.tex : popSimManu.tex
 	latexdiff-git -r 8d336be37e4b1261dcc442c41b61585167c89cfd popSimManu.tex
 	mv popSimManu-diff8d336be37e4b1261dcc442c41b61585167c89cfd.tex $@
 
+popSimManu-diff-to-master.tex : popSimManu.tex 
+	latexdiff-git -r master popSimManu.tex
+	mv popSimManu-diffmaster.tex $@
+
 clean:
 	rm -f *.pdf *.aux *.bbl *.log
 
