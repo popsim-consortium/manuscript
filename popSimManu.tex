@@ -655,11 +655,8 @@ recent exponential growth in the CEU population, but do consistently recover the
 simulated YRI population size history. Moreover, these approaches allow 
 migration rates to be estimated (Figure \ref{fig:homsap_mig_rates}), and lead to more accurate inferences
 of divergence times. However, these migration rate estimates are somewhat biased.
-%ACS: seems unnecessary and redundant
-%likely due to model misspecification.
 In contrast, \smcpp is much better at capturing the recent exponential
-growth in the CEU population, though the inferred population sizes are generally noisier.
-In addition, \smcpp consistently underestimates divergence times
+growth in the CEU population, though it consistently underestimates divergence times
 because it assumes no migration between populations (Figure \ref{fig:IM_popn_human}C).
 
 Again, we can extend this analysis to other taxa and examine the performance of these methods
@@ -726,15 +723,15 @@ on simulations of \textit{D.~melanogaster} or \textit{A.~thaliana} populations,
 in which linkage disequilibrium is reduced (Figures~\ref{fig:n_t_sheehan} \& \ref{fig:n_t_AraTha}).
 In simulations of two human populations
 (Figure~\ref{fig:IM_popn_human}), \dadi and \fastsimcoal do reasonably well at
-reconstructing the simulated YRI history, but struggle with the more complex simulated CEU
+reconstructing the simulated YRI history and estimating divergence times, but struggle with the more complex simulated CEU
 history, in large part because the methods assume constant population sizes.
 On the other hand, \smcpp does not have the same
-restrictions on its inferred history, and as a result does somewhat better
-with the CEU history but tends to overcomplicate the simple YRI history.
-The results for
-the two-population \textit{D.~melanogaster} model (Figure~\ref{fig:two_popn_fly})
-are generally similar.
-In these comparisons, \fastsimcoal and \dadi perform almost identically, which is expected because they fit the same models to the same summaries of the data, differing only in how they calculate model expectations and optimize parameters.
+restrictions on its inferred history, and as a result does much better
+with the CEU history but tends to underestimate divergence times
+due to the assumption of no migration.
+The results for the two-population \textit{D.~melanogaster} model (Figure~\ref{fig:two_popn_fly}) are generally similar.
+In these comparisons, \fastsimcoal and \dadi perform almost identically, which is expected because they fit the same models to the same summaries of the data, 
+differing only in how they calculate model expectations and optimize parameters.
 
 All methods for inferring demographic history have strengths and weaknesses \citep[as recently reviewed by][]{beichman2018review}.
 We compared inferences from simulated whole genome data, but many factors affect choice of methodology.

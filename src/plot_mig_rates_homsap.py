@@ -7,8 +7,8 @@ import subprocess
 
 
 
-dadi_infile = "homo_sapiens_mask_full_genome/Results/best_dadi_runs.txt"
-fsc_infile = "homo_sapiens_mask_full_genome/Results/best_fsc_runs.txt"
+dadi_infile = "homo_sapiens_full_genome/Results/best_dadi_runs.txt"
+fsc_infile = "homo_sapiens_full_genome/Results/best_fsc_runs.txt"
 simulated_genome_length = 2681441344.0
 
 outfile = "homsap_migration_rates.pdf"
