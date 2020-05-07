@@ -6,7 +6,6 @@ infile_pop0="../data/HomSap_OutOfAfrica_3G09_pop0_sizes.txt"
 infile_pop1="../data/HomSap_OutOfAfrica_3G09_pop1_sizes.txt"
 infile_pop2="../data/HomSap_OutOfAfrica_3G09_pop2_sizes.txt"
 outfile="../display_items/HomSap_OutOfAfrica_3G09.pdf"
-species="Homo sapiens"
 pop0_name="YRI"
 pop1_name="CEU"
 pop2_name="CHB"
@@ -62,7 +61,6 @@ tab2D = subset(tab2,method == method4_id)
 tab2Y = subset(tab2,method == "census")
 tab2Z = subset(tab2,method == "coal")
 
-speciesPop <- bquote(italic(.(species)) ~ (.(pop0_name)))
 p0A<-ggplot(tab0A, aes(x=x, y=y, group=interaction(rep), colour=rep)) +
   coord_cartesian(xlim=c(xMin,xMax),ylim=c(y0Min,y0Max)) +
   geom_step(data=tab0Z,aes(x=x, y=y),size=3.3,alpha=1.0, col=truth_color) +
@@ -77,7 +75,8 @@ p0A<-ggplot(tab0A, aes(x=x, y=y, group=interaction(rep), colour=rep)) +
   labs(x="", y="", title="", subtitle=method1_name, colour="", fill="")+
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())
+        axis.ticks.x=element_blank(),
+        plot.subtitle = element_text(size = 28))
 
 p0B<-ggplot(tab0B, aes(x=x, y=y, group=interaction(rep), colour=rep)) +
   coord_cartesian(xlim=c(xMin,xMax),ylim=c(y0Min,y0Max)) +
@@ -96,7 +95,8 @@ p0B<-ggplot(tab0B, aes(x=x, y=y, group=interaction(rep), colour=rep)) +
         axis.ticks.x=element_blank()) +
   theme(axis.title.y=element_blank(),
         axis.text.y=element_blank(),
-        axis.ticks.y=element_blank())
+        axis.ticks.y=element_blank(),
+        plot.subtitle = element_text(size = 28))
 
 p0C<-ggplot(tab0C, aes(x=x, y=y, group=interaction(rep), colour=rep)) +
   coord_cartesian(xlim=c(xMin,xMax),ylim=c(y0Min,y0Max)) +
@@ -115,7 +115,8 @@ p0C<-ggplot(tab0C, aes(x=x, y=y, group=interaction(rep), colour=rep)) +
         axis.ticks.x=element_blank()) +
   theme(axis.title.y=element_blank(),
         axis.text.y=element_blank(),
-        axis.ticks.y=element_blank())
+        axis.ticks.y=element_blank(),
+        plot.subtitle = element_text(size = 28))
 
 p0D<-ggplot(tab0D, aes(x=x, y=y, group=interaction(rep), colour=rep)) +
   coord_cartesian(xlim=c(xMin,xMax),ylim=c(y0Min,y0Max)) +
@@ -134,7 +135,8 @@ p0D<-ggplot(tab0D, aes(x=x, y=y, group=interaction(rep), colour=rep)) +
         axis.ticks.x=element_blank()) +
   theme(axis.title.y=element_blank(),
         axis.text.y=element_blank(),
-        axis.ticks.y=element_blank()) 
+        axis.ticks.y=element_blank(),
+        plot.subtitle = element_text(size = 28)) 
   
 speciesPop <- bquote((.(pop1_name)))
 p1A<-ggplot(tab1A, aes(x=x, y=y, group=interaction(rep), colour=rep)) +
@@ -277,7 +279,7 @@ p2D<-ggplot(tab2D, aes(x=x, y=y, group=interaction(rep), colour=rep)) +
         axis.ticks.y=element_blank())
 
 pg<-plot_grid(p0A, p0B, p0C, p0D, p1A, p1B, p1C, p1D, p2A, p2B, p2C, p2D, ncol=4, rel_widths = c(1.38,1,1,1), rel_heights = c(1.055,1,1.21))
-pg_custom<-ggdraw(add_sub(pg, expression(paste("Years ago")), vpadding=grid::unit(0,"lines"),y=6, x=0.535, vjust=5, size=30)) +
-draw_label("Population size", x=0, y=0.51, vjust= 1.5, angle=90, size=30)
+pg_custom<-ggdraw(add_sub(pg, expression(paste("Years ago")), vpadding=grid::unit(0,"lines"),y=6, x=0.55, vjust=5, size=28)) +
+  draw_label(expression("Population size "*italic(N)*"(t)"), x=0, y=0.52, vjust= 1.25, angle=90, size=28)
 save_plot(outfile, pg_custom, base_height = 18 , base_width = 14)
 

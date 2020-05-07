@@ -7,9 +7,9 @@ infile_pop1="../data/HomSap_OutOfAfricaArchaicAdmixture_5R19_pop1_sizes.txt"
 infile_pop2="../data/HomSap_OutOfAfricaArchaicAdmixture_5R19_pop2_sizes.txt"
 outfile="../display_items/HomSap_OutOfAfricaArchaicAdmixture_5R19_census_vs_IRC.pdf"
 species="Homo sapiens"
-pop0_name="(YRI)"
-pop1_name="(CEU)"
-pop2_name="(CHB)"
+pop0_name="YRI"
+pop1_name="CEU"
+pop2_name="CHB"
 IRC="#bd0026"
 census="black"
 
@@ -48,8 +48,9 @@ p0A<-ggplot() +
   annotation_logticks(sides="b") +
   annotation_logticks(sides="l") +
   theme_classic(base_size = 24) +
-  labs(x="", y="", title="", subtitle=pop0_name, colour="", fill="")+
-  theme(axis.text.x = element_text(angle = 45,hjust = 0.5,vjust = 0.5)) 
+  labs(x="", y="", subtitle=pop0_name, colour="", fill="")+
+  theme(axis.text.x = element_text(angle = 45,hjust = 0.5,vjust = 0.5),
+        plot.subtitle = element_text(size = 28)) 
 
 
 p0B<-ggplot() +
@@ -61,11 +62,12 @@ p0B<-ggplot() +
   annotation_logticks(sides="b") +
   annotation_logticks(sides="l") +
   theme_classic(base_size = 24) +
-  labs(x="", y="", title="", subtitle=pop1_name) +
+  labs(x="", y="", subtitle=pop1_name) +
   theme(axis.text.x = element_text(angle = 45,hjust = 0.5,vjust = 0.5)) +
   theme(axis.title.y=element_blank(),
         axis.text.y=element_blank(),
-        axis.ticks.y=element_blank())
+        axis.ticks.y=element_blank(),
+        plot.subtitle = element_text(size = 28))
 
 
 p0C<-ggplot() +
@@ -77,15 +79,17 @@ p0C<-ggplot() +
   annotation_logticks(sides="b") +
   annotation_logticks(sides="l") +
   theme_classic(base_size = 24) +
-  labs(x="", y="", title="", subtitle=pop2_name) +
+  labs(x="", y="", subtitle=pop2_name) +
   theme(axis.text.x = element_text(angle = 45,hjust = 0.5,vjust = 0.5)) +
   theme(axis.title.y=element_blank(),
         axis.text.y=element_blank(),
-        axis.ticks.y=element_blank())
+        axis.ticks.y=element_blank(),
+        plot.subtitle = element_text(size = 28))
 
 
 pg<-plot_grid(p0A, p0B, p0C, ncol=3, rel_widths = c(1.25,1,1))
-pg_custom<-ggdraw(add_sub(pg, expression(paste("Years ago")), vpadding=grid::unit(0,"lines"),y=6, x=0.535, vjust=5, size=30)) +
-draw_label("Population size", x=0, y=0.51, vjust= 1.5, angle=90, size=30)
-save_plot(outfile, pg_custom, base_height = 6, base_width = 14)
+pg_custom<-ggdraw(add_sub(pg, expression(paste("Years ago")), vpadding=grid::unit(0,"lines"),y=6, x=0.54, vjust=5, size=28)) +
+  draw_label(expression("Population size "*italic(N)*"(t)"), x=0, y=0.594, vjust= 1.25, angle=90, size=28)
+save_plot(outfile, pg_custom, base_height = 6 , base_width = 14)
+
 
