@@ -230,9 +230,9 @@ The catalog also contains numerous published demographic models for the first th
 These available models and parameters are meant to represent the field's current understanding,
 and we intend for this resource to evolve as new results become available, and relevant
 existing models are added to \stdpopsim by the community.
-Through either a command line interface or a simple Python API, users can specify which
-organism, genetic map, chromosome, and demographic history they are interested in simulating, and the
-simulation output from their chosen model is returned.
+We have implemented both a command line interface and a simple Python API
+that can be used to simulate genomic data
+from a choice of organism, genetic map, chromosome, and demographic history.
 In this way, \stdpopsim will lower the barrier to high-quality simulation for exploratory analyses,
 enable rigorous evaluation of population genetic software,
 and contribute to increased reliability of population genetic inferences.
@@ -275,12 +275,24 @@ and simulate models using \textbf{(B)} the python API or \textbf{(C)} the comman
 %ACS: the consortium really isn't the point; let's get right to describing what stdpopsim is
 %The first contribution of the PopSim consortium is 
 The \stdpopsim library is a
-a community-maintained collection of empirical genome data and population genetics simulation models.
-Figure \ref{fig:cartoon} shows a graphical representation of the structure of \stdpopsim.
+a community-maintained collection of empirical genome data and population genetics simulation models,
+with a structure depicted in Figure \ref{fig:cartoon}.
 The package centers on a catalog of genomic information and demographic models
 for a growing list of species (Fig.~\ref{fig:cartoon}A), 
 and software resources to facilitate efficient simulations (Fig.~\ref{fig:cartoon}B-C).
 
+Given the genome data and simulation model descriptions defined within the
+library, it is straightforward to run standardized simulations
+across a range of organisms. \Stdpopsim has a Python API and a user-friendly
+command line interface, allowing users with minimal experience direct access to
+state-of-the-art simulations. Simulations are output in the ``tree sequence''
+format \citep{kelleher2016efficient,kelleher2018efficient,kelleher2019inferring}, which
+contains complete genealogical information about the simulated samples, is
+extremely compact, and can be processed efficiently using the \tskit library
+\citep{kelleher2016efficient,kelleher2018efficient}.
+The tree sequence format could also be converted
+to other formats (e.g., VCF) by the user if desired.
+ 
 \subsection*{The species catalog}
 
 The central feature of \stdpopsim is the species catalog, a systematic organization
@@ -389,58 +401,54 @@ of unique identifiers used throughout \stdpopsim,
 as described in our documentation
 (\url{https://stdpopsim.readthedocs.io/en/latest/development.html#naming-conventions}).
 
- \subsection*{Simulation engines}
+\subsection*{Simulation engines}
 
-Given the genome data and simulation model descriptions defined within the
-library, it is straightforward to run standardized simulations
-across a range of organisms. \Stdpopsim has a Python API and a user-friendly
-command line interface, allowing users with minimal experience direct access to
-state-of-the-art simulations. Simulations are output in the ``tree sequence''
-format \citep{kelleher2016efficient,kelleher2018efficient,kelleher2019inferring}, which
-contains complete genealogical information about the simulated samples, is
-extremely compact, and can be processed efficiently using the \tskit library
-\citep{kelleher2016efficient,kelleher2018efficient}.
-The tree sequence format could also be converted
-to other formats (e.g., VCF) by the user if desired.
 Currently, \stdpopsim uses the  \texttt{msprime} coalescent simulator \citep{kelleher2016efficient}
 as the default simulation engine.
-
 Coalescent simulations, while highly efficient, are limited in their ability to model
-complex selection scenarios, such as recurrent sweeps and background selection. For these reasons,
+continuous geography or 
+complex selection scenarios, such as recurrent sweeps and background selection.
+For these reasons,
 we have also implemented the forward-time simulator, \texttt{SLiM} \citep{haller2019tree,haller2019slim},
 as an alternative backend engine to \texttt{stdpopsim}, allowing for the simulation of processes that cannot be modeled under
 the coalescent. However, as forward-time simulators explicitly model all individuals in a population, simulating large
 population sizes can be highly demanding of computational resources. One common practice used to address this challenge is to
-scale down the population size used in the simulations (\textit{N}),
-scale down times specified in the demographic model by the same factor, and scale up the mutation and recombination
-rates and selection coefficients such that the scaled parameters, \textit{N$\mu$}, \textit{Nr},
-and \textit{Ns}, remain unchanged \citep[see the \texttt{SLiM} manual and][]{uricchio2014robust}.
+simulate a \emph{smaller} population, but to rescale resulting times,
+mutation rates, recombination rates, and selection coefficients
+so that the intensity of mutation, recombination, and allele frequency change due to selection
+per unit time remains the same
+%% PLR: the following is not worded quite right, or at least confusingly, because if you scale time
+%% then this scales rates also; I've opted for a less precise but more descriptive formulation?
+% scale down the population size used in the simulations (\textit{N}),
+% scale down times specified in the demographic model by the same factor, and scale up the mutation and recombination
+% rates and selection coefficients such that the scaled parameters, \textit{N$\mu$}, \textit{Nr}, and \textit{Ns}, remain unchanged
+\citep[see the \texttt{SLiM} manual and][]{uricchio2014robust}.
+Our implementation of the \texttt{SLiM} backend allows easy use of this \emph{rescaling}
+through a single ``scaling factor'' argument.
 Such down-scaled simulations are not completely equivalent to simulating
-all individuals in the population, and may lead to subtle differences.
-However, since many sequence-based measures of population diversity remain unchanged when rescaling in this fashion,
+all individuals in the population, and may lead to subtle differences,
+especially in the presence of selection.
+However, since many sequence-based measures of population diversity remain nearly unchanged when rescaling in this fashion,
 this practice is effective for many purposes and widely employed.
 
 We validated our implementation of the \texttt{SLiM} engine by comparing
 estimates of several population genetic summary statistics for neutral simulations generated by both \texttt{SLiM}
 and \texttt{msprime}.
-Examples of this validation for different down-scaling factors are shown in
-Figures \ref{fig:slim_val_map} and \ref{fig:slim_val_nomap}, which indicate that scale factors of up to
-$50$ ($Q=50$ in \texttt{SLiM}) produce patterns of both diversity and linkage disequilibrium that are
-qualitatively similar to those observed under the coalescent (i.e. \texttt{msprime}), when both are simulated under a recombination map
-(Figure \ref{fig:slim_val_map}).
-We do observe a slight departure in values of Tajima's $D$ when scaling down by a factor of $50$.
+Examples of this validation for the AncientEurasia\_9K19 model \citep{AncientEurasia 9K19}
+are shown in Figures \ref{fig:slim_val_map} and \ref{fig:slim_val_nomap}.
+For this model,
+down-scaling factors of up to $50$ produce patterns of both diversity and linkage disequilibrium that are
+very similar to those observed under the coalescent (i.e., \texttt{msprime}), when both are simulated using the HapMapII\_GRCh37 recombination map
+(Figure \ref{fig:slim_val_map}),
+although the distribution of Tajima's $D$ differs slightly when scaling down by a factor of $50$.
 %likely due to the subtle differences produced by down-scaling.
 Interestingly, the effects of down-scaling are more prominent and extend to other sequence-based statistics
 when data sets are simulated under a uniform recombination rate (Figure \ref{fig:slim_val_nomap}).
-Importantly, both comparisons validate the equivalence of \texttt{SLiM} and \texttt{msprime} when no down-scaling is applied,
-and they suggest that down-scaling population sizes can significantly reduce running time at a fairly modest cost to accuracy.
-% ACS: We might consider deleting the next two sentences.  This feels like a lot on down-scaling, and it's a bit verbose as written.  Maybe 
-% better to come back to it in the discussion if we want to say more.
-However, since the effects of rescaling are not fully understood, scaling factors should be used as conservatively as practicable.
-The framework provided by \texttt{stdpopsim} should enable a deeper inspection of this issue, which we expect will contribute to
-best practices used when applying forward-time simulators such as \texttt{SLiM}.
+Importantly, both comparisons validate the equivalence of \texttt{SLiM} and \texttt{msprime} when no down-scaling is applied.
+The results are also optimistic about the rescaling strategy to reduce computational burden,
+but the possible effects are not well-understood,
+so results relying on rescaled simulations should be carefully validated.
 
-%Ilan: added this short subsection since this paragraph didn't quite fit any of the other subsections
 \subsection*{Documentation and reproducibility}
 
 The \stdpopsim command-line interface, by default, outputs citation information
@@ -517,13 +525,16 @@ For single-population demographic models, we compared
  on simulated genomes sampled from a single population,
 under several of the demographic models described above.
 However, these experiments raise the question of what to use as the ``true" population sizes in the case of multi-population models with migration.
-In particular, when simple single-population models are fit to data simulated under such complex models, 
-they are not expected to recover the actual simulated population sizes owing to model misspecification.
+In particular, a simple single-population model that is fit to data simulated
+under a multi-population model, 
+is not expected to recover the actual simulated population sizes,
+because of model misspecification.
 Instead, we argue that the best one may expect in such a scenario is to infer a model that accurately reflects the
-coalescence time distribution of the simulated model.  In turn, the inverses of these coalescence times (expressed in appropriate units) 
-correspond to population sizes.
+coalescence time distribution of the simulated model.
 Under a multi-population model, the coalescence time distribution is influenced by migration between the target population and populations not analyzed in inference,
 as well as by the ancestral effective population sizes.
+The inverse coalescence rate is commonly interpreted as the effective population size,
+since these are equal in a single-population model with random mating.
 We thus analytically computed inverse coalescence
 rates in \texttt{msprime} for each simulated model, and used them as benchmarks for the ``true'' effective population sizes.
 See the Appendix for a precise definition and description of the inverse coalescence rate computation.

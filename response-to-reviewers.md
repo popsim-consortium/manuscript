@@ -168,8 +168,7 @@ but haven't included the URL since googling "stdpopsim" features the correct pag
 > a. "bespoke" struck me as a distracting word choice, given its contemporary associations. Upon checking a dictionary, I see how it is an appropriate and precise word choice, but maybe it's best to instead simply say: "custom" or "one-off".
 > b. To elaborate on the point you're making here, you could also share how the general modus operandi often includes the pasting of long unwieldy command-line calls for generating simulations into methods sections. Many of these command-line values are buried across the literature, often in supplementary methods. Additional virtues of your catalog is having: 1) a central repository for such models, and 2) modular configuration files (e.g. I can keep the same demographic model, but change the recombination map, without having to re-write, or learn, the innards of a complex command-line for ms/msprime)
 
-We've replaced "bespoke" with "coded from scratch", which we think is more descriptive,
-and added a parenthetical note about command-line calls in supplementary material (which is a good point).
+We've replaced "bespoke" with "coded from scratch", which we think is more descriptive.
 We hope that the other points are made elsewhere.
 
 
