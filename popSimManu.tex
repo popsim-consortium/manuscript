@@ -219,17 +219,18 @@ for simulating published demographic models from a number of popular study syste
 This resource, which we call \stdpopsim, makes running
 realistic simulations for population genetic analysis a simple matter of
 choosing pre-implemented models from a community-maintained catalog.
-The \stdpopsim catalog currently contains five species: humans,
+The \stdpopsim catalog currently contains six species: humans,
+\textit{Pongo abelii},
 \textit{Drosophila melanogaster}, \textit{Arabidopsis thaliana},
 \textit{Escherichia coli}, and \textit{Canis familiaris}.
-For each species, the catalog contains information on our current understanding of
-the physical organization of its genome (e.g., chromosome structure),
-one or more inferred genetic maps (except for \textit{E.~coli}),
-and default population-level parameters (mutation rate and generation time estimates).
-The catalog also contains numerous published demographic models for the first three species.
-These available models and parameters are meant to represent the field's current understanding,
-and we intend for this resource to evolve as new results become available, and relevant
-existing models are added to \stdpopsim by the community.
+For each species, the catalog contains curated information on our current understanding of
+the physical organization of its genome,
+inferred genetic maps,
+population-level parameters (e.g., mutation rate and generation time
+estimates), and published demographic models.
+These models and parameters are meant to represent the field's current understanding,
+and we intend for this resource to evolve as new results become available, and
+other existing models are added to \stdpopsim by the community.
 We have implemented both a command line interface and a simple Python API
 that can be used to simulate genomic data
 from a choice of organism, genetic map, chromosome, and demographic history.
@@ -240,7 +241,7 @@ and contribute to increased reliability of population genetic inferences.
 
 The \stdpopsim library has been developed by the PopSim Consortium using a
 distributed open source model, with strong procedures in place
-to continue its growth and maintain its quality.
+to continue its growth and maintain quality.
 Importantly, we developed rigorous quality control methods to ensure that we have
 correctly implemented the models as described in their original publication
 and provided documented methods for others to contribute new models.
@@ -274,9 +275,9 @@ and simulate models using \textbf{(B)} the python API or \textbf{(C)} the comman
 
 %ACS: the consortium really isn't the point; let's get right to describing what stdpopsim is
 %The first contribution of the PopSim consortium is
-The \stdpopsim library is a
+The \stdpopsim library is
 a community-maintained collection of empirical genome data and population genetics simulation models,
-with a structure depicted in Figure \ref{fig:cartoon}.
+illustrated in Figure \ref{fig:cartoon}.
 The package centers on a catalog of genomic information and demographic models
 for a growing list of species (Fig.~\ref{fig:cartoon}A),
 and software resources to facilitate efficient simulations (Fig.~\ref{fig:cartoon}B-C).
@@ -285,7 +286,7 @@ Given the genome data and simulation model descriptions defined within the
 library, it is straightforward to run standardized simulations
 across a range of organisms. \Stdpopsim has a Python API and a user-friendly
 command line interface, allowing users with minimal experience direct access to
-state-of-the-art simulations. Simulations are output in the ``tree sequence''
+state-of-the-art simulations. Simulations are output in the ``succinct tree sequence''
 format \citep{kelleher2016efficient,kelleher2018efficient,kelleher2019inferring}, which
 contains complete genealogical information about the simulated samples, is
 extremely compact, and can be processed efficiently using the \tskit library
@@ -298,8 +299,9 @@ to other formats (e.g., VCF) by the user if desired.
 The central feature of \stdpopsim is the species catalog, a systematic organization
 of the key quantitative data needed to simulate a given species.
 Data is currently available for humans,
+\textit{P.~abelii},
 \textit{D.~melanogaster}, \textit{A.~thaliana},
-\textit{Escherichia coli}, and \textit{Canis familiaris}.
+\textit{E.~coli}, and \textit{C.~familiaris}.
 A species definition consists of two key elements.
 Firstly, the library defines some basic information about our current understanding of each
 species' genome, including information about chromosome
@@ -316,6 +318,7 @@ where it can be quickly retrieved for subsequent simulations.
 In the initial version of \stdpopsim we support
 the HapMapII~\citep{international2007second} and
 deCODE~\citep{kong2010fine} genetic maps for humans;
+the \cite{nater2017morphometric} maps for \textit{P.~abelii};
 the \cite{salome2011recombination} map for \textit{A.~thaliana};
 the \cite{comeron2012many} map for \textit{D.~melanogaster},
 and the \cite{campbell2016pedigree} map for \textit{C.~familiaris}.
@@ -326,15 +329,6 @@ descriptions from the literature, which allow simulation under
 specific historical scenarios that have been fit to present-day patterns of
 genetic variation (See the Methods for a description of the community
 development and quality-control process for these models.)
-
-The current demographic models in the \stdpopsim catalog are shown in \autoref{tab:catalog}.
-These range from
-simple, single population histories \cite[e.g.,][]{sheehan2016deep},
-to complex models which include population splitting, migration, and archaic
-admixture \cite[e.g.,][]{ragsdale2019models}.
-In addition to models from Table \autoref{tab:catalog},
-the PopSim Consortium has demographic models for \textit{Pongo abelii}, \textit{Canis familiaris}, and \textit{Escherichia coli} in development at time of writing.
-
 \renewcommand{\arraystretch}{1.2}
 \begin{table}[t]
 % Make sure the table is centered even though it's too wide
@@ -346,7 +340,8 @@ the PopSim Consortium has demographic models for \textit{Pongo abelii}, \textit{
 \caption{\label{tab:catalog}
 Initial set of demographic models in the catalog and summary of computing resources needed for simulation.
 For each model, we report the CPU time, maximum memory usage and the
-size of the output \tskit file, as simulated using the \texttt{msprime} simulation engine.
+size of the output \tskit file, as simulated using the \texttt{msprime}
+simulation engine (version 0.7.4).
 In each case, we simulate 100 samples
 drawn from the first population, for the shortest chromosome of that species
 and a constant chromosome-specific recombination rate.
@@ -356,9 +351,14 @@ recombination rates and other factors.
 }
 \end{table}
 
-Currently, {\em Homo sapiens} has the largest number of population models in
-\stdpopsim (see Table \ref{tab:catalog}).
-These models include: a simplified version of the \cite{tennessen2012evolution}
+
+The current demographic models in the \stdpopsim catalog are shown in \autoref{tab:catalog}.
+% These range from
+% simple, single population histories \cite[e.g.,][]{sheehan2016deep},
+% to complex models which include population splitting, migration, and archaic
+% admixture \cite[e.g.,][]{ragsdale2019models}.
+{\em Homo sapiens} currently has the richest selection of population models.
+These include: a simplified version of the \cite{tennessen2012evolution}
 model with only the African population specified (expansion from the ancestral
 population and recent growth; Africa\_1T12); the three-population model of \cite{gutenkunst2009inferring},
 which specifies the out-of-Africa bottleneck as well as the subsequent divergence of
@@ -783,8 +783,6 @@ and downstream aspects of data quality (genotyping and mapping error).
 Moreover, an in-depth investigation into the effects of population-size rescaling under many of the
 above scenarios is warranted, given our preliminary findings using neutral simulations
 (Figures \ref{fig:slim_val_map} and \ref{fig:slim_val_nomap}).
-These plans would not be possible without recent important work on SLiM \citep{haller2019slim},
-as well as current work on \texttt{msprime}.
 Some other important processes are more challenging to model with current simulation software,
 such as
 structural variation,
@@ -861,20 +859,20 @@ to resolve ambiguities.
 % This process can lead to cycles of revision of the implementation from Developers A and B but allows the project to assure quality.
 % Indeed we have already had a number of interesting cases of arbitration to this point.
 Further details of our QC process can be found in our developer documentation
-(\url{https://stdpopsim.readthedocs.io/en/latest/development.html#}).
+(\url{https://stdpopsim.readthedocs.io/en/latest/development.html}).
 
 The possibility for error and the importance of careful qualty control
-was inadvertantly illustrated during our own development process:
-during the final revisions of this paper, we noticed that the
+was illustrated very clearly during our own development process:
+while carrying out the final revisions of this paper, we noticed that the
 OutOfAfrica\_3G09 model \citep{gutenkunst2009inferring}
-had not in fact gone through the QC process.
-The subsequent QC process revealed that in fact our implementation
+had not gone through our QC process.
+The subsequent QC revealed that our implementation was in fact
 slightly wrong---migration rates had not been set to zero to the European population in the longest-ago time period
 when there should have only been a single population.
 This error was propagated from the \texttt{msprime} documentation,
 where the model was presented as an illustrative example.
 A number of studies have been published using copies of
-this example code.
+this erroneous example code.
 
 \subsection*{Workflow for analysis of simulated data}
 To demonstrate the utility of \stdpopsim we created \texttt{Snakemake}
@@ -995,12 +993,10 @@ we compare our inferred population sizes only to the simulated population
 sizes and not the inverse coalescence rates.
 
 \section*{Resource availability}
-The version 0.1 release of \stdpopsim is available for download on Github:
-\url{https://github.com/popsim-consortium/stdpopsim/releases}.
+The \stdpopsim package is available for download on the Python Package Index:
+\url{https://pypi.org/project/stdpopsim/}.
 Documentation for the project can be found here:
 \url{https://stdpopsim.readthedocs.io/en/latest/}.
-
-
 
 
 % \subsection*{Extra text}
