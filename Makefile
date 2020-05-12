@@ -2,11 +2,11 @@ all : popSimManu.pdf response-to-reviewers.pdf
 
 popSimManu.pdf: popSimManu.tex model_table.tex popSim.bib
 
-popSimManu-diff-to-submission.tex : popSimManu.tex 
+popSimManu-diff-to-submission.tex : popSimManu.tex
 	latexdiff-git -r 8d336be37e4b1261dcc442c41b61585167c89cfd popSimManu.tex
 	mv popSimManu-diff8d336be37e4b1261dcc442c41b61585167c89cfd.tex $@
 
-popSimManu-diff-to-master.tex : popSimManu.tex 
+popSimManu-diff-to-master.tex : popSimManu.tex
 	latexdiff-git -r master popSimManu.tex
 	mv popSimManu-diffmaster.tex $@
 

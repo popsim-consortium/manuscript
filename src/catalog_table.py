@@ -38,7 +38,7 @@ def main():
             if j < 2:
                 print("&")
         print("\\\\")
-        for species_id in ["HomSap", "DroMel", "AraTha", "PonPyg"]:
+        for species_id in ["HomSap", "DroMel", "AraTha", "PonAbe"]:
             species = stdpopsim.get_species(species_id)
             escaped_id = species.id.replace("_", "\\_")
             species_header = f"{escaped_id} (\\emph{{{species.name}}})"
@@ -53,7 +53,6 @@ def main():
                 file_size = float(row.file_size) / megabyte
                 bibtex = model.citations[0].fetch_bibtex()
                 bibtex_key = get_bibtex_key(bibtex, model_refs)
-                # bibtex_key = "ragsdale2019models"
                 escaped_id = model.id.replace("_", "\\_")
                 print("&")
                 print(escaped_id, end="& ")
