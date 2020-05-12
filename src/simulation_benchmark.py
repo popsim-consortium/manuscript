@@ -49,7 +49,7 @@ def main():
     seed = 42
 
     data = {"species": [], "model": [], "cpu_time": [], "ram": [], "file_size": []}
-    for species_id in ["PonPyg", "HomSap", "DroMel", "AraTha"]:
+    for species_id in ["PonAbe", "HomSap", "DroMel", "AraTha"]:
         species = stdpopsim.get_species(species_id)
         # Get the shortest chromosome
         chrom = sorted(species.genome.chromosomes, key=lambda x: x.length)[0]
