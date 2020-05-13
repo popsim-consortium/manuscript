@@ -1,9 +1,16 @@
-Dear Graham,
+Dear Graham and the Editorial Board of *eLife*,
 
-[Introductory text]
+Please find attached our revised manuscript entitled, 
+"A community maintained standard library of population genetic models"
+for consideration for publication.
 
+We thank you and the reviewers of our manuscript for your enthusiasm for our project
+and the constructive criticisms that you have raised. As you will find below, we have tried
+our level-best to incorporate all of the changes suggested in the reviews. 
+While that is so, in a few places we have decided that suggested changes were beyond
+the scope of the current manuscript and leave them for future work.  
 
-Please see below a point-by-point response to the comments.
+What follows below is a point-by-point response to the comments.
 
 
 
@@ -13,7 +20,7 @@ Please see below a point-by-point response to the comments.
 
 
 We fully agree that the language in the original manuscript was not careful enough in conveying uncertainty about the models and parameters we discuss.
-To address this, we have made edited the text throughout the manuscript trying to better convey this uncertainty.
+We have made edited the text throughout the manuscript to address this.
 See our response to Reviewer 1 below for examples.
 We have also added a bit more to the discussion (below "next steps") on this point.
 
@@ -30,23 +37,23 @@ on inference of demographic history.
 We definitely intend to include selection (and expand the available generic models) in future work,
 as we now discuss in greater detail in the Discussion ("next steps").
 
-Consequently, we decided to add an example for possible use of SLiM in neutral simulations (see "simulation engines" section in the results and Supplementary Figures S1 and S2).
+Instead, we have decided to add an a section validating the use of SLiM in stdpopsim neutral simulations (see "simulation engines" section in the results and Supplementary Figures S1 and S2).
 Our focus there was to show that under neutral simulations, SLiM produced data that were consistent with the coalescent simulations of msprime.
-To expand on this fundamental point, we also examined the influence of population size down-scaling, which is a common practice used in forward simulations.
+To expand on this fundamental point, we also examined the influence of population size down-scaling, which is a common practice used in forward simulations, and indeed often crucial for tractable compute times.
 While this is by no means a comprehensive investigation into this issue, we do believe that it demonstrates the use of SLiM in future applications that will also simulate selection.
 
 
 > 3) We felt that the discussion would benefit from a discussion of the details not yet incorporated into the platform, e.g. sex-specific recombination, gene conversion, assembly error, structural variants etc. Such an addition might spur future development, and also give the authors an opportunity to discuss general ways forward on these issues.
 
-Good idea -
+Thank you for this good idea -
 we have expanded the section of the discussion ("next steps")
 with more detail on our future plans.
-We're trying to walk the line between being forward-looking and promising too much.
+While that is so we are wary of promising too much at this point.
 
 > 4) We would be interested to see more of a discussion of the strengths and weakness of the various demographic inference methods.
 
 We have added an additional paragraph to the discussion exploring various factors that may affect choice of inference method.
-These include the data required by the method, the type of model, and software engineering.
+These include the data required by the method, the type of model, and the implementation.
 We also provide a qualitative comparison between the performance of methods, as shown in our limited analysis.
 We believe that a more comprehensive comparison between methods is beyond the scope of the current manuscript, which focuses on the resource itself, rather than its application.
 
@@ -100,9 +107,12 @@ lengths, average mutation rate estimates, and generation times.
 We also provide access to detailed empirical information such as inferred genetic maps,
 which model observed heterogeneity in recombination rate along chromosomes."
 
-(The reviewer's suggestion is good, but we think that "current understanding"
+<!-- (The reviewer's suggestion is good, but we think that "current understanding"
 conveys roughly the same meaning as "the latest reference genome" in less words,
-and without making promises about genome assemblies.)
+and without making promises about genome assemblies.) 
+
+ADK commenting out-- don't think we need this
+--> 
 
 
 > b. On a related note, there is wording on page 4, regarding ensuring "implemented models are accurate" - I think what is meant is that the "implemented models are faithful to the source publications from which they derive". As the second half of this paper makes clear, because of errors in inference, many of these models will not be accurate, in the sense of representing the true history of the species.
@@ -123,6 +133,8 @@ and (b) it'll be significant work to do right that we aren't prepared to do at t
 Since we haven't encountered the problem of out of date models yet,
 we feel happy about postponing this until the problem arises.
 
+Moreover we believe that the issues feature on Github provides us with the current utility we need along these lines.
+
 > 3. In terms of the maturity of the examples developed for the initial release, I would have liked to see at least one simulation model with a selective sweep, one with background selection, and one with spatial stepping-stone structure. Each of these would be helpful test cases to implement to be sure that the existing catalog framework has the breadth/flexibility necessary to accommodate future use cases. I do not think this is a requirement for publication, but it would add great value to this initial release of the resource.
 
 As mentioned in our response to the editor's comments, we agree that this is an important avenue to pursue in the near future.
@@ -135,11 +147,13 @@ as we now discuss in greater detail in the Discussion ("next steps").
 > 4. Page 15. The approach of masking "low-recombination" portions of the chromosomes seems like an incomplete/indirect attempt to model the inherent limitations of sequencing to an "accessible" genome.
 > a. Shouldn't the approach instead be to drop "low complexity" regions (e.g., as defined by an excessive number of "N"'s in the reference, low mapability scores, or via tools like RepeatMasker?). This part of the pipeline seems open to refinement.
 
-Our initial motivation for masking was to reduce the overrepresentation of marginal trees with little to no recombination from biasing patterns of diversity in such a way that demographic inference methods would be misled. While we agree with the reviewer that different masking approaches might better reflect the masking done on real genomic data, at this time the best way to mask remains an open question, and we feel that a nuanced analysis of masking is outside the scope of this paper. For these reasons, we feel that masking using a simple recombination rate threshold is the most appropriate approach. We agree that there may indeed be better ways to mask, which is why we allow users to mask their simulations as they see fit.
+Our initial motivation for masking was to reduce the overrepresentation of marginal trees with little to no recombination from biasing patterns of diversity in such a way that demographic inference methods would be misled. While we agree with the reviewer that different masking approaches might better reflect the masking done on real genomic data, at this time the best way to mask remains an open question, and we feel that a nuanced analysis of masking is outside the scope of this paper. For these reasons, we feel that masking using a simple recombination rate threshold is the most appropriate approach.
+We note that their is however a substantial correlation between recombination rate and mapability (by any of the measures mentioned above) wherein the notoriously difficult portions of genomes to assemble are generally in regions of low recombination.
+ We agree that there may indeed be better ways to mask, which is why we allow users to mask their simulations as they see fit.
 
 > b. Are the "masks" a separate configuration file for the simulations? It seems that it would be preferable for them to be separate from the recombination rate files - right now it reads as if the mask applied is a function of the genetic map file, but this seems too inflexible for users who prefer an alternative approach to masking.
 
-Mask files are not currently a component of `stdpopsim` proper, rather they were implemented separately from running `stdpopsim`, for the sole purpose of comparing demographic inference methods. Users who download `stdpopsim` will always be simulating raw and unmasked tree sequence files, to which they can apply any variety of masks *post hoc*, if they so choose.
+Mask files are not currently a component of `stdpopsim` proper, rather they were implemented separately from running `stdpopsim`, for the sole purpose of comparing demographic inference methods. All of the masks that we have used are available on the `Analysis` repo that is associated with this manuscript. Users who download `stdpopsim` will always be simulating raw and unmasked tree sequence files, to which they can apply any variety of masks *post hoc*, if they so choose.
 
 ## Minor comments
 
@@ -152,8 +166,8 @@ SLiM also records sufficient information to reconstruct the simulation in the tr
 
 > 2. Little detail is given on the system of identifiers/versioning for models, maps, etc.
 
-True, but the details are rather pedantic, and we provide a link
-to our documentation where we describe the system in detail.
+True, but the details are rather pedantic and we feel not material for the  manuscript.
+We provide a link to our extensive documentation where we describe the system in detail.
 
 > 3. In the abstract, it's left vague what the nature of the resource is.
 >
@@ -190,7 +204,7 @@ First, we note that we decided to avoid using "census size", and simply refer to
 > a. Confusing how in panels A and B time moves left to right, and in panel C time moves right to left.
 > b. Also, the figure would be improved by showing with vertical lines the timing of the CEU/YRI divergence in the true model. (similar comments hold for Figures S4 and S5)
 
-We agree that the orientation of this figure is confusing, and so have changed it as suggested. In addition, we had previously plotted divergence times here as vertical lines, however we felt that plotting it this way made the figure hard to read since there was a great deal of overlap between these lines and the N(t) lines on the figure, which was was especially difficult to read when including multiple replicates. Thus, we decided to depict the divergence times (simulated and inferred) in a separate panel in the bottom of the figure, to improve readability.
+We agree that the orientation of this figure was confusing, and so have changed it as suggested. In addition, we had previously plotted divergence times here as vertical lines, however we felt that plotting it this way made the figure hard to read since there was a great deal of overlap between these lines and the N(t) lines on the figure, which was was especially difficult to read when including multiple replicates. Thus, we decided to depict the divergence times (simulated and inferred) in a separate panel in the bottom of the figure, to improve readability.
 
 > 9. Page 16 "checked for convergence" : Wording - sounds like checking for convergence between the methods - I think you mean convergence by each method to an optimum in their respective objective functions.
 
@@ -206,7 +220,7 @@ each method reached convergence."
 
 Thanks!
 There is not a command-line flag for obtaining the coalescence rates,
-but this is easily obtainable in python.
+but this is easily obtainable through the python API.
 We've added a paragraph to the supplement explaining what methods to use.
 
 
@@ -226,7 +240,7 @@ We have linked to the Binder in the README on the GitHub. See https://mybinder.o
 
 > I thoroughly enjoyed reading this manuscript, and learning of all the new features that have been written into stdpopsim, and believe that this will be an invaluable contribution to the population genomics community.
 
-Thank YOU! We hope you are right.
+Thank you! We hope you are right. 
 
 ## Minor comments:
 
@@ -234,7 +248,7 @@ Thank YOU! We hope you are right.
 
 As mentioned in our response to the editor's comment, we added a demonstration of the use of SLiM to the results (see "Simulation engines" section and Supplementary Figures S1 and S2).
 This new analysis uses SLiM in neutral simulations to validate that it produces data that is consistent with data simulated under the coalescent.
-Furthermore, we provide a rudamentary examination of the effects of population size down-scaling, which is a common practice used in forward simulations such as SLiM.
+Furthermore, we provide a rudimentary examination of the effects of population size down-scaling, which is a common practice used in forward simulations such as SLiM.
 
 > "Adding further maps to the library is trivial" - discuss - since the audience for this is the broader pop-gen community, perhaps pointing them to the detailed development environment on readthedocs would be helpful.
 
@@ -271,17 +285,15 @@ See also our response to related comments made by Reviewers #1 and #2.
 
 > 2) I like the inclusion of the "zigzag" history, as well as generic piecewise constant models and IM models (page 7). I wonder if these could be included in a separate section (not organism specific) in the documentation and software (and then in Table 1). Right now the zigzag model is under humans in the catalog.
 
-This is an interesting idea. We did discuss adding a suite of generic models to stdpopsim that do not necessarily capture demographic parameters from a certain species,
-but do reflect general trends observed in inference. The "zigzag" model could definitely be one of these.
-This did not make it to this release, but we will note this for the next one.
-the reason why the zigzag model is currently defined as a human model is that its
-effective population size values are taken from (or at least inspired by) values inferred from human genomes.
+This is an interesting idea. We have added suite of generic models to stdpopsim that do not necessarily capture demographic parameters from a certain species,
+but do reflect general trends observed in inference. The "zigzag" model could definitely be one of these, and indeed was initially implemented as a generic. However the reason we settled on the zigzag model is being defined as a human model is that its
+effective population size values are taken from (or at least inspired by) values inferred from human genomes. To see our internal discussion of these issues from September 2019 please see this [closed issue](https://github.com/popsim-consortium/stdpopsim/issues/106).
 
 >
 > 3) On page 8 the authors set up notation for the number of replicates (R), number of chromosomes (C), and sample size (n), but don't seem to use it afterward (or use it inconsistently). It would be helpful if all the figure captions and main text included this notation (I am guessing the number of replicates is 3 based on the images, but this should be clarified). The authors use N in the Methods (i.e. page 15) to refer to population size (which makes sense), but then also say "In all cases we set the sample size of the focal population to N = 50 chromosomes." For MSMC, the sample size was set to n=2,8 which suggests haploid samples, but the "Calculating coalescence rates" section says that n is the diploid sample size.
 
 
-We see why this is confusing.
+This is a good catch! We see why this is confusing.
 We introduced this notation (R, C, and n) to make it completely clear
 in this paragraph what exactly was being simulated,
 but we feel that continuing to use this notation elsewhere would actually obscure things,
@@ -352,8 +364,8 @@ The citation was for the genetic map, but we've added the citation to Sheehan an
 > -Page 10, last sentence before "Multi-population demographic models" section: clarify what "this setting" is (both species I assume)
 
 We made the following change:  
-"Accuracy is mixed among methods when doing inference on simulated data from these D. melanogaster
-and A. thaliana models, and generally worse than what we
+"Accuracy is mixed among methods when doing inference on simulated data from these _D. melanogaster_
+and _A. thaliana_ models, and generally worse than what we
 observe for simulations of the human genome."
 
 
