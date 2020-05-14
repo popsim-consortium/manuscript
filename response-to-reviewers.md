@@ -292,8 +292,9 @@ Most of the columns of the table don't apply to generic models,
 so it seems strange to include them there.
 The "zigzag" model could definitely be a generic model,
 and indeed was initially implemented as such.
-However, the reason we settled on the zigzag model is being defined as a human model is that its
-effective population size values are taken from (or at least inspired by) values inferred from human genomes: as implemented, it is not as "generic" as it might seem.
+However, the reason we settled on the zigzag model is being defined as a human model 
+(see discussion at https://github.com/popsim-consortium/stdpopsim/issues/106)
+is that its effective population size values are taken from (or at least inspired by) values inferred from human genomes: as implemented, it is not as "generic" as it might seem.
 
 
 
