@@ -10,6 +10,13 @@ our level-best to incorporate all of the changes suggested in the reviews.
 While that is so, in a few places we have decided that suggested changes were beyond
 the scope of the current manuscript and leave them for future work.  
 
+An additional change that has occurred since the first submission of the manuscript
+is that the Gutenkunst 2009 model hadn't been through QC, and had a bug.
+This has been corrected, resulting in mostly cosmetic changes to the figures and text
+(inferred population histories are slightly better than before; see Figure 4);
+but we have also explained the situation,
+as an example of the utility of QC and the resource more generally.
+
 What follows below is a point-by-point response to the comments.
 
 
@@ -92,27 +99,20 @@ and fully agree that the language in the manuscript needs to better emphasize th
 To address this, we have made several changes throughout the manuscript, including the passages cited above:
 
 The first quoted passage now reads:
-"For each organism, the catalog contains information on our current understanding of
-the physical organization (e.g., chromosome structure) of its genome,
-one or more inferred genetic maps (except for \textit{E.~coli}),
-default population-level parameters (mutation rate and generation time estimates).
-The catalog also contains numerous published demographic models for the first three species.
-These available models and parameters are meant to represent the field's current understanding,
-and we intend for this resource to evolve as new results become available."
+"For each species, the catalog contains curated information on our current understanding of
+the physical organization of its genome, inferred genetic maps,
+population-level parameters (e.g., mutation rate and generation time estimates),
+and published demographic models.
+These models and parameters are meant to represent the field's current understanding,
+and we intend for this resource to evolve as new results become available, and
+other existing models are added to stdpopsim by the community."
 
 The second passage now reads:
-" Firstly, the library defines some basic information about our current understanding of each 
+"Firstly, the library defines some basic information about our current understanding of each
 species' genome, including information about chromosome
 lengths, average mutation rate estimates, and generation times.
 We also provide access to detailed empirical information such as inferred genetic maps,
 which model observed heterogeneity in recombination rate along chromosomes."
-
-<!-- (The reviewer's suggestion is good, but we think that "current understanding"
-conveys roughly the same meaning as "the latest reference genome" in less words,
-and without making promises about genome assemblies.) 
-
-ADK commenting out-- don't think we need this
---> 
 
 
 > b. On a related note, there is wording on page 4, regarding ensuring "implemented models are accurate" - I think what is meant is that the "implemented models are faithful to the source publications from which they derive". As the second half of this paper makes clear, because of errors in inference, many of these models will not be accurate, in the sense of representing the true history of the species.
@@ -120,7 +120,7 @@ ADK commenting out-- don't think we need this
 We made the suggested change:
 "Importantly, we developed rigorous quality control methods to ensure that we have
 correctly implemented the models as described in their original publication
-and provide documented methods for others to contribute new models."
+and provided documented methods for others to contribute new models."
 
 > 2. It would be wonderful to have a comments section for the models that would be either curated by a set of editors or crowd-sourced. I say this because over time, models will proliferate, and some will come to be regarded as out-of-date. One can imagine those approaching the field afresh will be overwhelmed by the possible selections and possible implement models that become outdated. If the goal is standardization, how do we communicate that standards change? A comment system (or even star-rating system?) may be wise to implement now. Assuming it can be layered on top of the existing structure, it may be enough for this publication to note this as a future challenge that needs development/addressing.
 
@@ -145,15 +145,17 @@ We definitely intend to include selection (and expand the available generic mode
 as we now discuss in greater detail in the Discussion ("next steps").
 
 > 4. Page 15. The approach of masking "low-recombination" portions of the chromosomes seems like an incomplete/indirect attempt to model the inherent limitations of sequencing to an "accessible" genome.
-> a. Shouldn't the approach instead be to drop "low complexity" regions (e.g., as defined by an excessive number of "N"'s in the reference, low mapability scores, or via tools like RepeatMasker?). This part of the pipeline seems open to refinement.
+> a. Shouldn't the approach instead be to drop "low complexity" regions (e.g., as defined by an excessive number of "N"'s in the reference, low mappability scores, or via tools like RepeatMasker?). This part of the pipeline seems open to refinement.
 
-Our initial motivation for masking was to reduce the overrepresentation of marginal trees with little to no recombination from biasing patterns of diversity in such a way that demographic inference methods would be misled. While we agree with the reviewer that different masking approaches might better reflect the masking done on real genomic data, at this time the best way to mask remains an open question, and we feel that a nuanced analysis of masking is outside the scope of this paper. For these reasons, we feel that masking using a simple recombination rate threshold is the most appropriate approach.
-We note that their is however a substantial correlation between recombination rate and mapability (by any of the measures mentioned above) wherein the notoriously difficult portions of genomes to assemble are generally in regions of low recombination.
+Our initial motivation for masking was to reduce the overrepresentation of marginal trees with little to no recombination from biasing patterns of diversity in such a way that demographic inference methods would be misled. While we agree with the reviewer that different masking approaches might better reflect the masking done on real genomic data, at this time the best way to mask remains an open question, and we feel that a nuanced analysis of masking is outside the scope of this paper. For these reasons, we feel that masking using a simple recombination rate threshold is a reasonable approach.
+We note that there is however a substantial correlation between recombination rate and mappability (by any of the measures mentioned above) wherein the notoriously difficult portions of genomes to assemble are generally in regions of low recombination.
  We agree that there may indeed be better ways to mask, which is why we allow users to mask their simulations as they see fit.
 
 > b. Are the "masks" a separate configuration file for the simulations? It seems that it would be preferable for them to be separate from the recombination rate files - right now it reads as if the mask applied is a function of the genetic map file, but this seems too inflexible for users who prefer an alternative approach to masking.
 
-Mask files are not currently a component of `stdpopsim` proper, rather they were implemented separately from running `stdpopsim`, for the sole purpose of comparing demographic inference methods. All of the masks that we have used are available on the `Analysis` repo that is associated with this manuscript. Users who download `stdpopsim` will always be simulating raw and unmasked tree sequence files, to which they can apply any variety of masks *post hoc*, if they so choose.
+Mask files are not currently a component of `stdpopsim` proper, rather they were implemented separately from running `stdpopsim`, for the sole purpose of comparing demographic inference methods. All of the masks that we have used are available on the `analysis` repository that is associated with this manuscript. Users who download `stdpopsim` will always be simulating raw and unmasked tree sequence files, to which they can apply any variety of masks *post hoc*, if they so choose.
+We are currently making plans, however, to incorporate some version of this process into a future
+`stdpopsim` release.
 
 ## Minor comments
 
@@ -174,7 +176,7 @@ We provide a link to our extensive documentation where we describe the system in
 > a. The resource is described as an open source project and a catalog, but the fact that it's a web repository that contains a set of configuration files might be helpful to say explicitly.
 > b. Also, while I wouldn't normally include url to software in an abstract, in this special case it seems like it could be very helpful to readers who want to jump right to the resource quickly?
 
-Good point - we've clarified the nature of the resource,
+Good point - in the revision we've clarified the nature of the resource,
 but haven't included the URL since googling "stdpopsim" features the correct page as the top hit.
 
 > 4. Page 3: "bespoke simulations":
@@ -183,7 +185,7 @@ but haven't included the URL since googling "stdpopsim" features the correct pag
 > b. To elaborate on the point you're making here, you could also share how the general modus operandi often includes the pasting of long unwieldy command-line calls for generating simulations into methods sections. Many of these command-line values are buried across the literature, often in supplementary methods. Additional virtues of your catalog is having: 1) a central repository for such models, and 2) modular configuration files (e.g. I can keep the same demographic model, but change the recombination map, without having to re-write, or learn, the innards of a complex command-line for ms/msprime)
 
 We've replaced "bespoke" with "coded from scratch", which we think is more descriptive.
-We hope that the other points are made elsewhere.
+We think that the other points are made elsewhere.
 
 
 > 5. Page 5, "accurate, standardized simulations": related to the point above about "accurate" models - I wonder if a different word should be used here, or even omit "accurate". The word doesn't add much value over simply saying the models are standardized - the standardization includes that the model implementation is quality controlled to match the original source publication, which I think is what is meant by accuracy here?
@@ -285,11 +287,16 @@ See also our response to related comments made by Reviewers #1 and #2.
 
 > 2) I like the inclusion of the "zigzag" history, as well as generic piecewise constant models and IM models (page 7). I wonder if these could be included in a separate section (not organism specific) in the documentation and software (and then in Table 1). Right now the zigzag model is under humans in the catalog.
 
-This is an interesting idea. We have added suite of generic models to stdpopsim that do not necessarily capture demographic parameters from a certain species,
-but do reflect general trends observed in inference. The "zigzag" model could definitely be one of these, and indeed was initially implemented as a generic. However the reason we settled on the zigzag model is being defined as a human model is that its
-effective population size values are taken from (or at least inspired by) values inferred from human genomes. To see our internal discussion of these issues from September 2019 please see this [closed issue](https://github.com/popsim-consortium/stdpopsim/issues/106).
+We considered both of these suggestions, and here's why we've left it the way it is.
+Most of the columns of the table don't apply to generic models,
+so it seems strange to include them there.
+The "zigzag" model could definitely be a generic model,
+and indeed was initially implemented as such.
+However, the reason we settled on the zigzag model is being defined as a human model is that its
+effective population size values are taken from (or at least inspired by) values inferred from human genomes: as implemented, it is not as "generic" as it might seem.
 
->
+
+
 > 3) On page 8 the authors set up notation for the number of replicates (R), number of chromosomes (C), and sample size (n), but don't seem to use it afterward (or use it inconsistently). It would be helpful if all the figure captions and main text included this notation (I am guessing the number of replicates is 3 based on the images, but this should be clarified). The authors use N in the Methods (i.e. page 15) to refer to population size (which makes sense), but then also say "In all cases we set the sample size of the focal population to N = 50 chromosomes." For MSMC, the sample size was set to n=2,8 which suggests haploid samples, but the "Calculating coalescence rates" section says that n is the diploid sample size.
 
 
@@ -343,10 +350,9 @@ Whoops: we corrected this typo.
 "Accurately" is subjective -- we're sure the reviewer can imagine much worse inferences! --
 but in any case we've rephrased this bit to say
 "While there is variation in accuracy among methods, populations, and individual replicates,
-the methods generally infer back a good estimate
-of the true effective population sizes of the simulations --
-inferred values are mostly within a factor of two of the truth,
-and many of the methods infer a bottleneck at the correct time."
+the methods generally produce a good estimate of the true effective population sizes of the
+simulations, with inferred values mostly within a factor of two of the truth, and most
+methods inferring a bottleneck at approximately the correct time."
 
 
 > -Page 8, paragraph "Stdpopsim allows...": reword this first sentence
@@ -411,9 +417,8 @@ We reordered the figures to make sure they were referenced in the same order the
 
 > -Page 13: "overfit the YRI history" do you mean overfit in a technical sense?
 
-We meant to say that the inferred history has more population size changes
-than the truth did;
-we've change this to "overcomplicate the simple YRI history".
+We meant to say that the inferred history has more population size changes than the truth did;
+but this phrase has been removed.
 
 
 > -Page 14: "Method quality control" section. Could you say a bit more about how Developer B would be identified? Someone in the consortium or someone else in the community? What kind of leadership structures are in place? (Maybe the goal is to make this a bit more distributed?) And just to be clear, Developer B would not have access to Developer A's implementation of the model while they were independently implementing it, right?
