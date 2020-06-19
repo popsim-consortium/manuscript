@@ -5,6 +5,7 @@
 \usepackage{dsfont}
 \usepackage{xspace}
 \usepackage{booktabs}
+\usepackage{caption}
 \usepackage[binary-units]{siunitx}
 \usepackage[section]{placeins}
 
@@ -15,14 +16,17 @@
         \renewcommand{\thetable}{S\arabic{table}}%
         \renewcommand{\theHtable}{S\thetable}
         \setcounter{figure}{0}
-        \renewcommand{\thefigure}{S\arabic{figure}}%
-        \renewcommand{\theHfigure}{S\thefigure}
+        \captionsetup[figure]{name=Appendix Figure}
+        \renewcommand{\figurename}{Appendix Figure} 
+        %\renewcommand{\thefigure}{S\arabic{figure}}%
+        %\renewcommand{\theHfigure}{S\thefigure}
      }
 \newcommand{\stopsupplement}{%
         \setcounter{table}{0}
         \renewcommand{\thetable}{\arabic{table}}%
         \renewcommand{\theHtable}{X\thetable}
         \setcounter{figure}{0}
+        \captionsetup[figure]{name=Figure}
         \renewcommand{\thefigure}{\arabic{figure}}%
         \renewcommand{\theHfigure}{X\thefigure}
      }
@@ -434,13 +438,13 @@ estimates of several population genetic summary statistics for neutral simulatio
 and \texttt{msprime}.
 Examples of this validation for the AncientEurasia\_9K19 model
 \citep{kamm2019efficiently}
-are shown in Figures \ref{fig:slim_val_map} and \ref{fig:slim_val_nomap}.
+are shown in Appendix Figure \ref{fig:slim_val_map} and Appendix Figure \ref{fig:slim_val_nomap}.
 For this model,
 down-scaling factors of up to $10$ produce patterns of both diversity and linkage disequilibrium that are
 indistinguishable from those observed under the coalescent (i.e., \texttt{msprime}).
 Scaling down by a factor of $50$ does appear to modify the distribution of these sequence statistics.
 Interestingly, the apparent difference between distributions is somewhat larger when simulating using 
-a uniform recombination rate (Figure \ref{fig:slim_val_nomap}), likely due to the lower variation in
+a uniform recombination rate (Appendix Figure~\ref{fig:slim_val_nomap}), likely due to the lower variation in
 the values of these statistics.
 Importantly, both comparisons validate the equivalence of \texttt{SLiM} and \texttt{msprime} when no down-scaling is applied.
 The results are also optimistic about the rescaling strategy to reduce computational burden,
@@ -546,7 +550,7 @@ In each row we show comparisons among the methods (including two sample sizes fo
 Blue lines show estimates from each of three replicate whole genome simulations,
 and black lines indicate the ``true" values depicted by the inverse coalescence rates (although in this specific model
 the inverse coalescence rates are very close to the simulated population sizes;
-Figure \ref{fig:census_vs_IRC}).
+Appendix Figure \ref{fig:census_vs_IRC}).
 While there is variation in accuracy among methods, populations, and individual replicates,
 the methods generally produce a good estimate
 of the true effective population sizes of the simulations, with
@@ -554,7 +558,7 @@ inferred values mostly within a factor of two of the truth,
 and most methods inferring a bottleneck at approximately the correct time.
 
 Using \stdpopsim, we can readily compare performance on this benchmark to
-that based on a different model of human history. In Figure \ref{fig:n_t_gutenkunst} we show estimates of
+that based on a different model of human history. In Appendix Figure \ref{fig:n_t_gutenkunst} we show estimates of
 $N(t)$ from simulations using the same physical and genetic maps, but from the OutOfAfrica\_3G09
 demographic model that does not include archaic admixture. Again we see that each
 of the methods is capturing relevant parts of the population history, although the
@@ -567,7 +571,7 @@ We can also
 see how well methods might do at recovering the population history of a constant-sized population,
 with human genome architecture and genetic map.
 We show results of such an
-experiment in Figure \ref{fig:n_t_HomSap_constant}.
+experiment in Appendix Figure \ref{fig:n_t_HomSap_constant}.
 All methods recover population size within a factor of two of the simulated values, however
 SMC-based methods
 % ACS: suggest eliminating this vague conjecture.  Which regularization exactly is meant?
@@ -595,7 +599,7 @@ As most method development for population genetics has been focused on human
 data, it is important to ask how such methods might perform in non-human
 genomes. Figure \ref{fig:n_t_sheehan} shows parameter estimates from the African3Epoch\_1S16
 model, originally estimated from an African sample of \textit{D.~melanogaster} \citep{sheehan2016deep},
-and Figure \ref{fig:n_t_AraTha} shows estimates from simulations of \textit{A.~thaliana}
+and Appendix Figure \ref{fig:n_t_AraTha} shows estimates from simulations of \textit{A.~thaliana}
 under the African2Epoch\_1H18 model originally inferred by \cite{huber2018gene}.
 In both cases, as with humans, we use \stdpopsim to simulate replicate genomes using an empirically-derived genetic map,
 and try to infer back parameters of the simulation model.
@@ -649,23 +653,23 @@ of the strengths and weaknesses of the different methods.
 For instance, the SFS-based approaches with simple IM models do not capture
 recent exponential growth in the CEU population, but do consistently recover the
 simulated YRI population size history. Moreover, these approaches allow
-migration rates to be estimated (Figure \ref{fig:homsap_mig_rates}), and lead to more accurate inferences
+migration rates to be estimated (Appendix Figure \ref{fig:homsap_mig_rates}), and lead to more accurate inferences
 of divergence times. However, these migration rate estimates are somewhat biased.
 In contrast, \smcpp is much better at capturing the recent exponential
 growth in the CEU population, though it consistently underestimates divergence times
 because it assumes no migration between populations (Figure \ref{fig:IM_popn_human}C).
 
 Again, we can extend this analysis to other taxa and examine the performance of these methods
-for a two-population model of \textit{D.~melanogaster}. Figure
+for a two-population model of \textit{D.~melanogaster}. Appendix Figure
 \ref{fig:two_popn_fly} shows inference results using data simulated under
 the OutOfAfrica\_2L06 model. This model includes an ancestral population in
 Africa from which a European population splits off following a bottleneck, with no
-post-divergence gene flow between the African and European population (Figure \ref{fig:two_popn_fly}A).
+post-divergence gene flow between the African and European population (Appendix Figure \ref{fig:two_popn_fly}A).
 Here again, we find that \dadi and \fastsimcoal infer more consistent histories,
 but they do not detect the brief bottleneck in Europe, due to the inference model
 not allowing for population size changes after the population split. In addition, \dadi
 and \fastsimcoal both do reasonably well at correctly inferring the absence of
-migration (Figure \ref{fig:dromel_mig_rates}). In contrast, the inferred
+migration (Appendix Figure \ref{fig:dromel_mig_rates}). In contrast, the inferred
 demographic parameters from \smcpp are more noisy, though in some cases better
 capture the short bottleneck in the European population.
 
@@ -713,10 +717,10 @@ populations, we find that the sequence-based methods (\MSMC and \smcpp)
 perform somewhat better overall---at least for moderate times in the past---than
 the site frequency spectrum-based method (\stairwayplot),
 which tends to over-estimate the sizes of oscillations
-(Figures~\ref{fig:n_t_ragsdale} and~\ref{fig:n_t_gutenkunst}).
+(Figure~\ref{fig:n_t_ragsdale} and Appendix Figure~\ref{fig:n_t_gutenkunst}).
 In contrast, \stairwayplot outperforms the sequence-based methods
 on simulations of \textit{D.~melanogaster} or \textit{A.~thaliana} populations,
-in which linkage disequilibrium is reduced (Figures~\ref{fig:n_t_sheehan} and \ref{fig:n_t_AraTha}).
+in which linkage disequilibrium is reduced (Figure~\ref{fig:n_t_sheehan} and Appendix Figure~\ref{fig:n_t_AraTha}).
 In simulations of two human populations
 (Figure~\ref{fig:IM_popn_human}), \dadi and \fastsimcoal do reasonably well at
 reconstructing the simulated YRI history and estimating divergence times, but struggle with the more complex simulated CEU
@@ -725,7 +729,7 @@ On the other hand, \smcpp does not have the same
 restrictions on its inferred history, and as a result does much better
 with the CEU history but tends to underestimate divergence times
 due to the assumption of no migration.
-The results for the two-population \textit{D.~melanogaster} model (Figure~\ref{fig:two_popn_fly}) are generally similar.
+The results for the two-population \textit{D.~melanogaster} model (Appendix Figure~\ref{fig:two_popn_fly}) are generally similar.
 In these comparisons, \fastsimcoal and \dadi perform almost identically, which is expected because they fit the same models to the same summaries of the data,
 differing only in how they calculate model expectations and optimize parameters.
 
@@ -734,7 +738,7 @@ We compared inferences from simulated whole genome data, but many factors affect
 Markovian coalescent methods (\MSMC and \smcpp) require long contiguous stretches of sequence data.
 In contrast, frequency spectrum methods (\stairwayplot, \dadi, and \fastsimcoal) can use reduced-representation sequencing data, such as RADseq \citep{andrews2016radseq}.
 \dadi and \fastsimcoal require a pre-specified parametric model, unlike \MSMC, \smcpp, and \stairwayplot.
-Using a parametric approach yields less noisy results, but a model that is too simple may not capture important demographic events (Figures~\ref{fig:IM_popn_human} and~\ref{fig:two_popn_fly}),
+Using a parametric approach yields less noisy results, but a model that is too simple may not capture important demographic events (Figure~\ref{fig:IM_popn_human} and Appendix Figure~\ref{fig:two_popn_fly}),
 and other forms of model misspecification may also produce undesirable behavior.
 From a software engineering perspective, methods also differ in their ease of installation and use.
 We hope our workflows will assist in the application of all the methods we have considered.
@@ -743,7 +747,7 @@ Altogether, these preliminary experiments highlight
 the utility of \stdpopsim for comparing a variety of inference methods on
 the same footing, under a variety of different demographic models.
 In addition, the ability of \stdpopsim to generate data with and without significant features, such
-as a genetic map or population-size changes (e.g., Figure \ref{fig:n_t_HomSap_constant}), allows
+as a genetic map or population-size changes (e.g., Appendix Figure~\ref{fig:n_t_HomSap_constant}), allows
 investigation of the failure modes of popular methods.
 Moreover the comparison of methods across the various genome organizations, genetic maps,
 and demographic histories of different organisms, provides valuable information
@@ -778,7 +782,7 @@ geographic population structure,
 and downstream aspects of data quality (genotyping and mapping error).
 Moreover, an in-depth investigation into the effects of population-size rescaling under many of the
 above scenarios is warranted, given our preliminary findings using neutral simulations
-(Figures \ref{fig:slim_val_map} and \ref{fig:slim_val_nomap}).
+(Appendix Figures \ref{fig:slim_val_map} and \ref{fig:slim_val_nomap}).
 Some other important processes are more challenging to model with current simulation software,
 such as
 structural variation,
@@ -872,7 +876,7 @@ this erroneous example code.
 \subsection*{Workflow for analysis of simulated data}
 To demonstrate the utility of \stdpopsim we created \texttt{Snakemake}
 workflows \citep{koster2012snakemake} that perform demographic inference on
-tree sequence output from our package using a few common software packages (see Figure \ref{fig:n_t_dag} for an example workflow).
+tree sequence output from our package using a few common software packages (see Appendix Figure \ref{fig:n_t_dag} for an example workflow).
 Our choice of \texttt{Snakemake} allows complete reproducibility of the
 analyses shown, and all code is available from \url{https://github.com/popsim-consortium/analysis}.
 
@@ -931,7 +935,7 @@ and for DroMel we used the OutOfAfrica\_2L06 model with the Comeron2012\_dm6 map
 The HomSap model is a three population model (Africa, Europe, and Asia) including post-divergence
 migration and exponential growth (Figure \ref{fig:IM_popn_human}C), whereas the
 DroMel model is a two population model (Africa and Europe) with no post-divergence
-migration and constant population sizes (Figure \ref{fig:two_popn_fly}).
+migration and constant population sizes (Appendix Figure \ref{fig:two_popn_fly}).
 
 To conduct inference on these models, we applied three commonly used methods:
 \dadi~\citep{gutenkunst2009inferring}, \fastsimcoal~\citep{excoffier2013robust},
@@ -945,12 +949,12 @@ This IM model contains six parameters:
 the ancestral population size, the sizes of each population after the split,
 the divergence time, and two migration rate parameters.
 Importantly, this meant that for both species, the
-fitted model did not match the simulated model (Figures \ref{fig:IM_popn_human} and \ref{fig:two_popn_fly}).
+fitted model did not match the simulated model (Figure \ref{fig:IM_popn_human} and Appendix Figure \ref{fig:two_popn_fly}).
 In the HomSap case, we therefore performed inference solely on the Africa
 and Europe populations, meaning that the Asia population functioned as a ``ghost''
 population that was ignored by our inference.
 To validate our inference approach, we also conducted
-inference on a generic IM model that was identical to the model used for inference (Figure \ref{fig:generic_IM}).
+inference on a generic IM model that was identical to the model used for inference (Appendix Figure \ref{fig:generic_IM}).
 
 From HomSap simulations we took 20 whole genome samples each from the Europe and Africa populations
 from each replicate.
@@ -972,7 +976,7 @@ each method reached convergence.
 Detailed settings for \dadi and \fastsimcoal can be found in the Snakefile
 on our git repository (\url{https://github.com/popsim-consortium/analysis}).
 Estimates from the highest log-likelihood (out of 10 runs) for each simulation replicate
-are shown in Figures \ref{fig:IM_popn_human}C and \ref{fig:two_popn_fly}C.
+are shown in Figure~\ref{fig:IM_popn_human}C and Appendix Figure~\ref{fig:two_popn_fly}C.
 
 For \smcpp, we converted the tree sequences into VCF format and performed inference
 with default settings. Importantly, \smcpp assumes no migration post-divergence,
@@ -982,7 +986,7 @@ more complex aspects of the simulated demographic models (e.g., exponential grow
 
 To visualize our results, we plotted the inferred population size trajectories
 for each simulation replicate alongside the simulated population sizes
-(Figures \ref{fig:IM_popn_human}C and \ref{fig:two_popn_fly}C).
+(Figure~\ref{fig:IM_popn_human}C and Appendix Figure~\ref{fig:two_popn_fly}C).
 Here, unlike the single-population workflow,
 we compare our inferred population sizes only to the simulated population
 sizes and not the inverse coalescence rates.
@@ -1039,7 +1043,7 @@ JK is supported by the Robertson Foundation.
 
 \pagebreak
 \beginsupplement
-\section*{Supplemental Figures}
+\section*{Appendix Figures}
 \begin{figure}
 \begin{center}
 \includegraphics[width=0.8\linewidth]{display_items/HomSap_AE9K19_chr22_map_AI.pdf}
